@@ -22,8 +22,5 @@ public class JumpController {
         return "index";
     }
 
-    @RequestMapping("/sign-in")
-    public String toLogin(){ return "sign-in"; }
-
 
 }

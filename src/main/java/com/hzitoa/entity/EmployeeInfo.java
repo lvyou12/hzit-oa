@@ -52,6 +52,23 @@ public class EmployeeInfo extends Model<EmployeeInfo> {
      */
 	@TableField("dept_id")
 	private Integer deptId;
+    /**
+     * 角色名
+     */
+	@TableField("role_name")
+	private String roleName;
+    /**
+     * 是否禁用(1:启用,2:禁用)
+     */
+	private Integer isLocked;
+    /**
+     * 是否授权(1:赋予角色,2:未赋角色)
+     */
+	private Integer isPermission;
+    /**
+     * 是否离职(1:在职,2:离职)
+     */
+	private Integer isDimission;
 
 
 	public Integer getUserId() {
@@ -114,6 +131,42 @@ public class EmployeeInfo extends Model<EmployeeInfo> {
 
 	public EmployeeInfo setDeptId(Integer deptId) {
 		this.deptId = deptId;
+		return this;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public EmployeeInfo setRoleName(String roleName) {
+		this.roleName = roleName;
+		return this;
+	}
+
+	public Integer getIsLocked() {
+		return isLocked;
+	}
+
+	public EmployeeInfo setIsLocked(Integer isLocked) {
+		this.isLocked = isLocked;
+		return this;
+	}
+
+	public Integer getIsPermission() {
+		return isPermission;
+	}
+
+	public EmployeeInfo setIsPermission(Integer isPermission) {
+		this.isPermission = isPermission;
+		return this;
+	}
+
+	public Integer getIsDimission() {
+		return isDimission;
+	}
+
+	public EmployeeInfo setIsDimission(Integer isDimission) {
+		this.isDimission = isDimission;
 		return this;
 	}
 
