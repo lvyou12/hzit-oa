@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class JumpController {
+
+    @RequestMapping("/sign-in")
+    public String toLogin(){
+        return "sign-in";
+    }
+
     @RequestMapping("/index")
     public String toIndex(){
         return "index";
