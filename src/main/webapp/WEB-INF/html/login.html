@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <meta name="keywords" content="Flat Dark Web Login Form Responsive Templates, Iphone Widget Template, Smartphone login forms,Login form, Widget Template, Responsive Templates, a Ipad 404 Templates, Flat Responsive Templates" />
-<link href="css/style.css" rel='stylesheet' type='text/css' />
+<link href="style/style.css" rel='stylesheet' type='text/css' />
 <!--webfonts-->
 <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic|Oswald:400,300,700' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
@@ -31,22 +31,73 @@
 			<label class="lbl-3"> </label>
 		</div>
 			<div class="clear"> </div>
-	<div class="avtar">
-		<img src="images/avtar.png" />
-	</div>
+	<!--<div class="avtar">
+		<img src="../images/avtar.png" />
+	</div>-->
 			<form>
-					<input type="text" class="text" value="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}" >
+					<input id="name" type="text" class="text" value="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}" >
 						<div class="key">
-					<input type="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
+					<input id="password" type="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
 						</div>
 			</form>
 	<div class="signin">
-		<input type="submit" value="Login" >
+		<input type="submit" value="Login" id="login">
 	</div>
 </div>
  <div class="copy-rights">
-					<p>Copyright &copy; 2015.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="ģ��֮��">ģ��֮��</a> - Collect from <a href="http://www.cssmoban.com/" title="��ҳģ��" target="_blank">��ҳģ��</a></p>
-			</div>
+	 <p>Copyright &copy; 2017.深圳合众艾特信息技术有限公司. All rights reserved.</p>
+ </div>
 
 </body>
+
+<script >
+	jQuery(document).ready(function() {
+
+		//回车事件绑定
+		document.onkeydown=function(event){
+			var e = event || window.event || arguments.callee.caller.arguments[0];
+			if(e && e.keyCode==13){
+				$('#login').click();
+			}
+		};
+
+		//登录操作
+		$('#login').click(function(){
+			var username = $('#name').val();
+			var password = $('#password').val();
+			var validateCode  = $('#validateCode').val();
+			if(username == '') {
+				alert("用户名不能为空");
+				return false;
+			}
+			if(password == '') {
+				alert("密码不能为空");
+				return false;
+			}
+
+//			var pswd = MD5("hzit#" + password),
+//					data = {password:pswd,name:$('#name').val(),rememberMe:$("#rememberMe").is(':checked')};
+			var data = {password:password,name:username}
+//			var load = layer.load();
+			$.post("/employeeInfo/login",data,function(result){
+//				layer.close(load);
+				if(result && result.status != 200){
+//					layer.msg(result.message,function(){});
+					$('.password').val('');
+					return;
+				}else{
+					layer.msg('登录成功！');
+					setTimeout(function(){
+						//登录返回
+						window.location.href= "/index";
+					},100);
+				}
+			},"json");
+
+		});
+
+
+	});
+</script>
+
 </html>

@@ -17,9 +17,11 @@ public class JumpController {
         return "index";
     }
 
+    @RequestMapping("/login")
+    public String toLogin(){ return "login"; }
 
     @RequestMapping("/employeeInfo/login")
-    public String toLogin(){ return "login"; }
+    public String toLogin2(){ return "login"; }
 
 
 

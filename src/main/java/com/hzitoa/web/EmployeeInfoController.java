@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -34,12 +36,13 @@ public class EmployeeInfoController {
     @Autowired
     private IEmployeeInfoService iEmployeeInfoService;
 
+    @RequestMapping(value = "/login",method= RequestMethod.POST)
+    @ResponseBody
     public StatusVO login(EmployeeInfo employeeInfo, HttpServletRequest request){
         StatusVO statusVO = new StatusVO();
-        Subject subject = SecurityUtils.getSubject();//从SecurityUtils中获取主体对象
-
-        UsernamePasswordToken token = new UsernamePasswordToken(employeeInfo.getName(), employeeInfo.getPassword());
         try{
+            Subject subject = SecurityUtils.getSubject();//从SecurityUtils中获取主体对象
+            UsernamePasswordToken token = new UsernamePasswordToken(employeeInfo.getName(), employeeInfo.getPassword());
             subject.login(token);
             Map<String,Object> paramMap = new HashMap<>();
             paramMap.put("name",employeeInfo.getName());
