@@ -64,7 +64,7 @@ public class ShiroConfig {
 	public ShiroFilterFactoryBean shiroFilter(){
 		ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
 		bean.setSecurityManager(securityManager());
-		bean.setLoginUrl("/account/login");
+		bean.setLoginUrl("/employeeInfo/login");
 		bean.setUnauthorizedUrl("/exception/exception");
 
 		Map<String, Filter>filters = Maps.newHashMap();
@@ -73,11 +73,11 @@ public class ShiroConfig {
 		bean.setFilters(filters);
 
 		Map<String, String> chains = Maps.newHashMap();
-		chains.put("/account/captcha","anon");//验证码
-		chains.put("/account/checkValidate","anon");
-		chains.put("/account/login", "anon");
+//		chains.put("/account/captcha","anon");//验证码
+//		chains.put("/account/checkValidate","anon");
+		chains.put("/employeeInfo/login", "anon");
 		chains.put("/account/unauthor", "anon");
-		chains.put("/account/logout", "logout");
+		chains.put("/employeeInfo/logout", "logout");
 		chains.put("/assets*/**", "anon");
 		chains.put("/static*/**", "anon");
 		chains.put("/**", "authc,perms");
