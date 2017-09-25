@@ -11,6 +11,10 @@
 		<result column="dingding_id" property="dingdingId" />
 		<result column="email" property="email" />
 		<result column="dept_id" property="deptId" />
+		<result column="role_name" property="roleName" />
+		<result column="isLocked" property="isLocked" />
+		<result column="isPermission" property="isPermission" />
+		<result column="isDimission" property="isDimission" />
 	</resultMap>
 
 </mapper>

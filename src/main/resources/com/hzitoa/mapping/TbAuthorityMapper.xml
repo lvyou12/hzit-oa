@@ -9,6 +9,7 @@
 		<result column="url" property="url" />
 		<result column="pid" property="pid" />
 		<result column="available" property="available" />
+		<result column="permission" property="permission" />
 	</resultMap>
 
 </mapper>

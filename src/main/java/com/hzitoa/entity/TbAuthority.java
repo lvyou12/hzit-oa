@@ -35,6 +35,7 @@ public class TbAuthority extends Model<TbAuthority> {
      * 是否启用(0:禁用;1:启用)
      */
 	private Integer available;
+	private String permission;
 
 
 	public Integer getId() {
@@ -79,6 +80,15 @@ public class TbAuthority extends Model<TbAuthority> {
 
 	public TbAuthority setAvailable(Integer available) {
 		this.available = available;
+		return this;
+	}
+
+	public String getPermission() {
+		return permission;
+	}
+
+	public TbAuthority setPermission(String permission) {
+		this.permission = permission;
 		return this;
 	}
 
