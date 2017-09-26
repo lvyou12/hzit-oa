@@ -11,6 +11,7 @@
 <link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
 <!--//webfonts-->
 <script src="/assets/js/jquery.min.js"></script>
+	<script src="/assets/layer/layer.js"></script>
 </head>
 <body>
 <script>$(document).ready(function(c) {
@@ -78,11 +79,11 @@
 //			var pswd = MD5("hzit#" + password),
 //					data = {password:pswd,name:$('#name').val(),rememberMe:$("#rememberMe").is(':checked')};
 			var data = {password:password,name:username}
-//			var load = layer.load();
+			var load = layer.load();
 			$.post("/employeeInfo/login",data,function(result){
-//				layer.close(load);
+				layer.close(load);
 				if(result && result.status != 200){
-//					layer.msg(result.message,function(){});
+					layer.msg(result.message,function(){});
 					$('.password').val('');
 					return;
 				}else{

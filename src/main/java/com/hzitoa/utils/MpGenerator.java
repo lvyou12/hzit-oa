@@ -90,7 +90,7 @@ public class MpGenerator {
 //        pc.setController("com.hzitoa.web.controllers");
         pc.setEntity("com.hzitoa.entity");
 //        pc.setMapper("com.hzitoa.mapper");
-        pc.setXml("com.hzitoa.mapping");
+        pc.setXml("com.hzitoa.mapper");
 //        pc.setModuleName("util");
         mpg.setPackageInfo(pc);
 

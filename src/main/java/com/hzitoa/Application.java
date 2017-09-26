@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @description
  */
 @ComponentScan(value = {"com.hzitoa.web","com.hzitoa.service"})
-@MapperScan("com.hzitoa.mapper*")
+@MapperScan("com.hzitoa.mapper")
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
     public static void main(String[] args) {

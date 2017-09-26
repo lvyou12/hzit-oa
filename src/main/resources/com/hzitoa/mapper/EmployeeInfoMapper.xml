@@ -17,4 +17,8 @@
 		<result column="isDimission" property="isDimission" />
 	</resultMap>
 
+	<select id="selectAll" resultMap="BaseResultMap">
+		SELECT * FROM employee_info;
+	</select>
+
 </mapper>
