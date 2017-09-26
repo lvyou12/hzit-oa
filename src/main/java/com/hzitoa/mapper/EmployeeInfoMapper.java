@@ -2,8 +2,10 @@ package com.hzitoa.mapper;
 
 import com.hzitoa.entity.EmployeeInfo;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -16,5 +18,7 @@ import java.util.List;
 public interface EmployeeInfoMapper extends BaseMapper<EmployeeInfo> {
 
     List<EmployeeInfo> selectAll();
+
+    List<EmployeeInfo> selectByParam(@Param("map") Map<String,Object> map);
 
 }

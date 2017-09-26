@@ -21,4 +21,10 @@
 		SELECT * FROM employee_info;
 	</select>
 
+	<select id="selectByParam" parameterType="map" resultMap="BaseResultMap">
+		SELECT * FROM
+		employee_info ei WHERE ei.name = #{map.name} AND
+								ei.password = #{map.password} AND  ei.isLocked = 0;
+	</select>
+
 </mapper>

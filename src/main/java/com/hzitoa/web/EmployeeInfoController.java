@@ -57,17 +57,17 @@ public class EmployeeInfoController {
 //            Subject subject = SecurityUtils.getSubject();//从SecurityUtils中获取主体对象
 //            UsernamePasswordToken token = new UsernamePasswordToken(employeeInfo.getName(), employeeInfo.getPassword());
 //            subject.login(token);
-//            Map<String,Object> paramMap = new HashMap<>();
-//            paramMap.put("name",employeeInfo.getName());
-//            paramMap.put("password",employeeInfo.getPassword());
-//            paramMap.put("isLocked","0");
+            Map<String,Object> paramMap = new HashMap<>();
+            paramMap.put("name",employeeInfo.getName());
+            paramMap.put("password",employeeInfo.getPassword());
+            paramMap.put("isLocked","0");
 
-//            List<EmployeeInfo> employeeInfoList = iEmployeeInfoService.selectByMap(paramMap);
-             ;
-            List<EmployeeInfo> employeeInfoList = iEmployeeInfoService.selectList(new EntityWrapper<EmployeeInfo>()
-                                                        .where("name='" + employeeInfo.getName() + "'")
-                                                        .and(("password='"+employeeInfo.getPassword()+"'"))
-                                                        .and("isLocked=0"));
+            List<EmployeeInfo> employeeInfoList = employeeInfoMapper.selectByParam(paramMap);
+
+//            List<EmployeeInfo> employeeInfoList = iEmployeeInfoService.selectList(new EntityWrapper<EmployeeInfo>()
+//                                                        .where("name='" + employeeInfo.getName() + "'")
+//                                                        .and(("password='"+employeeInfo.getPassword()+"'"))
+//                                                        .and("isLocked=0"));
             HttpSession httpSession = request.getSession();
             if(employeeInfoList!=null && employeeInfoList.size() >0){
                 employeeInfo = employeeInfoList.get(0);
