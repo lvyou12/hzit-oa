@@ -2,6 +2,8 @@ package com.hzitoa.config;
 
 import javax.sql.DataSource;
 
+import com.baomidou.mybatisplus.entity.GlobalConfiguration;
+import com.baomidou.mybatisplus.enums.DBType;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
@@ -16,8 +18,6 @@ import org.springframework.util.StringUtils;
 
 import com.baomidou.mybatisplus.MybatisConfiguration;
 import com.baomidou.mybatisplus.MybatisXMLLanguageDriver;
-import com.baomidou.mybatisplus.entity.GlobalConfiguration;
-import com.baomidou.mybatisplus.enums.DBType;
 import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean;
 
@@ -37,7 +37,7 @@ public class MybatisPlusConfig {
 
 	@Autowired(required = false)
 	private DatabaseIdProvider databaseIdProvider;
-	
+
 	/**
 	 *	 mybatis-plus分页插件
 	 */
@@ -88,3 +88,4 @@ public class MybatisPlusConfig {
 		return mybatisPlus;
 	}
 }
+

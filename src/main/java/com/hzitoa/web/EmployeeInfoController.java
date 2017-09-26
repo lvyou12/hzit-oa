@@ -5,10 +5,6 @@ import com.hzitoa.entity.EmployeeInfo;
 import com.hzitoa.mapper.EmployeeInfoMapper;
 import com.hzitoa.service.IEmployeeInfoService;
 import com.hzitoa.vo.StatusVO;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.sql.Wrapper;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -44,8 +37,8 @@ public class EmployeeInfoController {
     @RequestMapping("/employeeInfo/selectAll")
     @ResponseBody
     public List<EmployeeInfo> findAll(){
-//        List<EmployeeInfo> list = iEmployeeInfoService.selectList(new EntityWrapper<EmployeeInfo>());
-        List<EmployeeInfo> list = employeeInfoMapper.selectAll();
+        List<EmployeeInfo> list = iEmployeeInfoService.selectList(new EntityWrapper<EmployeeInfo>());
+//        List<EmployeeInfo> list = employeeInfoMapper.selectAll();
         return list;
     }
 
