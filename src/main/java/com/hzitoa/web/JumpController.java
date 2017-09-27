@@ -17,6 +17,11 @@ public class JumpController {
         return "index";
     }
 
+    @RequestMapping("/home")
+    public String toHome(){
+        return "home";
+    }
+
     @RequestMapping("/login")
     public String toLogin(){ return "login"; }
 
