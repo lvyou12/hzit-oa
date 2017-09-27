@@ -3,6 +3,7 @@ package com.hzitoa.mapper;
 import com.hzitoa.entity.EmployeeInfo;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -15,10 +16,11 @@ import java.util.Map;
  * @author Meiyang
  * @since 2017-09-22
  */
+@Component(value = "EmployeeInfoMapper")
 public interface EmployeeInfoMapper extends BaseMapper<EmployeeInfo> {
 
     List<EmployeeInfo> selectAll();
 
-    List<EmployeeInfo> selectByParam(@Param("map") Map<String,Object> map);
+    List<EmployeeInfo> loginSelect(@Param("map") Map<String,Object> map);
 
 }
