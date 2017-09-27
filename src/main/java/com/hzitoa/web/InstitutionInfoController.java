@@ -70,37 +70,33 @@ public class InstitutionInfoController {
         System.out.println("getContentType-->" + contentType);*/
         String path = "uploadPDF/"+deptName+"/";
         String filePath = request.getSession().getServletContext().getRealPath(path);
-        File pdfFile = new File(path+fileName);
-        if(!pdfFile.exists()){
-            try {
-                //上传文件
-                FileUtils.uploadFile(file.getBytes(), filePath, fileName);
+//        File pdfFile = new File(path+fileName);
+        try {
+            //上传文件
+            FileUtils.uploadFile(file.getBytes(), filePath, fileName);
 
-                //插入institutionInfo数据
-                InstitutionInfo institutionInfo = new InstitutionInfo();
-                institutionInfo.setDeptId(em.getDeptId());
-                institutionInfo.setCompanyId(departmentInfo.getCompanyId());
-                institutionInfo.setPath(path);
-                institutionInfo.setPath(fileName);
-                institutionInfo.setCreateBy(em.getName());
-                institutionInfo.setCreateTime(new Date());
-                boolean result = iInstitutionInfoService.insert(institutionInfo);
-                if(result){
-                    statusVO.setCode(200);
-                    statusVO.setMsg("文件上传成功");
-                }else{
-                    statusVO.setCode(200);
-                    statusVO.setMsg("数据插入失败");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                statusVO.setCode(300);
-                statusVO.setMsg("文件上传失败");
+            //插入institutionInfo数据
+            InstitutionInfo institutionInfo = new InstitutionInfo();
+            institutionInfo.setDeptId(em.getDeptId());
+            institutionInfo.setCompanyId(departmentInfo.getCompanyId());
+            institutionInfo.setPath(path);
+            institutionInfo.setPath(fileName);
+            institutionInfo.setCreateBy(em.getName());
+            institutionInfo.setCreateTime(new Date());
+            boolean result = iInstitutionInfoService.insertOrUpdate(institutionInfo);
+            if(result){
+                statusVO.setCode(200);
+                statusVO.setMsg("文件上传成功");
+            }else{
+                statusVO.setCode(200);
+                statusVO.setMsg("数据插入失败");
             }
-        }else{
+        } catch (Exception e) {
+            e.printStackTrace();
             statusVO.setCode(300);
-            statusVO.setMsg("文件上已存在");
+            statusVO.setMsg("文件上传失败");
         }
+
         return statusVO;
     }
 
