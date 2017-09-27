@@ -71,103 +71,95 @@ public class EmployeeInfo extends Model<EmployeeInfo> {
 	private Integer isDimission;
 
 
+	public EmployeeInfo() {
+	}
+
 	public Integer getUserId() {
 		return userId;
 	}
 
-	public EmployeeInfo setUserId(Integer userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
-		return this;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public EmployeeInfo setName(String name) {
+	public void setName(String name) {
 		this.name = name;
-		return this;
 	}
 
 	public String getPassword() {
 		return password;
 	}
 
-	public EmployeeInfo setPassword(String password) {
+	public void setPassword(String password) {
 		this.password = password;
-		return this;
 	}
 
 	public String getWechatId() {
 		return wechatId;
 	}
 
-	public EmployeeInfo setWechatId(String wechatId) {
+	public void setWechatId(String wechatId) {
 		this.wechatId = wechatId;
-		return this;
 	}
 
 	public String getDingdingId() {
 		return dingdingId;
 	}
 
-	public EmployeeInfo setDingdingId(String dingdingId) {
+	public void setDingdingId(String dingdingId) {
 		this.dingdingId = dingdingId;
-		return this;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public EmployeeInfo setEmail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
-		return this;
 	}
 
 	public Integer getDeptId() {
 		return deptId;
 	}
 
-	public EmployeeInfo setDeptId(Integer deptId) {
+	public void setDeptId(Integer deptId) {
 		this.deptId = deptId;
-		return this;
 	}
 
 	public String getRoleName() {
 		return roleName;
 	}
 
-	public EmployeeInfo setRoleName(String roleName) {
+	public void setRoleName(String roleName) {
 		this.roleName = roleName;
-		return this;
 	}
 
 	public Integer getIsLocked() {
 		return isLocked;
 	}
 
-	public EmployeeInfo setIsLocked(Integer isLocked) {
+	public void setIsLocked(Integer isLocked) {
 		this.isLocked = isLocked;
-		return this;
 	}
 
 	public Integer getIsPermission() {
 		return isPermission;
 	}
 
-	public EmployeeInfo setIsPermission(Integer isPermission) {
+	public void setIsPermission(Integer isPermission) {
 		this.isPermission = isPermission;
-		return this;
 	}
 
 	public Integer getIsDimission() {
 		return isDimission;
 	}
 
-	public EmployeeInfo setIsDimission(Integer isDimission) {
+	public void setIsDimission(Integer isDimission) {
 		this.isDimission = isDimission;
-		return this;
 	}
 
 	@Override
@@ -175,4 +167,20 @@ public class EmployeeInfo extends Model<EmployeeInfo> {
 		return this.userId;
 	}
 
+	@Override
+	public String toString() {
+		return "EmployeeInfo{" +
+				"userId=" + userId +
+				", name='" + name + '\'' +
+				", password='" + password + '\'' +
+				", wechatId='" + wechatId + '\'' +
+				", dingdingId='" + dingdingId + '\'' +
+				", email='" + email + '\'' +
+				", deptId=" + deptId +
+				", roleName='" + roleName + '\'' +
+				", isLocked=" + isLocked +
+				", isPermission=" + isPermission +
+				", isDimission=" + isDimission +
+				'}';
+	}
 }

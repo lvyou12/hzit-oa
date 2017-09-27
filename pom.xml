@@ -23,11 +23,6 @@
             <artifactId>mybatisplus-spring-boot-starter</artifactId>
             <version>1.0.4</version>
         </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatisplus-spring-boot-starter</artifactId>
-            <version>1.0.4</version>
-        </dependency>
         <!-- 发送邮件. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -38,58 +38,55 @@ public class TbAuthority extends Model<TbAuthority> {
 	private String permission;
 
 
+	public TbAuthority() {
+	}
+
 	public Integer getId() {
 		return id;
 	}
 
-	public TbAuthority setId(Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
-		return this;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public TbAuthority setName(String name) {
+	public void setName(String name) {
 		this.name = name;
-		return this;
 	}
 
 	public String getUrl() {
 		return url;
 	}
 
-	public TbAuthority setUrl(String url) {
+	public void setUrl(String url) {
 		this.url = url;
-		return this;
 	}
 
 	public Integer getPid() {
 		return pid;
 	}
 
-	public TbAuthority setPid(Integer pid) {
+	public void setPid(Integer pid) {
 		this.pid = pid;
-		return this;
 	}
 
 	public Integer getAvailable() {
 		return available;
 	}
 
-	public TbAuthority setAvailable(Integer available) {
+	public void setAvailable(Integer available) {
 		this.available = available;
-		return this;
 	}
 
 	public String getPermission() {
 		return permission;
 	}
 
-	public TbAuthority setPermission(String permission) {
+	public void setPermission(String permission) {
 		this.permission = permission;
-		return this;
 	}
 
 	@Override
@@ -97,4 +94,15 @@ public class TbAuthority extends Model<TbAuthority> {
 		return this.id;
 	}
 
+	@Override
+	public String toString() {
+		return "TbAuthority{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", url='" + url + '\'' +
+				", pid=" + pid +
+				", available=" + available +
+				", permission='" + permission + '\'' +
+				'}';
+	}
 }

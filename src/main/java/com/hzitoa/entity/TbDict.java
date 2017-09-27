@@ -34,49 +34,47 @@ public class TbDict extends Model<TbDict> {
 	private String checked;
 
 
+	public TbDict() {
+	}
+
 	public Integer getId() {
 		return id;
 	}
 
-	public TbDict setId(Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
-		return this;
 	}
 
 	public Integer getPid() {
 		return pid;
 	}
 
-	public TbDict setPid(Integer pid) {
+	public void setPid(Integer pid) {
 		this.pid = pid;
-		return this;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public TbDict setName(String name) {
+	public void setName(String name) {
 		this.name = name;
-		return this;
 	}
 
 	public String getOpen() {
 		return open;
 	}
 
-	public TbDict setOpen(String open) {
+	public void setOpen(String open) {
 		this.open = open;
-		return this;
 	}
 
 	public String getChecked() {
 		return checked;
 	}
 
-	public TbDict setChecked(String checked) {
+	public void setChecked(String checked) {
 		this.checked = checked;
-		return this;
 	}
 
 	@Override
@@ -84,4 +82,14 @@ public class TbDict extends Model<TbDict> {
 		return this.id;
 	}
 
+	@Override
+	public String toString() {
+		return "TbDict{" +
+				"id=" + id +
+				", pid=" + pid +
+				", name='" + name + '\'' +
+				", open='" + open + '\'' +
+				", checked='" + checked + '\'' +
+				'}';
+	}
 }

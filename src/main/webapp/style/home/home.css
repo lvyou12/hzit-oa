@@ -1,0 +1,93 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.list-title{
+    display: block;
+    margin-left: 20px;
+    font-size: 24px;
+    font-family: Tahoma;
+    font-weight: bold;
+    text-shadow: 3px 3px 3px grey;
+}
+.sideList{
+    position: relative;
+    height: 420px;
+    width: 280px;
+    padding-top: 10px;
+    border: 2px solid #579EC8;
+    border-radius: 8px;
+    box-shadow: -8px 8px 10px gray;
+}
+#pin{
+    position: absolute;
+    right: -15px;
+    top: -20px;
+    font-size: 40px;
+    color: green;
+}
+.sideList li{
+    list-style: none;
+    height: 30px;
+    width: 85%;
+    border-bottom: 1px dashed darkgray;
+    margin-top: 5px;
+    margin-left: 15px;
+    padding-left: 14px;
+    font-size: 14px;
+    font-family: "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", FontAwesome, sans-serif;
+    line-height: 30px;
+
+}
+.num1{
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 15px;
+    font-size: 12px;
+    text-align: center;
+    line-height: 18px;
+    border-radius: 9px;
+    color: floralwhite;
+    background-color: #8EB9F5;
+}
+.num2{
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    margin-right: 15px;
+    font-size: 12px;
+    text-align: center;
+    line-height: 18px;
+    color: floralwhite;
+    background-color: #87B87F;
+}
+.num3{
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    margin-right: 15px;
+    font-size: 12px;
+    text-align: center;
+    line-height: 18px;
+    color: floralwhite;
+    background-color: #D15B47;
+}
+.more{
+    display: block;
+    position: absolute;
+    font-size: 20px;
+    font-weight: bolder;
+    text-decoration: underline;
+    color: #4682B4;
+    right: 20px;
+    bottom: 12px;
+}
+.more:active{
+    color: red;
+}
+.more:hover{
+    cursor: pointer;
+}

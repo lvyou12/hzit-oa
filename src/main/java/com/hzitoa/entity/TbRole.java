@@ -57,76 +57,71 @@ public class TbRole extends Model<TbRole> {
 	private Date updateTime;
 
 
+	public TbRole() {
+	}
+
 	public Integer getId() {
 		return id;
 	}
 
-	public TbRole setId(Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
-		return this;
 	}
 
 	public String getRoleName() {
 		return roleName;
 	}
 
-	public TbRole setRoleName(String roleName) {
+	public void setRoleName(String roleName) {
 		this.roleName = roleName;
-		return this;
 	}
 
 	public String getResourceIds() {
 		return resourceIds;
 	}
 
-	public TbRole setResourceIds(String resourceIds) {
+	public void setResourceIds(String resourceIds) {
 		this.resourceIds = resourceIds;
-		return this;
 	}
 
 	public Integer getAvailable() {
 		return available;
 	}
 
-	public TbRole setAvailable(Integer available) {
+	public void setAvailable(Integer available) {
 		this.available = available;
-		return this;
 	}
 
 	public String getCreateBy() {
 		return createBy;
 	}
 
-	public TbRole setCreateBy(String createBy) {
+	public void setCreateBy(String createBy) {
 		this.createBy = createBy;
-		return this;
 	}
 
 	public Date getCreateTime() {
 		return createTime;
 	}
 
-	public TbRole setCreateTime(Date createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
-		return this;
 	}
 
 	public String getUpdateBy() {
 		return updateBy;
 	}
 
-	public TbRole setUpdateBy(String updateBy) {
+	public void setUpdateBy(String updateBy) {
 		this.updateBy = updateBy;
-		return this;
 	}
 
 	public Date getUpdateTime() {
 		return updateTime;
 	}
 
-	public TbRole setUpdateTime(Date updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
-		return this;
 	}
 
 	@Override
@@ -134,4 +129,17 @@ public class TbRole extends Model<TbRole> {
 		return this.id;
 	}
 
+	@Override
+	public String toString() {
+		return "TbRole{" +
+				"id=" + id +
+				", roleName='" + roleName + '\'' +
+				", resourceIds='" + resourceIds + '\'' +
+				", available=" + available +
+				", createBy='" + createBy + '\'' +
+				", createTime=" + createTime +
+				", updateBy='" + updateBy + '\'' +
+				", updateTime=" + updateTime +
+				'}';
+	}
 }
