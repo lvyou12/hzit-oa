@@ -23,12 +23,19 @@
             <artifactId>mybatisplus-spring-boot-starter</artifactId>
             <version>1.0.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatisplus-spring-boot-starter</artifactId>
+            <version>1.0.4</version>
+        </dependency>
         <!-- 发送邮件. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
+
         <dependency>
+
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
         </dependency>
@@ -93,10 +100,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
             <version>1.4.3.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
         <!--shiro权限验证-->

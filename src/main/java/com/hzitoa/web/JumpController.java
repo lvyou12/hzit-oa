@@ -28,6 +28,4 @@ public class JumpController {
     @RequestMapping("/employeeInfo/login")
     public String toLogin2(){ return "login"; }
 
-
-
 }

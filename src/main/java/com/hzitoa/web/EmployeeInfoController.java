@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -30,9 +32,6 @@ public class EmployeeInfoController {
     private Logger logger = LoggerFactory.getLogger(EmployeeInfoController.class);
     @Autowired
     private IEmployeeInfoService iEmployeeInfoService;
-
-    @Autowired
-    private EmployeeInfoMapper employeeInfoMapper;
 
     @RequestMapping("/employeeInfo/selectAll")
     @ResponseBody
@@ -50,17 +49,19 @@ public class EmployeeInfoController {
 //            Subject subject = SecurityUtils.getSubject();//从SecurityUtils中获取主体对象
 //            UsernamePasswordToken token = new UsernamePasswordToken(employeeInfo.getName(), employeeInfo.getPassword());
 //            subject.login(token);
-//            Map<String,Object> paramMap = new HashMap<>();
-//            paramMap.put("name",employeeInfo.getName());
-//            paramMap.put("password",employeeInfo.getPassword());
-//            paramMap.put("isLocked","0");
+            Map<String,Object> paramMap = new HashMap<>();
+            paramMap.put("name",employeeInfo.getName());
+            paramMap.put("email",employeeInfo.getEmail());
+            paramMap.put("password",employeeInfo.getPassword());
+            paramMap.put("isLocked","0");
 
-//            List<EmployeeInfo> employeeInfoList = iEmployeeInfoService.selectByMap(paramMap);
-             ;
-            List<EmployeeInfo> employeeInfoList = iEmployeeInfoService.selectList(new EntityWrapper<EmployeeInfo>()
-                                                        .where("name='" + employeeInfo.getName() + "'")
-                                                        .and(("password='"+employeeInfo.getPassword()+"'"))
-                                                        .and("isLocked=0"));
+//          List<EmployeeInfo> employeeInfoList = iEmployeeInfoService.selectByMap(paramMap);
+            List<EmployeeInfo> employeeInfoList = iEmployeeInfoService.loginSelect(paramMap);
+
+//            List<EmployeeInfo> employeeInfoList = iEmployeeInfoService.selectList(new EntityWrapper<EmployeeInfo>()
+//                                                        .where("name='" + employeeInfo.getName() + "'")
+//                                                        .and(("password='"+employeeInfo.getPassword()+"'"))
+//                                                        .and("isLocked=0"));
             HttpSession httpSession = request.getSession();
             if(employeeInfoList!=null && employeeInfoList.size() >0){
                 employeeInfo = employeeInfoList.get(0);
