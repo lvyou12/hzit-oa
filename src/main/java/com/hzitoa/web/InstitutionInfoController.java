@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class InstitutionInfoController {
 
-    @RequestMapping("/institutionInfo/form-news")
+    @RequestMapping("/institutionInfo/institutionList")
     public String toInstitutionList(){
-        return "/institutionInfo/form-news";
+        return "institutionInfo/institutionList";
     }
 }
