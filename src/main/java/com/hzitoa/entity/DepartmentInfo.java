@@ -61,77 +61,71 @@ public class DepartmentInfo extends Model<DepartmentInfo> {
 	@TableField("update_date")
 	private Date updateDate;
 
+	public DepartmentInfo() {
+	}
 
 	public Integer getDeptId() {
 		return deptId;
 	}
 
-	public DepartmentInfo setDeptId(Integer deptId) {
+	public void setDeptId(Integer deptId) {
 		this.deptId = deptId;
-		return this;
 	}
 
 	public String getDeptName() {
 		return deptName;
 	}
 
-	public DepartmentInfo setDeptName(String deptName) {
+	public void setDeptName(String deptName) {
 		this.deptName = deptName;
-		return this;
 	}
 
 	public Integer getPid() {
 		return pid;
 	}
 
-	public DepartmentInfo setPid(Integer pid) {
+	public void setPid(Integer pid) {
 		this.pid = pid;
-		return this;
 	}
 
 	public Integer getCompanyId() {
 		return companyId;
 	}
 
-	public DepartmentInfo setCompanyId(Integer companyId) {
+	public void setCompanyId(Integer companyId) {
 		this.companyId = companyId;
-		return this;
 	}
 
 	public String getCreateBy() {
 		return createBy;
 	}
 
-	public DepartmentInfo setCreateBy(String createBy) {
+	public void setCreateBy(String createBy) {
 		this.createBy = createBy;
-		return this;
 	}
 
 	public Date getCreateDate() {
 		return createDate;
 	}
 
-	public DepartmentInfo setCreateDate(Date createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
-		return this;
 	}
 
 	public String getUpdateBy() {
 		return updateBy;
 	}
 
-	public DepartmentInfo setUpdateBy(String updateBy) {
+	public void setUpdateBy(String updateBy) {
 		this.updateBy = updateBy;
-		return this;
 	}
 
 	public Date getUpdateDate() {
 		return updateDate;
 	}
 
-	public DepartmentInfo setUpdateDate(Date updateDate) {
+	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
-		return this;
 	}
 
 	@Override
@@ -139,4 +133,17 @@ public class DepartmentInfo extends Model<DepartmentInfo> {
 		return this.deptId;
 	}
 
+	@Override
+	public String toString() {
+		return "DepartmentInfo{" +
+				"deptId=" + deptId +
+				", deptName='" + deptName + '\'' +
+				", pid=" + pid +
+				", companyId=" + companyId +
+				", createBy='" + createBy + '\'' +
+				", createDate=" + createDate +
+				", updateBy='" + updateBy + '\'' +
+				", updateDate=" + updateDate +
+				'}';
+	}
 }
