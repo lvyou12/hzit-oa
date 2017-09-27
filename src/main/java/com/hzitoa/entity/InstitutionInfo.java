@@ -55,63 +55,72 @@ public class InstitutionInfo extends Model<InstitutionInfo> {
 		return id;
 	}
 
-	public InstitutionInfo setId(Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
-		return this;
 	}
 
 	public Integer getDeptId() {
 		return deptId;
 	}
 
-	public InstitutionInfo setDeptId(Integer deptId) {
+	public void setDeptId(Integer deptId) {
 		this.deptId = deptId;
-		return this;
 	}
 
 	public Integer getCompanyId() {
 		return companyId;
 	}
 
-	public InstitutionInfo setCompanyId(Integer companyId) {
+	public void setCompanyId(Integer companyId) {
 		this.companyId = companyId;
-		return this;
 	}
 
 	public String getPath() {
 		return path;
 	}
 
-	public InstitutionInfo setPath(String path) {
+	public void setPath(String path) {
 		this.path = path;
-		return this;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public InstitutionInfo setName(String name) {
+	public void setName(String name) {
 		this.name = name;
-		return this;
 	}
 
 	public String getCreateBy() {
 		return createBy;
 	}
 
-	public InstitutionInfo setCreateBy(String createBy) {
+	public void setCreateBy(String createBy) {
 		this.createBy = createBy;
-		return this;
 	}
 
 	public Date getCreateTime() {
 		return createTime;
 	}
 
-	public InstitutionInfo setCreateTime(Date createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
-		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "InstitutionInfo{" +
+				"id=" + id +
+				", deptId=" + deptId +
+				", companyId=" + companyId +
+				", path='" + path + '\'' +
+				", name='" + name + '\'' +
+				", createBy='" + createBy + '\'' +
+				", createTime=" + createTime +
+				'}';
+	}
+
+	public InstitutionInfo() {
 	}
 
 	@Override

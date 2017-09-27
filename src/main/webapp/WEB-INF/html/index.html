@@ -273,7 +273,8 @@
                         <img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Jason's Photo"/>
 								<span class="user-info">
 									<small>欢迎光临,</small>
-									Jason
+                                    <div th:text="${session.employeeInfo.name}"></div>
+                                    <!--<input id="userName" name="username" th:value="${session.employeeInfo.name}">-->
 								</span>
 
                         <i class="icon-caret-down"></i>
