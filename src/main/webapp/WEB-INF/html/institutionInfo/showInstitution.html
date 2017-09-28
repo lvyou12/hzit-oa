@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="../assets/js/jquery-2.0.0.js"></script>
+    <script type="text/javascript" src="../assets/js/jquery.media.js"></script>
+    <script>
+        $(function() {
+            var path = $("input").val();
+            $('#showPdf').attr("href",path);
+            $('#showPdf').media({width:800, height:600});
+        });
+    </script>
+</head>
+<body>
+<a id="showPdf"></a>
+<input type="hidden" th:value="${institutionInfo.path}"/>
+</body>
+
+</html>
