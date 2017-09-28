@@ -3,7 +3,7 @@
  */
 $(function(){
 
-    $.getJSON("",function(resp){
+    $.getJSON("/institutionInfo/listData?offset=1&limit=9",function(resp){
 
     });
 
