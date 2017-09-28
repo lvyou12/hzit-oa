@@ -84,6 +84,18 @@ public class EmployeeInfoController {
         return statusVO;
     }
 
+    @RequestMapping("/insert")
+    @ResponseBody
+    public void insert(){
+        EmployeeInfo employeeInfo = new EmployeeInfo();
+        employeeInfo.setName("mm");
+        employeeInfo.setPassword("123");
+        employeeInfo.setEmail("@qq.c");
+        employeeInfo.setDeptId(1);
+        employeeInfo.setIsLocked(0);
+        iEmployeeInfoService.insert(employeeInfo);
+    }
+
 
 	
 }
