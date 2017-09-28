@@ -36,8 +36,11 @@ $(function(){
                     contentType: false,
                     processData: false,
                     success: function (resp) {
+                        console.log(resp);
                         if (resp.code == 300) {
-                            layer.msg('上传失败，请稍后再试！');
+                            layer.msg(resp.msg +',请稍后再试！');
+                        } else if(resp.code == 400){
+                            layer.msg("文件已存在");
                         } else if (resp.code == 200) {
                             var index = parent.layer.getFrameIndex(window.name); //获取当前窗体索引
                             layer.msg('上传成功！');

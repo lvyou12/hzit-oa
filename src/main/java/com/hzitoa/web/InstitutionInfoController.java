@@ -68,34 +68,39 @@ public class InstitutionInfoController {
         String fileName = file.getOriginalFilename();
        /* System.out.println("fileName-->" + fileName);
         System.out.println("getContentType-->" + contentType);*/
-        String path = "uploadPDF/"+deptName+"/";
+        String path = "/uploadPDF/"+deptName+"/";
         String filePath = request.getSession().getServletContext().getRealPath(path);
-//        File pdfFile = new File(path+fileName);
-        try {
-            //上传文件
-            FileUtils.uploadFile(file.getBytes(), filePath, fileName);
-            //插入institutionInfo数据
-            InstitutionInfo institutionInfo = new InstitutionInfo();
-            institutionInfo.setDeptId(em.getDeptId());
-            institutionInfo.setCompanyId(departmentInfo.getCompanyId());
-            institutionInfo.setPath(path);
-            institutionInfo.setName(fileName);
-            institutionInfo.setCreateBy(em.getName());
-            institutionInfo.setCreateTime(new Date());
-            boolean result = iInstitutionInfoService.insertOrUpdate(institutionInfo);
-            if(result){
-                statusVO.setCode(200);
-                statusVO.setMsg("文件上传成功");
-            }else{
-                statusVO.setCode(200);
-                statusVO.setMsg("数据插入失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            statusVO.setCode(300);
-            statusVO.setMsg("文件上传失败");
-        }
-
+        File pdfFile = new File(filePath+fileName);
+//        boolean b = pdfFile.exists();
+       if(!pdfFile.exists()){
+           try {
+               //上传文件
+               FileUtils.uploadFile(file.getBytes(), filePath, fileName);
+               //插入institutionInfo数据
+               InstitutionInfo institutionInfo = new InstitutionInfo();
+               institutionInfo.setDeptId(em.getDeptId());
+               institutionInfo.setCompanyId(departmentInfo.getCompanyId());
+               institutionInfo.setPath(path);
+               institutionInfo.setName(fileName);
+               institutionInfo.setCreateBy(em.getName());
+               institutionInfo.setCreateTime(new Date());
+               boolean result = iInstitutionInfoService.insertOrUpdate(institutionInfo);
+               if(result){
+                   statusVO.setCode(200);
+                   statusVO.setMsg("文件上传成功");
+               }else{
+                   statusVO.setCode(300);
+                   statusVO.setMsg("数据插入失败");
+               }
+           } catch (Exception e) {
+               e.printStackTrace();
+               statusVO.setCode(300);
+               statusVO.setMsg("文件上传失败");
+           }
+       }else {
+           statusVO.setCode(400);
+           statusVO.setMsg("该文件已存在");
+       }
         return statusVO;
     }
 
