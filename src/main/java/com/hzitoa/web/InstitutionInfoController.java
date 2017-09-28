@@ -130,16 +130,15 @@ public class InstitutionInfoController {
             bt.setOffset(bt.getOffset() / bt.getLimit());
         }
         Page<InstitutionInfo> page = new Page<InstitutionInfo>(bt.getOffset(), bt.getLimit());
-
+        if("-1".equals(bt.getCondition()) ){
+            bt.setCondition("");
+        }
         EmployeeInfo employeeInfo = (EmployeeInfo) session.getAttribute("employeeInfo");
 //        DepartmentInfo departmentInfo = iDepartmentInfoService.selectById(employeeInfo.getDeptId());
         Wrapper<InstitutionInfo> wrapper = null;
         wrapper = new EntityWrapper<InstitutionInfo>()
-                .where("dept_id=1" )
+                .where("dept_id=" + employeeInfo.getDeptId())
                 .orderBy("create_time desc");
-        if("-1".equals(bt.getCondition()) ){
-            bt.setCondition("");
-        }
         BootstrapTable<InstitutionInfo> bootstrapTable = iInstitutionInfoService.ajaxData(page,wrapper);
         return bootstrapTable;
     }
