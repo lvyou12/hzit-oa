@@ -10,6 +10,7 @@ import com.hzitoa.utils.FileUtils;
 import com.hzitoa.vo.StatusVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,6 +49,16 @@ public class InstitutionInfoController {
     public String toImportPage(){
         return "/institutionInfo/importPage";
     }
+
+    /**
+     * 预览所选制度
+     */
+    @RequestMapping("/institutionInfo/showInstitution")
+    public String showDetail(InstitutionInfo institutionInfo,Model model){
+        model.addAttribute("institutionInfo",institutionInfo);
+        return "/institutionInfo/showInstitution";
+    }
+
 
     /**
      * 制度上传
@@ -98,8 +109,4 @@ public class InstitutionInfoController {
 
         return statusVO;
     }
-
-
-
-
 }
