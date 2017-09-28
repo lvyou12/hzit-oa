@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 
 
@@ -23,7 +25,7 @@ public class EmployeeInfo extends Model<EmployeeInfo> {
     /**
      * 用户id
      */
-	@TableId("user_id")
+	@TableId(value = "user_id",type = IdType.AUTO)
 	private Integer userId;
     /**
      * 用户名

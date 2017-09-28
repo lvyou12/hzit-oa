@@ -74,7 +74,6 @@ public class InstitutionInfoController {
         try {
             //上传文件
             FileUtils.uploadFile(file.getBytes(), filePath, fileName);
-
             //插入institutionInfo数据
             InstitutionInfo institutionInfo = new InstitutionInfo();
             institutionInfo.setDeptId(em.getDeptId());
