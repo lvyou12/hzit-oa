@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.hzitoa.entity.InstitutionInfo;
 import com.baomidou.mybatisplus.service.IService;
 import com.hzitoa.vo.BootstrapTable;
+import com.hzitoa.vo.InstitutionInfoVo;
 
 /**
  * <p>
@@ -16,6 +17,6 @@ import com.hzitoa.vo.BootstrapTable;
  */
 public interface IInstitutionInfoService extends IService<InstitutionInfo> {
 
-    BootstrapTable<InstitutionInfo> ajaxData(Page<InstitutionInfo> page, Wrapper<InstitutionInfo> wrapper);
+    BootstrapTable<InstitutionInfoVo> ajaxData(Page<InstitutionInfo> page, Wrapper<InstitutionInfo> wrapper);
 	
 }

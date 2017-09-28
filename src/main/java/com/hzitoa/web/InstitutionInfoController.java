@@ -12,6 +12,7 @@ import com.hzitoa.service.IInstitutionInfoService;
 import com.hzitoa.utils.FileUtils;
 import com.hzitoa.vo.BootstrapEntity;
 import com.hzitoa.vo.BootstrapTable;
+import com.hzitoa.vo.InstitutionInfoVo;
 import com.hzitoa.vo.StatusVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -122,7 +123,7 @@ public class InstitutionInfoController {
 
     @RequestMapping("/institutionInfo/listData")
     @ResponseBody
-    public BootstrapTable<InstitutionInfo> listData(BootstrapEntity bt,HttpSession session){
+    public BootstrapTable<InstitutionInfoVo> listData(BootstrapEntity bt,HttpSession session){
         if (bt.getOffset() == null || bt.getLimit() == null) {
             bt.setOffset(1);
             bt.setLimit(20);
@@ -137,9 +138,9 @@ public class InstitutionInfoController {
 //        DepartmentInfo departmentInfo = iDepartmentInfoService.selectById(employeeInfo.getDeptId());
         Wrapper<InstitutionInfo> wrapper = null;
         wrapper = new EntityWrapper<InstitutionInfo>()
-                .where("dept_id=" + employeeInfo.getDeptId())
+                .where("dept_id=1" )
                 .orderBy("create_time desc");
-        BootstrapTable<InstitutionInfo> bootstrapTable = iInstitutionInfoService.ajaxData(page,wrapper);
+        BootstrapTable<InstitutionInfoVo> bootstrapTable = iInstitutionInfoService.ajaxData(page,wrapper);
         return bootstrapTable;
     }
 }

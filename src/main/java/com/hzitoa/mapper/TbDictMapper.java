@@ -2,6 +2,7 @@ package com.hzitoa.mapper;
 
 import com.hzitoa.entity.TbDict;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.springframework.stereotype.Component;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * @author Meiyang
  * @since 2017-09-22
  */
+@Component(value = "TbDictMapper")
 public interface TbDictMapper extends BaseMapper<TbDict> {
 
 }
