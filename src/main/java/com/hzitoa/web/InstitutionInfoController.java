@@ -138,7 +138,7 @@ public class InstitutionInfoController {
 //        DepartmentInfo departmentInfo = iDepartmentInfoService.selectById(employeeInfo.getDeptId());
         Wrapper<InstitutionInfo> wrapper = null;
         wrapper = new EntityWrapper<InstitutionInfo>()
-                .where("dept_id=1" )
+                .where("dept_id=" + employeeInfo.getDeptId())
                 .orderBy("create_time desc");
         BootstrapTable<InstitutionInfoVo> bootstrapTable = iInstitutionInfoService.ajaxData(page,wrapper);
         return bootstrapTable;
