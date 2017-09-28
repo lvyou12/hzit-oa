@@ -1,5 +1,8 @@
 package com.hzitoa.web;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.hzitoa.entity.DepartmentInfo;
 import com.hzitoa.entity.EmployeeInfo;
 import com.hzitoa.entity.InstitutionInfo;
@@ -7,6 +10,8 @@ import com.hzitoa.service.IDepartmentInfoService;
 import com.hzitoa.service.IEmployeeInfoService;
 import com.hzitoa.service.IInstitutionInfoService;
 import com.hzitoa.utils.FileUtils;
+import com.hzitoa.vo.BootstrapEntity;
+import com.hzitoa.vo.BootstrapTable;
 import com.hzitoa.vo.StatusVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -113,5 +118,29 @@ public class InstitutionInfoController {
            statusVO.setMsg("该文件已存在");
        }
         return statusVO;
+    }
+
+    @RequestMapping("/institutionInfo/listData")
+    @ResponseBody
+    public BootstrapTable<InstitutionInfo> listData(BootstrapEntity bt,HttpSession session){
+        if (bt.getOffset() == null || bt.getLimit() == null) {
+            bt.setOffset(1);
+            bt.setLimit(20);
+        } else {
+            bt.setOffset(bt.getOffset() / bt.getLimit());
+        }
+        Page<InstitutionInfo> page = new Page<InstitutionInfo>(bt.getOffset(), bt.getLimit());
+
+        EmployeeInfo employeeInfo = (EmployeeInfo) session.getAttribute("employeeInfo");
+//        DepartmentInfo departmentInfo = iDepartmentInfoService.selectById(employeeInfo.getDeptId());
+        Wrapper<InstitutionInfo> wrapper = null;
+        wrapper = new EntityWrapper<InstitutionInfo>()
+                .where("dept_id=1" )
+                .orderBy("create_time desc");
+        if("-1".equals(bt.getCondition()) ){
+            bt.setCondition("");
+        }
+        BootstrapTable<InstitutionInfo> bootstrapTable = iInstitutionInfoService.ajaxData(page,wrapper);
+        return bootstrapTable;
     }
 }
