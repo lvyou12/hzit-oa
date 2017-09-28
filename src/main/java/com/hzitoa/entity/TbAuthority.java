@@ -1,7 +1,10 @@
 package com.hzitoa.entity;
 
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 
 
@@ -18,7 +21,8 @@ public class TbAuthority extends Model<TbAuthority> {
 
     private static final long serialVersionUID = 1L;
 
-	private Integer id;
+	@TableId(value = "auth_id",type = IdType.AUTO)
+	private Integer authId;
     /**
      * 模块名
      */
@@ -41,12 +45,12 @@ public class TbAuthority extends Model<TbAuthority> {
 	public TbAuthority() {
 	}
 
-	public Integer getId() {
-		return id;
+	public Integer getAuthId() {
+		return authId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setAuthId(Integer authId) {
+		this.authId = authId;
 	}
 
 	public String getName() {
@@ -91,13 +95,13 @@ public class TbAuthority extends Model<TbAuthority> {
 
 	@Override
 	protected Serializable pkVal() {
-		return this.id;
+		return this.authId;
 	}
 
 	@Override
 	public String toString() {
 		return "TbAuthority{" +
-				"id=" + id +
+				"authId=" + authId +
 				", name='" + name + '\'' +
 				", url='" + url + '\'' +
 				", pid=" + pid +

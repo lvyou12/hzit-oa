@@ -1,7 +1,10 @@
 package com.hzitoa.entity;
 
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 
 
@@ -18,7 +21,8 @@ public class TbDict extends Model<TbDict> {
 
     private static final long serialVersionUID = 1L;
 
-	private Integer id;
+	@TableId(value = "dict_id",type = IdType.AUTO)
+	private Integer dictId;
     /**
      * 父级id
      */
@@ -37,12 +41,12 @@ public class TbDict extends Model<TbDict> {
 	public TbDict() {
 	}
 
-	public Integer getId() {
-		return id;
+	public Integer getDictId() {
+		return dictId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setDictId(Integer dictId) {
+		this.dictId = dictId;
 	}
 
 	public Integer getPid() {
@@ -79,13 +83,13 @@ public class TbDict extends Model<TbDict> {
 
 	@Override
 	protected Serializable pkVal() {
-		return this.id;
+		return this.dictId;
 	}
 
 	@Override
 	public String toString() {
 		return "TbDict{" +
-				"id=" + id +
+				"dictId=" + dictId +
 				", pid=" + pid +
 				", name='" + name + '\'' +
 				", open='" + open + '\'' +

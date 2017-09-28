@@ -80,7 +80,7 @@ public class InstitutionInfoController {
             institutionInfo.setDeptId(em.getDeptId());
             institutionInfo.setCompanyId(departmentInfo.getCompanyId());
             institutionInfo.setPath(path);
-            institutionInfo.setPath(fileName);
+            institutionInfo.setName(fileName);
             institutionInfo.setCreateBy(em.getName());
             institutionInfo.setCreateTime(new Date());
             boolean result = iInstitutionInfoService.insertOrUpdate(institutionInfo);

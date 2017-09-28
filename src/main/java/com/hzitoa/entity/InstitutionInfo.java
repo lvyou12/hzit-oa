@@ -3,7 +3,10 @@ package com.hzitoa.entity;
 import com.baomidou.mybatisplus.activerecord.Model;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 
 
@@ -19,8 +22,8 @@ import java.io.Serializable;
 public class InstitutionInfo extends Model<InstitutionInfo> {
 
     private static final long serialVersionUID = 1L;
-
-	private Integer id;
+	@TableId(value = "inst_id",type = IdType.AUTO)
+	private Integer instId;
     /**
      * 部门id
      */
@@ -50,13 +53,12 @@ public class InstitutionInfo extends Model<InstitutionInfo> {
 	@TableField("create_time")
 	private Date createTime;
 
-
-	public Integer getId() {
-		return id;
+	public Integer getInstId() {
+		return instId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setInstId(Integer instId) {
+		this.instId = instId;
 	}
 
 	public Integer getDeptId() {
@@ -110,7 +112,7 @@ public class InstitutionInfo extends Model<InstitutionInfo> {
 	@Override
 	public String toString() {
 		return "InstitutionInfo{" +
-				"id=" + id +
+				"instId=" + instId +
 				", deptId=" + deptId +
 				", companyId=" + companyId +
 				", path='" + path + '\'' +
@@ -125,7 +127,7 @@ public class InstitutionInfo extends Model<InstitutionInfo> {
 
 	@Override
 	protected Serializable pkVal() {
-		return this.id;
+		return this.instId;
 	}
 
 }

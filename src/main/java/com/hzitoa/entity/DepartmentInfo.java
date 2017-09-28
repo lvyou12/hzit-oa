@@ -5,6 +5,8 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 
 
@@ -24,7 +26,7 @@ public class DepartmentInfo extends Model<DepartmentInfo> {
     /**
      * 部门id
      */
-	@TableId("dept_id")
+	@TableId(value = "dept_id",type = IdType.AUTO)
 	private Integer deptId;
     /**
      * 部门名称

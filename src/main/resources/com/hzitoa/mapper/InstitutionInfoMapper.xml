@@ -4,7 +4,7 @@
 
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.hzitoa.entity.InstitutionInfo">
-		<id column="id" property="id" />
+		<id column="inst_id" property="instId" />
 		<result column="dept_id" property="deptId" />
 		<result column="company_id" property="companyId" />
 		<result column="path" property="path" />

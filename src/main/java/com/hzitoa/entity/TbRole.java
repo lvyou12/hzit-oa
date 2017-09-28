@@ -3,7 +3,10 @@ package com.hzitoa.entity;
 import com.baomidou.mybatisplus.activerecord.Model;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 
 
@@ -20,7 +23,8 @@ public class TbRole extends Model<TbRole> {
 
     private static final long serialVersionUID = 1L;
 
-	private Integer id;
+	@TableId(value = "role_id",type = IdType.AUTO)
+	private Integer roleId;
     /**
      * 角色名称
      */
@@ -60,12 +64,12 @@ public class TbRole extends Model<TbRole> {
 	public TbRole() {
 	}
 
-	public Integer getId() {
-		return id;
+	public Integer getRoleId() {
+		return roleId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
 	public String getRoleName() {
@@ -126,13 +130,13 @@ public class TbRole extends Model<TbRole> {
 
 	@Override
 	protected Serializable pkVal() {
-		return this.id;
+		return this.roleId;
 	}
 
 	@Override
 	public String toString() {
 		return "TbRole{" +
-				"id=" + id +
+				"roleId=" + roleId +
 				", roleName='" + roleName + '\'' +
 				", resourceIds='" + resourceIds + '\'' +
 				", available=" + available +
