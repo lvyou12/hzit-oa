@@ -25,6 +25,7 @@ public class InstitutionInfoVo {
     private String name;
     private String createBy;
     private Date createTime;
+    private Integer isDelete;
 
     public Integer getInstId() {
         return instId;
@@ -98,6 +99,14 @@ public class InstitutionInfoVo {
         this.createTime = createTime;
     }
 
+    public Integer getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
+    }
+
     public InstitutionInfoVo() {
     }
 
@@ -107,10 +116,13 @@ public class InstitutionInfoVo {
                 "instId=" + instId +
                 ", deptName='" + deptName + '\'' +
                 ", companyName='" + companyName + '\'' +
+                ", deptId=" + deptId +
+                ", companyId=" + companyId +
                 ", path='" + path + '\'' +
                 ", name='" + name + '\'' +
                 ", createBy='" + createBy + '\'' +
                 ", createTime=" + createTime +
+                ", isDelete=" + isDelete +
                 '}';
     }
 }

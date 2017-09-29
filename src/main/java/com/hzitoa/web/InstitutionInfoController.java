@@ -143,6 +143,7 @@ public class InstitutionInfoController {
         Wrapper<InstitutionInfo> wrapper = null;
         wrapper = new EntityWrapper<InstitutionInfo>()
                 .where("dept_id=" + employeeInfo.getDeptId())
+                .and("isDelete=0")
                 .like(bt.getCondition(), bt.getValue())
                 .orderBy("create_time desc");
         BootstrapTable<InstitutionInfoVo> bootstrapTable = iInstitutionInfoService.ajaxData(page,wrapper);
