@@ -19,6 +19,8 @@ public class InstitutionInfoVo {
      */
     private String companyName;
 
+    private Integer deptId;
+    private Integer companyId;
     private String path;
     private String name;
     private String createBy;
@@ -46,6 +48,22 @@ public class InstitutionInfoVo {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 
     public String getPath() {
