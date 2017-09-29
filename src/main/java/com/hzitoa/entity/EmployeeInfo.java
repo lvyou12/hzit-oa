@@ -64,7 +64,7 @@ public class EmployeeInfo extends Model<EmployeeInfo> {
      */
 	private Integer isLocked;
     /**
-     * 是否授权(0:赋予角色,1:未赋角色)
+     * 是否授权(0:未赋角色,1:赋予角色)
      */
 	private Integer isPermission;
     /**
