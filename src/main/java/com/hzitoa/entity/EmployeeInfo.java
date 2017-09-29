@@ -60,15 +60,15 @@ public class EmployeeInfo extends Model<EmployeeInfo> {
 	@TableField("role_name")
 	private String roleName;
     /**
-     * 是否禁用(1:启用,2:禁用)
+     * 是否禁用(0:启用,1:禁用)
      */
 	private Integer isLocked;
     /**
-     * 是否授权(1:赋予角色,2:未赋角色)
+     * 是否授权(0:赋予角色,1:未赋角色)
      */
 	private Integer isPermission;
     /**
-     * 是否离职(1:在职,2:离职)
+     * 是否离职(0:在职,1:离职)
      */
 	private Integer isDimission;
 

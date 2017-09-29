@@ -53,6 +53,8 @@ public class InstitutionInfo extends Model<InstitutionInfo> {
 	@TableField("create_time")
 	private Date createTime;
 
+	private Integer isDelete;
+
 	public Integer getInstId() {
 		return instId;
 	}
@@ -109,6 +111,23 @@ public class InstitutionInfo extends Model<InstitutionInfo> {
 		this.createTime = createTime;
 	}
 
+	public Integer getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(Integer isDelete) {
+		this.isDelete = isDelete;
+	}
+
+
+	public InstitutionInfo() {
+	}
+
+	@Override
+	protected Serializable pkVal() {
+		return this.instId;
+	}
+
 	@Override
 	public String toString() {
 		return "InstitutionInfo{" +
@@ -119,15 +138,7 @@ public class InstitutionInfo extends Model<InstitutionInfo> {
 				", name='" + name + '\'' +
 				", createBy='" + createBy + '\'' +
 				", createTime=" + createTime +
+				", isDelete=" + isDelete +
 				'}';
 	}
-
-	public InstitutionInfo() {
-	}
-
-	@Override
-	protected Serializable pkVal() {
-		return this.instId;
-	}
-
 }
