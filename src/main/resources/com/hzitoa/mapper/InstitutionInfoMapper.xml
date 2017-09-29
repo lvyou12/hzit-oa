@@ -9,6 +9,7 @@
 		<result column="company_id" property="companyId" />
 		<result column="path" property="path" />
 		<result column="name" property="name" />
+		<result column="isDelete" property="isDelete" />
 		<result column="create_by" property="createBy" />
 		<result column="create_time" property="createTime" />
 	</resultMap>

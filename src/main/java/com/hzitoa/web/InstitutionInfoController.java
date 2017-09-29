@@ -14,8 +14,11 @@ import com.hzitoa.vo.BootstrapEntity;
 import com.hzitoa.vo.BootstrapTable;
 import com.hzitoa.vo.InstitutionInfoVo;
 import com.hzitoa.vo.StatusVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,6 +42,7 @@ import java.util.Map;
  */
 @Controller
 public class InstitutionInfoController {
+    private Logger logger = LoggerFactory.getLogger(InstitutionInfoController.class);
 
     @Autowired
     private IInstitutionInfoService iInstitutionInfoService;
@@ -110,7 +114,7 @@ public class InstitutionInfoController {
                    statusVO.setMsg("数据插入失败");
                }
            } catch (Exception e) {
-               e.printStackTrace();
+               logger.error("---文件上传失败---");
                statusVO.setCode(300);
                statusVO.setMsg("文件上传失败");
            }
@@ -144,4 +148,48 @@ public class InstitutionInfoController {
         BootstrapTable<InstitutionInfoVo> bootstrapTable = iInstitutionInfoService.ajaxData(page,wrapper);
         return bootstrapTable;
     }
+
+    /**
+     * 逻辑删除数据库中的数据
+     * @param institutionInfo
+     * @param request
+     * @return
+     */
+    @RequestMapping("/institutionInfo/deleteData")
+    @Transactional
+    @ResponseBody
+    public StatusVO deleteData(InstitutionInfo institutionInfo,HttpServletRequest request){
+        StatusVO statusVO = new StatusVO();
+        if(institutionInfo == null){
+            statusVO.setCode(300);
+            statusVO.setMsg("删除失败!请稍后再试!");
+            return statusVO;
+        }
+        institutionInfo.setIsDelete(1);
+        boolean result = false;
+        try {
+            result = iInstitutionInfoService.update(institutionInfo, new EntityWrapper<InstitutionInfo>());
+        }catch (Exception e){
+
+            statusVO.setCode(300);
+            statusVO.setMsg("删除失败!请稍后再试!");
+            return statusVO;
+        }
+        if(result){
+            String path = request.getSession().getServletContext().getRealPath(institutionInfo.getPath());
+            File file = new File(path+institutionInfo.getName());
+            try{
+                file.delete();
+                statusVO.setCode(200);
+                statusVO.setMsg("成功删除数据!");
+            }catch (Exception e){
+                logger.error("---本地文件删除失败!---");
+            }
+        }else{
+            statusVO.setCode(300);
+            statusVO.setMsg("删除失败!请稍后再试!");
+        }
+        return statusVO;
+    }
+
 }
