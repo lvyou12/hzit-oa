@@ -9,7 +9,7 @@ $(function(){
             layer.confirm('确认删除该制度吗？', {
                 btn: ['确定','取消'] //按钮
             }, function(){
-                //removeData(row);
+                removeData(row);
             }, function(){
                 layer.close(index2); //关闭当前弹层
                 layer.msg('已经取消了!');

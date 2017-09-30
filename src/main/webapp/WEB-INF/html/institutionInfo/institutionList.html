@@ -10,6 +10,7 @@
     <!--[if IE 7]>
     <link rel="stylesheet" href="../assets/css/font-awesome-ie7.min.css"/>
     <![endif]-->
+    <link href="../assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
     <style>
         *{
             margin: 0px;
@@ -21,7 +22,8 @@
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/bootstrap-table-master/dist/bootstrap-table.js"></script>
 <script src="/assets/bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.js"></script>
-<script src="../assets/layui/layui.all.js"></script>
+
+<script src="../assets/layui/layui.js"></script>
 <script src="/script/InstitutionInfo/institutionList.js" type="text/javascript"></script>
 <body >
     <div class="breadcrumbs" id="breadcrumbs">
@@ -34,13 +36,41 @@
         </ul>
     </div>
     <div id="toolbar" style="margin-left: 10px;font-size: 17px;">
-        <form class="form-inline" style="display: inline-block;">
-            <select class="form-control" style="width:150px;" id="searchParam">
-                <option value="-1">请选择搜索条件</option>
-                <option value="name">制度名称</option>
-                <option value="createTime">上传日期</option>
-            </select>
-            <input type="text"  class="form-control " style="width:130px;" id="searchValue" placeholder="请输入搜索值">
+        <form class="layui-form" style="display: inline-block;">
+
+            <div class="layui-inline" style="display: inline-block;">
+                <div class="layui-input-inline" style="display: inline-block;">
+                    <select style="width:50px;" id="searchParam"  lay-verify="required">
+                        <option value="">请选择搜索条件</option>
+                        <option value="name">制度名称</option>
+                        <option value="createTime">上传日期</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline" style="display: inline-block;">
+                <div class="layui-input-inline" style="display: inline-block;">
+                    <input class="layui-input" type="text" style="width:130px;" id="searchValue" placeholder="请输入搜索值">
+                </div>
+            </div>
+
+            <!--<div class="layui-inline">
+                <div class="layui-input-inline">
+                    <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                </div>
+            </div>-->
+
+
+           <!-- <div class="input-group date form_date col-md-5" style="width: 200px;">
+                <input class="form-control" value="" readonly>
+               &lt;!&ndash; <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>&ndash;&gt;
+                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+            </div>-->
+            <div class="layui-inline" style="display: inline-block;">
+                <div class="layui-input-inline">
+                    <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
         </form>
     <span ><button id="searchInst" class="layui-btn layui-btn-small "><i
             class="layui-icon">&#xe615;</i>搜索</button></span>
@@ -55,5 +85,44 @@
         <table class="table table-striped" id="table"></table>
 
     </div>
+<!--
+    <div class="input-group date form_date col-md-5" data-date="" data-link-field="dtp_input2">
+        <input class="form-control" value="" readonly>
+        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+    </div>-->
+
+
+
 </body>
+<script type="text/javascript" src="/assets/js/date-time/bootstrap-datetimepicker.js" charset="GBK"></script>
+<script type="text/javascript" src="/assets/js/date-time/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="/assets/js/date-time/bootstrap-datetimepicker.fr.js" charset="GBK"></script>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function() {
+        var form = layui.form
+                , layer = layui.layer
+                , layedit = layui.layedit
+                , laydate = layui.laydate;
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+    });
+
+    $('.form_date').datetimepicker({
+        format: "yyyy/mm/dd",
+        language:'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>
 </html>
