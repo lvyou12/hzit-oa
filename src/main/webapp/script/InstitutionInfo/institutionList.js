@@ -7,35 +7,37 @@ $(function(){
                 shade: [0.1, '#fff'] //0.1透明度的白色背景
             });
             layer.confirm('确认删除该制度吗？', {
-                btn: ['确定','取消'] //按钮
+                btn: ['确定','取消'], //按钮
+                cancel: function(index){
+                    layer.close(index);
+                    layer.close(index2);
+                }
             }, function(){
-                //removeData(row);
-            }, function(){
-                layer.close(index2); //关闭当前弹层
-                layer.msg('已经取消了!');
-
-            });
-            function  removeData(row) {
                 $.ajax({
                     type: 'post',
                     url: '/institutionInfo/deleteData',
-                    data: row,
+                    data: {instId:row.instId},
                     success: function (result) {
                         layer.close(index2); //关闭当前弹层
                         if (result.code == 200) {
-                            layer.msg("操作成功!");
+                            layer.msg(result.msg);
                             $("#table").bootstrapTable("refresh"); //刷新
                         } else {
-                            layer.msg('操作失败!');
+                            layer.msg(result.msg);
                         }
                     }
                 });
-            }
+            }, function(){
+                layer.close(index2); //关闭当前弹层
+                layer.msg('已经取消了!');
+            });
+
         },
         'click .download_coupon_click' : function(e, value, row, index) {
-
+            window.location.href="/institutionInfo/downLoadPdf?instId="+row.instId;
         }
     };
+
     //*******************************操作结束*************************************
     var searchParams;
     var url = "/institutionInfo/listData";
@@ -92,12 +94,12 @@ $(function(){
             formatter : function(value, row, index) {
                     return [
                         '<a class="download_coupon_click" href="javascript:void(0)" title="Download">',
-                         '<i class="glyphicon glyphicon-circle-arrow-down">下载</i>',
+                         '<i style="color: green;" class="glyphicon glyphicon-circle-arrow-down"></i>下载',
                          '</a>',
                           '&nbsp;<a class="remove_coupon_click"  data-id="'
-                         + row.instId
+                         + row
                          + '" href="javascript:void(0)" title="Remove">',
-                         '<i class="glyphicon glyphicon-remove-sign" style="min-width: 45px;">删除</i>',
+                         '<i style="color: red;" class="glyphicon glyphicon-remove-sign" style="min-width: 45px;"></i>删除',
                          '</a>'
                     ].join('');
 

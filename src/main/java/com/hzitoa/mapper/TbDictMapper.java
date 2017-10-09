@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
  * @author Meiyang
  * @since 2017-09-22
  */
-@Component(value = "TbDictMapper")
 public interface TbDictMapper extends BaseMapper<TbDict> {
 
 }

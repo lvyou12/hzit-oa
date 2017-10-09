@@ -4,7 +4,6 @@
 $(function(){
 
     $.getJSON("/institutionInfo/listData?offset=1&limit=6",function(resp){
-        console.log(resp);
         var result = "<span id='pin' class='glyphicon glyphicon-pushpin' aria-hidden='true'></span>"+
         "<span class='list-title'>部门最新制度</span>";
         for(var i = 0; i < resp.rows.length; i++){
@@ -19,7 +18,7 @@ $(function(){
             if(i % 3 == 2){
                 result += "<span class='num3'>"+(i+1)+"</span>";
             }
-            result += "<a name='/"+resp.rows[i].path+resp.rows[i].name+"'>"+resp.rows[i].name+"</a>";
+            result += "<a name='"+resp.rows[i].path+resp.rows[i].name+"'>"+resp.rows[i].name+"</a>";
             result += "</li>";
         }
         result += "<span id='showMore' class='more'>查看更多...</span>"
@@ -40,7 +39,7 @@ $(function(){
                     title: "制度预览",
                     content: "/institutionInfo/showInstitution?path="+path,
                     area:['860px','670px'],
-                    offset:['20px']
+                    offset:['10px']
                 })
             });
         });

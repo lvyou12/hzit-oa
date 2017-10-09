@@ -43,6 +43,25 @@ public class ShiroConfig {
 	}*/
 
 	@Bean
+	public EhCacheManager cacheManager() {
+		EhCacheManager cacheManager = new EhCacheManager();
+		cacheManager.setCacheManagerConfigFile("classpath:ehcache.xml");
+		return cacheManager;
+	}
+
+	/**
+	 * @see UserRealm--->AuthorizingRealm
+	 * @return
+	 */
+	@Bean
+//	@DependsOn(value="lifecycleBeanPostProcessor")
+	public UserRealm userRealm() {
+		UserRealm userRealm = new UserRealm();
+		userRealm.setCacheManager(cacheManager());//缓存管理
+		return userRealm;
+	}
+
+	@Bean
 	public  DelegatingFilterProxyRegistrationBean delegatingFilterProxyRegistrationBean(){
 		DelegatingFilterProxyRegistrationBean
 				dfr = new DelegatingFilterProxyRegistrationBean("shiroFilter");
@@ -127,26 +146,16 @@ public class ShiroConfig {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
 		sessionManager.setCacheManager(cacheManager());
 		sessionManager.setGlobalSessionTimeout(4*60*60*1000);//4小时
+		sessionManager.setSessionIdCookieEnabled(true);
 		sessionManager.setDeleteInvalidSessions(true);
 		sessionManager.setSessionValidationSchedulerEnabled(true);
-		sessionManager.setDeleteInvalidSessions(true);
 		//sessionManager.setAttribute();
 		/*SessionKey sessionKey = null;
 		sessionManager.getSessionId(sessionKey);*/
 		return sessionManager;
 	}
 	
-	/**
-	 * @see UserRealm--->AuthorizingRealm
-	 * @return
-	 */
-	@Bean
-	@DependsOn(value="lifecycleBeanPostProcessor")
-	public UserRealm userRealm() {
-		UserRealm userRealm = new UserRealm();
-		userRealm.setCacheManager(cacheManager());//缓存管理
-		return userRealm;
-	}
+
 
 	//  开启 Controller中@RequiresPermissions  start
 	/**
@@ -187,12 +196,7 @@ public class ShiroConfig {
 	 * 缓存管理
 	 * @return
 	 */
-	@Bean
-	public EhCacheManager cacheManager() {
-		EhCacheManager cacheManager = new EhCacheManager();
-		cacheManager.setCacheManagerConfigFile("classpath:ehcache.xml");
-		return cacheManager;
-	}
+
 	
 	@Bean
 	public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {

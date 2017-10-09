@@ -16,7 +16,6 @@ import java.util.Map;
  * @author Meiyang
  * @since 2017-09-22
  */
-@Component(value = "EmployeeInfoMapper")
 public interface EmployeeInfoMapper extends BaseMapper<EmployeeInfo> {
 
     List<EmployeeInfo> selectAll();

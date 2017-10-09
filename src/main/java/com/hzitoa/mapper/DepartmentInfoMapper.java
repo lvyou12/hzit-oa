@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
  * @author Meiyang
  * @since 2017-09-22
  */
-@Component(value = "DepartmentInfoMapper")
 public interface DepartmentInfoMapper extends BaseMapper<DepartmentInfo> {
 
 }

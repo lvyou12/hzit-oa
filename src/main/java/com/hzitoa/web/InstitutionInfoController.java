@@ -21,13 +21,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
+import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -125,6 +127,49 @@ public class InstitutionInfoController {
         return statusVO;
     }
 
+    @RequestMapping(value = "/institutionInfo/downLoadPdf",method = RequestMethod.GET)
+    @ResponseBody
+    public void  downLoadPdf(InstitutionInfo institutionInfo,HttpServletResponse response){
+        institutionInfo = iInstitutionInfoService.selectById(institutionInfo.getInstId());
+        String fileName = institutionInfo.getName();
+        try {
+            response.setHeader("Content-disposition", "attachment; filename="+
+                    new String(fileName.getBytes("utf-8"),"ISO-8859-1"));// 设定输出文件头
+        } catch (UnsupportedEncodingException e) {
+            logger.error("---编码设置异常---");
+        }
+        response.setContentType("application/pdf");// 定义输出类型
+        byte[] buff = new byte[1024];
+        BufferedInputStream bis = null;
+        OutputStream os = null;
+        try {
+            os = response.getOutputStream();
+            bis = new BufferedInputStream(new FileInputStream(new File(institutionInfo.getPath()+fileName)));
+            int i = bis.read(buff);
+            while (i != -1) {
+                os.write(buff, 0, buff.length);
+                os.flush();
+                i = bis.read(buff);
+            }
+        } catch (IOException e) {
+            logger.error("---制度文件下载失败---");
+        } finally {
+            if (bis != null) {
+                try {
+                    bis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * 异步加载数据
+     * @param bt
+     * @param session
+     * @return
+     */
     @RequestMapping("/institutionInfo/listData")
     @ResponseBody
     public BootstrapTable<InstitutionInfoVo> listData(BootstrapEntity bt,HttpSession session){
@@ -166,10 +211,11 @@ public class InstitutionInfoController {
             statusVO.setMsg("删除失败!请稍后再试!");
             return statusVO;
         }
+        institutionInfo = iInstitutionInfoService.selectById(institutionInfo.getInstId());
         institutionInfo.setIsDelete(1);
         boolean result = false;
         try {
-            result = iInstitutionInfoService.update(institutionInfo, new EntityWrapper<InstitutionInfo>());
+            result = iInstitutionInfoService.updateById(institutionInfo);
         }catch (Exception e){
 
             statusVO.setCode(300);
