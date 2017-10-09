@@ -39,7 +39,7 @@ $(function(){
         'click .download_coupon_click' : function(e, value, row, index) {
             window.location.href="/institutionInfo/downLoadPdf?instId="+row.instId;
         },
-        'click .show_institution_click' : function(row){
+        'click .show_institution_click' : function(e, value, row, index){
             var path = row.path+row.name;
             layer.open({
                 type: 2,
