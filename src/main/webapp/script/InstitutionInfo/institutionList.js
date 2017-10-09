@@ -33,10 +33,22 @@ $(function(){
             }
         },
         'click .download_coupon_click' : function(e, value, row, index) {
-
+            alert(row.name);
+        },
+        'click .show_institution_click' : function(row){
+            var path = row.path+row.name;
+            layer.open({
+                type: 2,
+                title: "制度预览",
+                content: "/institutionInfo/showInstitution?path="+path,
+                area:['860px','670px'],
+                offset:['20px']
+            })
         }
     };
+
     //*******************************操作结束*************************************
+
     var searchParams;
     var url = "/institutionInfo/listData";
 
@@ -67,8 +79,9 @@ $(function(){
             title: '制度名称',
             align : 'center',
             width: 450,
+            events : operateEvents,
             formatter: function (value, row, index) {
-                return "<a herf='"+row.path+row.name+"'>"+row.name+"</a>"
+                return ['<a class="show_institution_click" href="javascript:void(0)">'+row.name+'</a>'].join('');
             }
         },{
             field: 'createBy',
@@ -197,5 +210,7 @@ $(function(){
 
         })
     });
+
+
 
 });

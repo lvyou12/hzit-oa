@@ -19,7 +19,7 @@ $(function(){
             if(i % 3 == 2){
                 result += "<span class='num3'>"+(i+1)+"</span>";
             }
-            result += "<a name='/"+resp.rows[i].path+resp.rows[i].name+"'>"+resp.rows[i].name+"</a>";
+            result += "<a name='"+resp.rows[i].path+resp.rows[i].name+"'>"+resp.rows[i].name+"</a>";
             result += "</li>";
         }
         result += "<span id='showMore' class='more'>查看更多...</span>"
