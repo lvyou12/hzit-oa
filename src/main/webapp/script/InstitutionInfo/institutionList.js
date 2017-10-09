@@ -38,7 +38,6 @@ $(function(){
         },
         'click .download_coupon_click' : function(e, value, row, index) {
             window.location.href="/institutionInfo/downLoadPdf?instId="+row.instId;
-            alert(row.name);
         },
         'click .show_institution_click' : function(row){
             var path = row.path+row.name;
