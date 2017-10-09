@@ -13,6 +13,13 @@ $(function(){
                     layer.close(index2);
                 }
             }, function(){
+                removeData(row);
+            }, function(){
+                layer.close(index2); //关闭当前弹层
+                layer.msg('已经取消了!');
+
+            });
+            function  removeData(row) {
                 $.ajax({
                     type: 'post',
                     url: '/institutionInfo/deleteData',
@@ -27,18 +34,26 @@ $(function(){
                         }
                     }
                 });
-            }, function(){
-                layer.close(index2); //关闭当前弹层
-                layer.msg('已经取消了!');
-            });
-
+            }
         },
         'click .download_coupon_click' : function(e, value, row, index) {
             window.location.href="/institutionInfo/downLoadPdf?instId="+row.instId;
+            alert(row.name);
+        },
+        'click .show_institution_click' : function(row){
+            var path = row.path+row.name;
+            layer.open({
+                type: 2,
+                title: "制度预览",
+                content: "/institutionInfo/showInstitution?path="+path,
+                area:['860px','670px'],
+                offset:['20px']
+            })
         }
     };
 
     //*******************************操作结束*************************************
+
     var searchParams;
     var url = "/institutionInfo/listData";
 
@@ -69,8 +84,9 @@ $(function(){
             title: '制度名称',
             align : 'center',
             width: 450,
+            events : operateEvents,
             formatter: function (value, row, index) {
-                return "<a herf='"+row.path+row.name+"'>"+row.name+"</a>"
+                return ['<a class="show_institution_click" href="javascript:void(0)">'+row.name+'</a>'].join('');
             }
         },{
             field: 'createBy',
@@ -129,25 +145,42 @@ $(function(){
     /**
      * 搜索
      */
+
     $("#searchInst").click(function(){
         var searchParam = $('#searchParam option:selected').val();
-        var searchValue = $("#searchValue").val();
+        var searchValueType = $('#searchValue').attr("type");
+        var createTimeType =$("#date").attr("type");
 
-        if(searchParam=='-1'){
+        var searchValue = $("#searchValue").val();
+        var createTime = $("#date").val();
+
+        if(searchParam==''){
             layer.msg('请选择搜索条件');
-            $('#searchParam').css('border','1px solid red');
+            $('#searchParamDiv').css('border','1px solid red');
             return false;
         }else{
-            $('#searchParam').css('border','1px solid lightgrey');
+            $('#searchParamDiv').css('border','1px solid lightgrey');
         }
-        if(searchValue==''){
-            layer.msg('请输入搜索值');
-            $('#searchValue').css('border','1px solid red');
-            return false;
-        }else{
-            $('#searchValue').css('border','1px solid lightgrey');
+        if(searchValueType == 'text'){
+            if(searchValue==''){
+                layer.msg('请输入制度名称');
+                $('#searchValue').css('border','1px solid red');
+                return false;
+            }else{
+                $('#searchValue').css('border','1px solid lightgrey');
+            }
+            var value= url+"?offset="+searchParams.offset+"&limit="+searchParams.limit+"&condition="+searchParam+"&value="+searchValue;
         }
-        var value= url+"?offset="+searchParams.offset+"&limit="+searchParams.limit+"&condition="+searchParam+"&value="+searchValue;
+        if(createTimeType == 'text'){
+            if(createTime==''){
+                layer.msg('请选择上传时间');
+                $('#date').css('border','1px solid red');
+                return false;
+            }else{
+                $('#date').css('border','1px solid lightgrey');
+            }
+            var value= url+"?offset="+searchParams.offset+"&limit="+searchParams.limit+"&condition="+searchParam+"&value="+createTime;
+        }
 
         $.get(value,function(result){
             $("#table").bootstrapTable("load",result);
@@ -182,5 +215,7 @@ $(function(){
 
         })
     });
+
+
 
 });
