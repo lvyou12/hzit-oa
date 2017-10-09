@@ -127,25 +127,42 @@ $(function(){
     /**
      * 搜索
      */
+
     $("#searchInst").click(function(){
         var searchParam = $('#searchParam option:selected').val();
-        var searchValue = $("#searchValue").val();
+        var searchValueType = $('#searchValue').attr("type");
+        var createTimeType =$("#date").attr("type");
 
-        if(searchParam=='-1'){
+        var searchValue = $("#searchValue").val();
+        var createTime = $("#date").val();
+
+        if(searchParam==''){
             layer.msg('请选择搜索条件');
-            $('#searchParam').css('border','1px solid red');
+            $('#searchParamDiv').css('border','1px solid red');
             return false;
         }else{
-            $('#searchParam').css('border','1px solid lightgrey');
+            $('#searchParamDiv').css('border','1px solid lightgrey');
         }
-        if(searchValue==''){
-            layer.msg('请输入搜索值');
-            $('#searchValue').css('border','1px solid red');
-            return false;
-        }else{
-            $('#searchValue').css('border','1px solid lightgrey');
+        if(searchValueType == 'text'){
+            if(searchValue==''){
+                layer.msg('请输入制度名称');
+                $('#searchValue').css('border','1px solid red');
+                return false;
+            }else{
+                $('#searchValue').css('border','1px solid lightgrey');
+            }
+            var value= url+"?offset="+searchParams.offset+"&limit="+searchParams.limit+"&condition="+searchParam+"&value="+searchValue;
         }
-        var value= url+"?offset="+searchParams.offset+"&limit="+searchParams.limit+"&condition="+searchParam+"&value="+searchValue;
+        if(createTimeType == 'text'){
+            if(createTime==''){
+                layer.msg('请选择上传时间');
+                $('#date').css('border','1px solid red');
+                return false;
+            }else{
+                $('#date').css('border','1px solid lightgrey');
+            }
+            var value= url+"?offset="+searchParams.offset+"&limit="+searchParams.limit+"&condition="+searchParam+"&value="+createTime;
+        }
 
         $.get(value,function(result){
             $("#table").bootstrapTable("load",result);
