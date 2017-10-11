@@ -34,6 +34,7 @@
 	</head>
 	<script src="/assets/js/jquery-2.0.3.min.js" type="text/javascript"></script>
 	<script src="/assets/layer/layer.js"></script>
+	<script src="/assets/js/MD5.js"></script>
     <script type="text/javascript">
 
 	$(document).ready(function() {
@@ -78,14 +79,18 @@
 				$("#loginname_text").html("&nbsp;");
 				/*$("#logincheck_text").html("&nbsp;");*/
 //				<%-- var randCheckCode = '<%=Session["randCheckCode"] %>'; --%>
+//				var pswd = MD5("hzit#" + psd);
+//				var	data = {password:pswd,name:name,email:name,rememberMe:$("#rememberMe").is(':checked')};
+				var	data = {password:psd,name:name,email:name};
 				var load = layer.load();
-				$.post("/employeeInfo/login",{password:psd,name:name,email:name} ,function(data) {
+				$.post("/employeeInfo/login",data ,function(result) {
 					layer.close(load);
-					if(data.code != 200){
-						layer.msg(data.msg,function(){});
+					console.log(result);
+					if(result.code != 200){
+						layer.msg(result.msg,function(){});
 						return;
 					}else{
-						layer.msg(data.msg);
+						layer.msg(result.msg);
 						setTimeout(function(){
 							//登录返回
 							window.location.href= "/index";

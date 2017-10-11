@@ -19,6 +19,7 @@ import org.springframework.web.filter.DelegatingFilterProxy;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -54,7 +55,7 @@ public class ShiroConfig {
 	 * @return
 	 */
 	@Bean
-//	@DependsOn(value="lifecycleBeanPostProcessor")
+	@DependsOn(value="lifecycleBeanPostProcessor")
 	public UserRealm userRealm() {
 		UserRealm userRealm = new UserRealm();
 		userRealm.setCacheManager(cacheManager());//缓存管理
@@ -83,24 +84,45 @@ public class ShiroConfig {
 	public ShiroFilterFactoryBean shiroFilter(){
 		ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
 		bean.setSecurityManager(securityManager());
-		bean.setLoginUrl("/employeeInfo/login");
-		bean.setUnauthorizedUrl("/exception/exception");
+//		bean.setLoginUrl("/login");
+//		bean.setUnauthorizedUrl("/exception/exception");
+//
+//		Map<String, Filter>filters = Maps.newHashMap();
+//		//filters.put("perms", urlPermissionsFilter());
+//		filters.put("anon", new AnonymousFilter());
+//		bean.setFilters(filters);
+//
+//		Map<String, String> chains = Maps.newHashMap();
+////		chains.put("/account/captcha","anon");//验证码
+////		chains.put("/account/checkValidate","anon");
+//		chains.put("/login", "anon");
+//		chains.put("/employeeInfo/unauthor", "anon");
+//		chains.put("/employeeInfo/logout", "logout");
+//		chains.put("/assets**/*//**", "anon");
+//		chains.put("/style**/*//**", "anon");
+//		chains.put("/script**/*//**", "anon");
+//		chains.put("*//**", "authc,perms");
+//		bean.setFilterChainDefinitionMap(chains);
 
-		Map<String, Filter>filters = Maps.newHashMap();
-		//filters.put("perms", urlPermissionsFilter());
-		filters.put("anon", new AnonymousFilter());
-		bean.setFilters(filters);
+		// 拦截器.
+		Map<String, String> map = new LinkedHashMap<String, String>();
+		map.put("/login", "anon");
+		map.put("/employeeInfo/login", "anon");
+		map.put("/employeeInfo/logout", "logout");
+		map.put("/assets**/*//**", "anon");
+		map.put("/style**/*//**", "anon");
+		map.put("/script**/*//**", "anon");
+		map.put("/**", "authc");
 
-		Map<String, String> chains = Maps.newHashMap();
-//		chains.put("/account/captcha","anon");//验证码
-//		chains.put("/account/checkValidate","anon");
-		chains.put("/employeeInfo/login", "anon");
-		chains.put("/account/unauthor", "anon");
-		chains.put("/employeeInfo/logout", "logout");
-		chains.put("/assets*/**", "anon");
-		chains.put("/static*/**", "anon");
-		chains.put("/**", "authc,perms");
-		bean.setFilterChainDefinitionMap(chains);
+		// 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
+		bean.setLoginUrl("/login");
+		// 登录成功后要跳转的链接
+//		bean.setSuccessUrl("/index");
+		// 未授权界面;
+		bean.setUnauthorizedUrl("/unauthorized");
+
+		bean.setFilterChainDefinitionMap(map);
+
 		return bean;
 	}
 

@@ -6,6 +6,7 @@ import com.hzitoa.mapper.EmployeeInfoMapper;
 import com.hzitoa.service.IEmployeeInfoService;
 import com.hzitoa.vo.StatusVO;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -49,9 +50,9 @@ public class EmployeeInfoController {
     public StatusVO login(EmployeeInfo employeeInfo, HttpServletRequest request){
         StatusVO statusVO = new StatusVO();
         try{
-//            Subject subject = SecurityUtils.getSubject();//从SecurityUtils中获取主体对象
-//            UsernamePasswordToken token = new UsernamePasswordToken(employeeInfo.getName(), employeeInfo.getPassword());
-//            subject.login(token);
+            Subject subject = SecurityUtils.getSubject();//从SecurityUtils中获取主体对象
+            UsernamePasswordToken token = new UsernamePasswordToken(employeeInfo.getName(), employeeInfo.getPassword());
+            subject.login(token);
             Map<String,Object> paramMap = new HashMap<>();
             paramMap.put("name",employeeInfo.getName());
             paramMap.put("email",employeeInfo.getEmail());
@@ -73,18 +74,29 @@ public class EmployeeInfoController {
                 httpSession.setAttribute("employeeInfo",employeeInfo);
                 statusVO.setCode(200);
                 statusVO.setMsg("登录成功");
-            }else{
+            }/*else{
                 statusVO.setCode(300);
                 statusVO.setMsg("用户名或密码错误");
-            }
+            }*/
 
-        }catch (Exception e){
-//                AuthenticationException e){
+        }catch (
+//                Exception e){
+                AuthenticationException e){
             logger.error("------------用户登录出错----------------"+e.getMessage());
             statusVO.setCode(300);
             statusVO.setMsg("登录失败");
         }
         return statusVO;
+    }
+
+    /**
+     * 系统注销!
+     * @return
+     */
+    @RequestMapping(value = "/employeeInfo/logout")
+    protected String logout(HttpServletRequest request){
+        SecurityUtils.getSubject().logout();//系统注销!!
+        return "redirect:/login";//跳转到登录页
     }
 
     @RequestMapping("/insert")

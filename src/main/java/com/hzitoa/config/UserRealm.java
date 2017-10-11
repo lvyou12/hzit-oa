@@ -38,11 +38,11 @@ public class UserRealm extends AuthorizingRealm {
 	/**
 	 * 密码加密方式
      */
-	public UserRealm() {
-		setName("UserRealm");
-		// 采用MD5加密
-		setCredentialsMatcher(new HashedCredentialsMatcher("md5"));
-	}
+//	public UserRealm() {
+//		setName("UserRealm");
+//		// 采用MD5加密
+//		setCredentialsMatcher(new HashedCredentialsMatcher("md5"));
+//	}
 
 	//权限资源角色
 	@Override
@@ -52,19 +52,19 @@ public class UserRealm extends AuthorizingRealm {
 
 		//根据用户查找该用户所能访问的资源
 		Set<String> set = new HashSet<>();
-		EmployeeInfo employeeInfo = iEmployeeInfoService.selectOne(
-				new EntityWrapper<EmployeeInfo>().where("name='"+username+"'").and("isLocked=0"));
-		TbRole tbRole = iTbRoleService.selectOne(
-				new EntityWrapper<TbRole>().where("role_name'"+employeeInfo.getRoleName()+"'"));
-		String ids = tbRole.getResourceIds();
-		String[] idArr = ids.split(",");
-		//到tb_authority表查询该用户所能访问的permission
-		List<TbAuthority> tbAuthorityList = iTbAuthorityService.selectBatchIds(Arrays.asList(idArr));
-		for(TbAuthority tbAuthority: tbAuthorityList){
-			if(tbAuthority.getPermission()!=null && !"".equals(tbAuthority.getPermission())){
-				set.add(tbAuthority.getPermission());
-			}
-		}
+//		EmployeeInfo employeeInfo = iEmployeeInfoService.selectOne(
+//				new EntityWrapper<EmployeeInfo>().where("name='"+username+"'").and("isLocked=0"));
+//		TbRole tbRole = iTbRoleService.selectOne(
+//				new EntityWrapper<TbRole>().where("role_name'"+employeeInfo.getRoleName()+"'"));
+//		String ids = tbRole.getResourceIds();
+//		String[] idArr = ids.split(",");
+//		//到tb_authority表查询该用户所能访问的permission
+//		List<TbAuthority> tbAuthorityList = iTbAuthorityService.selectBatchIds(Arrays.asList(idArr));
+//		for(TbAuthority tbAuthority: tbAuthorityList){
+//			if(tbAuthority.getPermission()!=null && !"".equals(tbAuthority.getPermission())){
+//				set.add(tbAuthority.getPermission());
+//			}
+//		}
 		info.setStringPermissions(set);
 		return info;
 	}
@@ -80,7 +80,7 @@ public class UserRealm extends AuthorizingRealm {
 			user = new EmployeeInfo();
 			logger.error("-------------未知账号错误!--------------------");
 			throw new AccountException("用户名或密码不正确！");
-		}else if(user.getIsDimission()==2){
+		}else if(user.getIsDimission()==1){
 			/**
 			 * 如果用户的status为禁用。那么就抛出<code>DisabledAccountException</code>
 			 */
