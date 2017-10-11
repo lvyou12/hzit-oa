@@ -5,6 +5,9 @@ $(function(){
     $("#institutionList").click(function() {
         $("#myFrame").attr("src","/institutionInfo/institutionList");
     });
+    $("#employeeList").click(function() {
+        $("#myFrame").attr("src","/employeeInfo/employeeList");
+    });
     $("#home").click(function(){
         $("#myFrame").attr("src","/home");
     });
