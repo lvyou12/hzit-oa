@@ -1,12 +1,15 @@
 package com.hzitoa.web;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.hzitoa.email.EmailUtil;
 import com.hzitoa.entity.EmployeeInfo;
 import com.hzitoa.mapper.EmployeeInfoMapper;
 import com.hzitoa.service.IEmployeeInfoService;
+import com.hzitoa.utils.Md5Util;
 import com.hzitoa.vo.StatusVO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -22,6 +25,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * <p>
@@ -59,13 +63,8 @@ public class EmployeeInfoController {
             paramMap.put("password",employeeInfo.getPassword());
             paramMap.put("isLocked","0");
 
-//          List<EmployeeInfo> employeeInfoList = iEmployeeInfoService.selectByMap(paramMap);
             List<EmployeeInfo> employeeInfoList = iEmployeeInfoService.loginSelect(paramMap);
 
-//            List<EmployeeInfo> employeeInfoList = iEmployeeInfoService.selectList(new EntityWrapper<EmployeeInfo>()
-//                                                        .where("name='" + employeeInfo.getName() + "'")
-//                                                        .and(("password='"+employeeInfo.getPassword()+"'"))
-//                                                        .and("isLocked=0"));
             HttpSession httpSession = request.getSession();
             if(employeeInfoList!=null && employeeInfoList.size() >0){
                 employeeInfo = employeeInfoList.get(0);
@@ -74,11 +73,7 @@ public class EmployeeInfoController {
                 httpSession.setAttribute("employeeInfo",employeeInfo);
                 statusVO.setCode(200);
                 statusVO.setMsg("登录成功");
-            }/*else{
-                statusVO.setCode(300);
-                statusVO.setMsg("用户名或密码错误");
-            }*/
-
+            }
         }catch (
 //                Exception e){
                 AuthenticationException e){
@@ -99,10 +94,22 @@ public class EmployeeInfoController {
         return "redirect:/login";//跳转到登录页
     }
 
-    @RequestMapping("/insert")
+    @RequestMapping("/employeeInfo/add")
     @ResponseBody
-    public void insert(){
-        EmployeeInfo employeeInfo = new EmployeeInfo();
+    public StatusVO add(EmployeeInfo employeeInfo, HttpServletRequest request){
+        StatusVO statusVO = new StatusVO();
+        Random random = new Random();
+        int randomValue = random.nextInt(1000000);
+        String sendEmilMsg ="";
+        try {
+            employeeInfo.setPassword(Md5Util.getMD5(Md5Util.getMD5("hzit#" + randomValue)));
+            //发送邮件!!
+            sendEmilMsg = EmailUtil.sendEmail("", "", employeeInfo.getEmail(),
+                    "合众艾特咨询系统登录用户名:" + employeeInfo.getName() + " 密码:" + randomValue);//发送随机密码
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        employeeInfo = new EmployeeInfo();
         employeeInfo.setName("mm");
         employeeInfo.setPassword("123");
         employeeInfo.setEmail("@qq.c");
