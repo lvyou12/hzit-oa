@@ -11,7 +11,7 @@
 		<result column="dingding_id" property="dingdingId" />
 		<result column="email" property="email" />
 		<result column="dept_id" property="deptId" />
-		<result column="company_id" property="compantId" />
+		<result column="company_id" property="companyId" />
 		<result column="role_name" property="roleName" />
 		<result column="isEmailActive" property="isEmailActive" />
 		<result column="isLocked" property="isLocked" />
