@@ -185,7 +185,7 @@ public class EmployeeInfoController {
 
     @RequestMapping("/employeeInfo/getDept")
     @ResponseBody
-    protected List<> getRole(int companyId){
+    protected List<DepartmentInfo> getRole(int companyId){
         List<DepartmentInfo> departmentInfoList = iDepartmentInfoService.selectList(new EntityWrapper<DepartmentInfo>()
                 .where("company_id=" + companyId));
         return departmentInfoList;
