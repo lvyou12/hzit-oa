@@ -28,7 +28,8 @@ public class TbAuthority extends Model<TbAuthority> {
     /**
      * 模块名
      */
-	private String name;
+	@TableField(value = "auth_name")
+	private String authName;
     /**
      * 模块地址
      */
@@ -75,12 +76,12 @@ public class TbAuthority extends Model<TbAuthority> {
 		this.authId = authId;
 	}
 
-	public String getName() {
-		return name;
+	public String getAuthName() {
+		return authName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setAuthName(String authName) {
+		this.authName = authName;
 	}
 
 	public String getUrl() {
@@ -156,7 +157,7 @@ public class TbAuthority extends Model<TbAuthority> {
 	public String toString() {
 		return "TbAuthority{" +
 				"authId=" + authId +
-				", name='" + name + '\'' +
+				", authName='" + authName + '\'' +
 				", url='" + url + '\'' +
 				", pid=" + pid +
 				", available=" + available +

@@ -64,7 +64,7 @@ public class InstitutionInfoServiceImpl extends ServiceImpl<InstitutionInfoMappe
             //公司
             if(info.getCompanyId() != null){
                 tbDict = tbDictMapper.selectById(info.getCompanyId());
-                institutionInfoVo.setCompanyName(tbDict.getName());
+                institutionInfoVo.setCompanyName(tbDict.getDictName());
             }
             institutionInfoVos.add(institutionInfoVo);
         }

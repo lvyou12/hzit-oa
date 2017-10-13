@@ -43,6 +43,7 @@ import java.util.Map;
  * @since 2017-09-22
  */
 @Controller
+@RequestMapping("/institutionInfo")
 public class InstitutionInfoController {
     private Logger logger = LoggerFactory.getLogger(InstitutionInfoController.class);
 
@@ -52,12 +53,12 @@ public class InstitutionInfoController {
     @Autowired
     private IDepartmentInfoService iDepartmentInfoService;
 
-    @RequestMapping("/institutionInfo/institutionList")
+    @RequestMapping("/institutionList")
     public String toInstitutionList(){
         return "institutionInfo/institutionList";
     }
 
-    @RequestMapping("/institutionInfo/importPage")
+    @RequestMapping("/importPage")
     public String toImportPage(){
         return "/institutionInfo/importPage";
     }
@@ -65,7 +66,7 @@ public class InstitutionInfoController {
     /**
      * 预览所选制度
      */
-    @RequestMapping("/institutionInfo/showInstitution")
+    @RequestMapping("/showInstitution")
     public String showDetail(InstitutionInfo institutionInfo,Model model){
         model.addAttribute("institutionInfo",institutionInfo);
         return "/institutionInfo/showInstitution";
@@ -79,7 +80,7 @@ public class InstitutionInfoController {
      * @param session
      * @return
      */
-    @RequestMapping("/institutionInfo/importPDF")
+    @RequestMapping("/importPDF")
     @ResponseBody
     public StatusVO uploadPDF(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpSession session){
         StatusVO statusVO = new StatusVO();
@@ -104,8 +105,8 @@ public class InstitutionInfoController {
                institutionInfo.setDeptId(em.getDeptId());
                institutionInfo.setCompanyId(departmentInfo.getCompanyId());
                institutionInfo.setPath(path);
-               institutionInfo.setName(fileName);
-               institutionInfo.setCreateBy(em.getName());
+               institutionInfo.setInstName(fileName);
+               institutionInfo.setCreateBy(em.getUserName());
                institutionInfo.setCreateTime(new Date());
                boolean result = iInstitutionInfoService.insertOrUpdate(institutionInfo);
                if(result){
@@ -127,11 +128,11 @@ public class InstitutionInfoController {
         return statusVO;
     }
 
-    @RequestMapping(value = "/institutionInfo/downLoadPdf",method = RequestMethod.GET)
+    @RequestMapping(value = "/downLoadPdf",method = RequestMethod.GET)
     @ResponseBody
     public void  downLoadPdf(InstitutionInfo institutionInfo,HttpServletResponse response){
         institutionInfo = iInstitutionInfoService.selectById(institutionInfo.getInstId());
-        String fileName = institutionInfo.getName();
+        String fileName = institutionInfo.getInstName();
         try {
             response.setHeader("Content-disposition", "attachment; filename="+
                     new String(fileName.getBytes("utf-8"),"ISO-8859-1"));// 设定输出文件头
@@ -170,7 +171,7 @@ public class InstitutionInfoController {
      * @param session
      * @return
      */
-    @RequestMapping("/institutionInfo/listData")
+    @RequestMapping("/listData")
     @ResponseBody
     public BootstrapTable<InstitutionInfoVo> listData(BootstrapEntity bt,HttpSession session){
         if (bt.getOffset() == null || bt.getLimit() == null) {
@@ -201,7 +202,7 @@ public class InstitutionInfoController {
      * @param request
      * @return
      */
-    @RequestMapping("/institutionInfo/deleteData")
+    @RequestMapping("/deleteData")
     @Transactional
     @ResponseBody
     public StatusVO deleteData(InstitutionInfo institutionInfo,HttpServletRequest request){
@@ -224,7 +225,7 @@ public class InstitutionInfoController {
         }
         if(result){
             String path = request.getSession().getServletContext().getRealPath(institutionInfo.getPath());
-            File file = new File(path+institutionInfo.getName());
+            File file = new File(path+institutionInfo.getInstName());
             try{
                 file.delete();
                 statusVO.setCode(200);

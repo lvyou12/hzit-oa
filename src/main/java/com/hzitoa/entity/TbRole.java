@@ -25,11 +25,6 @@ public class TbRole extends Model<TbRole> {
 
 	@TableId(value = "role_id",type = IdType.AUTO)
 	private Integer roleId;
-	/**
-	 * 所属部门id
-	 */
-	@TableField("dept_id")
-	private Integer deptId;
     /**
      * 角色名称
      */
@@ -75,14 +70,6 @@ public class TbRole extends Model<TbRole> {
 
 	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
-	}
-
-	public Integer getDeptId() {
-		return deptId;
-	}
-
-	public void setDeptId(Integer deptId) {
-		this.deptId = deptId;
 	}
 
 	public String getRoleName() {
@@ -150,7 +137,6 @@ public class TbRole extends Model<TbRole> {
 	public String toString() {
 		return "TbRole{" +
 				"roleId=" + roleId +
-				", deptId=" + deptId +
 				", roleName='" + roleName + '\'' +
 				", resourceIds='" + resourceIds + '\'' +
 				", available=" + available +

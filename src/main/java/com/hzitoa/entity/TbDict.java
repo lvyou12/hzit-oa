@@ -1,6 +1,7 @@
 package com.hzitoa.entity;
 
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
@@ -30,7 +31,8 @@ public class TbDict extends Model<TbDict> {
     /**
      * 标签名
      */
-	private String name;
+	@TableField(value = "dict_name")
+	private String dictName;
     /**
      * 标签是否打开
      */
@@ -57,12 +59,12 @@ public class TbDict extends Model<TbDict> {
 		this.pid = pid;
 	}
 
-	public String getName() {
-		return name;
+	public String getDictName() {
+		return dictName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDictName(String dictName) {
+		this.dictName = dictName;
 	}
 
 	public String getOpen() {
@@ -91,7 +93,7 @@ public class TbDict extends Model<TbDict> {
 		return "TbDict{" +
 				"dictId=" + dictId +
 				", pid=" + pid +
-				", name='" + name + '\'' +
+				", dictName='" + dictName + '\'' +
 				", open='" + open + '\'' +
 				", checked='" + checked + '\'' +
 				'}';

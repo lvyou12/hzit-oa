@@ -31,7 +31,8 @@ public class EmployeeInfo extends Model<EmployeeInfo> {
     /**
      * 用户名
      */
-	private String name;
+	@TableField(value = "user_name")
+	private String userName;
     /**
      * 密码
      */
@@ -113,12 +114,12 @@ public class EmployeeInfo extends Model<EmployeeInfo> {
 		this.userId = userId;
 	}
 
-	public String getName() {
-		return name;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPassword() {
@@ -250,7 +251,7 @@ public class EmployeeInfo extends Model<EmployeeInfo> {
 	public String toString() {
 		return "EmployeeInfo{" +
 				"userId=" + userId +
-				", name='" + name + '\'' +
+				", userName='" + userName + '\'' +
 				", password='" + password + '\'' +
 				", wechatId='" + wechatId + '\'' +
 				", dingdingId='" + dingdingId + '\'' +

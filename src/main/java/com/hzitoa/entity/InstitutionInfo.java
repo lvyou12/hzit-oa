@@ -41,7 +41,8 @@ public class InstitutionInfo extends Model<InstitutionInfo> {
     /**
      * 制度名
      */
-	private String name;
+	@TableField(value = "inst_name")
+	private String instName;
     /**
      * 创建人
      */
@@ -87,12 +88,12 @@ public class InstitutionInfo extends Model<InstitutionInfo> {
 		this.path = path;
 	}
 
-	public String getName() {
-		return name;
+	public String getInstName() {
+		return instName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setInstName(String instName) {
+		this.instName = instName;
 	}
 
 	public String getCreateBy() {
@@ -135,7 +136,7 @@ public class InstitutionInfo extends Model<InstitutionInfo> {
 				", deptId=" + deptId +
 				", companyId=" + companyId +
 				", path='" + path + '\'' +
-				", name='" + name + '\'' +
+				", instName='" + instName + '\'' +
 				", createBy='" + createBy + '\'' +
 				", createTime=" + createTime +
 				", isDelete=" + isDelete +

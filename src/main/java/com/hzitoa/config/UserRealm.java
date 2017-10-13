@@ -75,7 +75,7 @@ public class UserRealm extends AuthorizingRealm {
 		UsernamePasswordToken upt = (UsernamePasswordToken) token;
 		String userName = upt.getUsername();
 		EmployeeInfo user = iEmployeeInfoService.selectOne(
-				new EntityWrapper<EmployeeInfo>().where("name='"+userName+"'").and("isLocked=0"));//employeeInfoService.findByAccount(userName);
+				new EntityWrapper<EmployeeInfo>().where("user_name='"+userName+"'").and("isLocked=0"));//employeeInfoService.findByAccount(userName);
 		if (user == null) {
 			user = new EmployeeInfo();
 			logger.error("-------------未知账号错误!--------------------");

@@ -5,7 +5,7 @@
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.hzitoa.entity.TbAuthority">
 		<id column="auth_id" property="authId" />
-		<result column="name" property="name" />
+		<result column="auth_name" property="authName" />
 		<result column="url" property="url" />
 		<result column="pid" property="pid" />
 		<result column="available" property="available" />

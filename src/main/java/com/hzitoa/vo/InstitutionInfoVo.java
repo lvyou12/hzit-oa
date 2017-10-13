@@ -22,7 +22,7 @@ public class InstitutionInfoVo {
     private Integer deptId;
     private Integer companyId;
     private String path;
-    private String name;
+    private String instName;
     private String createBy;
     private Date createTime;
     private Integer isDelete;
@@ -75,12 +75,12 @@ public class InstitutionInfoVo {
         this.path = path;
     }
 
-    public String getName() {
-        return name;
+    public String getInstName() {
+        return instName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setInstName(String instName) {
+        this.instName = instName;
     }
 
     public String getCreateBy() {
@@ -119,7 +119,7 @@ public class InstitutionInfoVo {
                 ", deptId=" + deptId +
                 ", companyId=" + companyId +
                 ", path='" + path + '\'' +
-                ", name='" + name + '\'' +
+                ", instName='" + instName + '\'' +
                 ", createBy='" + createBy + '\'' +
                 ", createTime=" + createTime +
                 ", isDelete=" + isDelete +

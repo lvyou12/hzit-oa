@@ -40,7 +40,7 @@ $(function(){
             window.location.href="/institutionInfo/downLoadPdf?instId="+row.instId;
         },
         'click .show_institution_click' : function(e, value, row, index){
-            var path = row.path+row.name;
+            var path = row.path+row.instName;
             layer.open({
                 type: 2,
                 title: "制度预览",
@@ -79,13 +79,13 @@ $(function(){
             checkbox: true,
             visible: false
         }, {
-            field: 'name',
+            field: 'instName',
             title: '制度名称',
             align : 'center',
             width: 450,
             events : operateEvents,
             formatter: function (value, row, index) {
-                return ['<a class="show_institution_click" href="javascript:void(0)">'+row.name+'</a>'].join('');
+                return ['<a class="show_institution_click" href="javascript:void(0)">'+row.instName+'</a>'].join('');
             }
         },{
             field: 'createBy',
@@ -207,6 +207,7 @@ $(function(){
             shade:0,
             maxmin:true,
             area:["680px","468px"],
+            offset:['40px'],
             content:['/institutionInfo/importPage','on'],
             end:function(layer,index){
                 $("#table").bootstrapTable("refresh"); //刷新
@@ -214,6 +215,7 @@ $(function(){
 
         })
     });
+
 
 
 

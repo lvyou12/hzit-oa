@@ -272,7 +272,7 @@
                         <img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Jason's Photo"/>
 								<span class="user-info">
 									<small>欢迎光临,</small>
-                                    <div th:text="${session.employeeInfo.name}"></div>
+                                    <div th:text="${session.employeeInfo.userName}"></div>
                                     <!--<input id="userName" name="username" th:value="${session.employeeInfo.name}">-->
 								</span>
 
@@ -366,22 +366,22 @@
              -->
 
             <ul id="sideList" class="nav nav-list">
-                <li id="home">
-                    <a>
+                <li>
+                    <a id="home">
                         <i class="icon-text-width"></i>
                         <span class="menu-text"> 首页 </span>
                     </a>
                 </li>
 
-                <li id="institutionList">
-                    <a>
-                        <i class="icon-dashboard"></i>
+                <li>
+                    <a id="institutionList">
+                        <i class="icon-list"></i>
                         <span class="menu-text"> 制度列表 </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#" class="dropdown-toggle">
+                    <a class="dropdown-toggle">
                         <i class="icon-desktop"></i>
                         <span class="menu-text"> 系统设置 </span>
 
@@ -390,37 +390,15 @@
 
                     <ul class="submenu">
                         <li>
+                            <a id="roleList">
+                                <i class="icon-double-angle-right"></i>
+                                角色管理
+                            </a>
+                        </li>
+                        <li>
                             <a href="elements.html">
                                 <i class="icon-double-angle-right"></i>
-                                组件
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="buttons.html">
-                                <i class="icon-double-angle-right"></i>
-                                按钮 &amp; 图表
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="treeview.html">
-                                <i class="icon-double-angle-right"></i>
-                                树菜单
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="jquery-ui.html">
-                                <i class="icon-double-angle-right"></i>
-                                jQuery UI
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="nestable-list.html">
-                                <i class="icon-double-angle-right"></i>
-                                可拖拽列表
+                                权限管理
                             </a>
                         </li>
                         <!-- 内部多级列表嵌套 -->

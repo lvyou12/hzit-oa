@@ -50,22 +50,17 @@ public class EmployeeInfoController {
     public StatusVO login(EmployeeInfo employeeInfo, HttpServletRequest request){
         StatusVO statusVO = new StatusVO();
         try{
-            Subject subject = SecurityUtils.getSubject();//从SecurityUtils中获取主体对象
-            UsernamePasswordToken token = new UsernamePasswordToken(employeeInfo.getName(), employeeInfo.getPassword());
-            subject.login(token);
+//            Subject subject = SecurityUtils.getSubject();//从SecurityUtils中获取主体对象
+//            UsernamePasswordToken token = new UsernamePasswordToken(employeeInfo.getUserName(), employeeInfo.getPassword());
+//            subject.login(token);
             Map<String,Object> paramMap = new HashMap<>();
-            paramMap.put("name",employeeInfo.getName());
+            paramMap.put("userName",employeeInfo.getUserName());
             paramMap.put("email",employeeInfo.getEmail());
             paramMap.put("password",employeeInfo.getPassword());
             paramMap.put("isLocked","0");
 
-//          List<EmployeeInfo> employeeInfoList = iEmployeeInfoService.selectByMap(paramMap);
             List<EmployeeInfo> employeeInfoList = iEmployeeInfoService.loginSelect(paramMap);
 
-//            List<EmployeeInfo> employeeInfoList = iEmployeeInfoService.selectList(new EntityWrapper<EmployeeInfo>()
-//                                                        .where("name='" + employeeInfo.getName() + "'")
-//                                                        .and(("password='"+employeeInfo.getPassword()+"'"))
-//                                                        .and("isLocked=0"));
             HttpSession httpSession = request.getSession();
             if(employeeInfoList!=null && employeeInfoList.size() >0){
                 employeeInfo = employeeInfoList.get(0);
@@ -80,8 +75,8 @@ public class EmployeeInfoController {
             }*/
 
         }catch (
-//                Exception e){
-                AuthenticationException e){
+                Exception e){
+//                AuthenticationException e){
             logger.error("------------用户登录出错----------------"+e.getMessage());
             statusVO.setCode(300);
             statusVO.setMsg("登录失败");
@@ -103,7 +98,7 @@ public class EmployeeInfoController {
     @ResponseBody
     public void insert(){
         EmployeeInfo employeeInfo = new EmployeeInfo();
-        employeeInfo.setName("mm");
+        employeeInfo.setUserName("mm");
         employeeInfo.setPassword("123");
         employeeInfo.setEmail("@qq.c");
         employeeInfo.setDeptId(1);

@@ -5,7 +5,7 @@
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.hzitoa.entity.EmployeeInfo">
 		<id column="user_id" property="userId" />
-		<result column="name" property="name" />
+		<result column="user_name" property="userName" />
 		<result column="password" property="password" />
 		<result column="wechat_id" property="wechatId" />
 		<result column="dingding_id" property="dingdingId" />
@@ -29,7 +29,7 @@
 
 	<select id="loginSelect" parameterType="map" resultMap="BaseResultMap">
 		SELECT * FROM
-		employee_info ei WHERE ( ei.name = #{map.name} OR ei.email = #{map.email} ) AND
+		employee_info ei WHERE ( ei.user_name = #{map.userName} OR ei.email = #{map.email} ) AND
 								ei.password = #{map.password} AND  ei.isLocked = 0;
 	</select>
 

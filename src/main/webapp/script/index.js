@@ -8,6 +8,9 @@ $(function(){
     $("#home").click(function(){
         $("#myFrame").attr("src","/home");
     });
+    $("#roleList").click(function(){
+        $("#myFrame").attr("src","/role/roleList");
+    });
 
     function setIframeHeight(iframe) {
         if (iframe) {

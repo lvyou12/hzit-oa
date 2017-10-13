@@ -6,7 +6,7 @@
 	<resultMap id="BaseResultMap" type="com.hzitoa.entity.TbDict">
 		<id column="dict_id" property="dictId" />
 		<result column="pid" property="pid" />
-		<result column="name" property="name" />
+		<result column="dict_name" property="dictName" />
 		<result column="open" property="open" />
 		<result column="checked" property="checked" />
 	</resultMap>
