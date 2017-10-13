@@ -5,7 +5,6 @@
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.hzitoa.entity.TbRole">
 		<id column="role_id" property="roleId" />
-		<result column="dept_id" property="deptId" />
 		<result column="role_name" property="roleName" />
 		<result column="resource_ids" property="resourceIds" />
 		<result column="available" property="available" />

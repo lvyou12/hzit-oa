@@ -85,14 +85,14 @@
 				var load = layer.load();
 				$.post("/employeeInfo/login",data ,function(result) {
 					layer.close(load);
-					console.log(result);
+//					console.log(result);
 					if(result.code != 200){
 						layer.msg(result.msg,function(){});
 						return;
 					}else{
 						layer.msg(result.msg);
 						setTimeout(function(){
-							//登录返回
+							//登录成功进入主页
 							window.location.href= "/index";
 						},100);
 					}
@@ -107,6 +107,29 @@
              $('#login').click();
             }
         });
+
+		$("#resetPwd").click(function(){
+			var email = $("#email").val();
+			if(email == ''){
+				layer.msg("邮箱输入不能为空");
+			}else{
+				$.post("/employeeInfo/resetPwd",{email:email},function(result){
+					if(result.code != 200){
+						layer.msg(result.msg);
+						return;
+					}else{
+						layer.msg(result.msg);
+						setTimeout(function(){
+							//密码重置成功返回登录页面
+							window.location.href= "/login";
+						},2000);
+					}
+				})
+			}
+
+//			alert(email);
+		})
+
 
 	})
 
@@ -215,13 +238,13 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="email" class="form-control" placeholder="Email" />
+															<input id="email" type="email" class="form-control" placeholder="Email" />
 															<i class="ace-icon fa fa-envelope"></i>
 														</span>
 													</label>
 
 													<div class="clearfix">
-														<button type="button" class="width-35 pull-right btn btn-sm btn-danger">
+														<button id="resetPwd" type="button" class="width-35 pull-right btn btn-sm btn-danger">
 															<i class="ace-icon fa fa-lightbulb-o"></i>
 															<span class="bigger-110">Send Me!</span>
 														</button>

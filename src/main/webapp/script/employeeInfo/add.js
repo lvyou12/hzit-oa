@@ -7,6 +7,7 @@ $(function(){
       parent.layer.close(index);
    });
 
+    //检查用户名是否存在
    $('input[name="name"]').blur(function(){
       $.get('/employeeInfo/checkEmployeeInfo?name='+$(this).val(),function(result){
           if(result.code ==200){
@@ -19,14 +20,19 @@ $(function(){
       });
    });
 
-   $("#deptDiv").click(function(){
-       layer.msg('请先选择所在公司!');
-       $("#companyId").css('border-color','red');
-      //var result =  this.children()[1];
-      //if(typeof(result)  =='undefined'){
-      //    layer.msg('请选择公司!');
-      //}
-   });
+    //检查企业邮箱是否存在
+    $('input[name="email"]').blur(function(){
+        $.get('/employeeInfo/checkEmployeeInfo?email='+$(this).val(),function(result){
+            if(result.code ==200){
+                layer.msg(result.msg);
+                $('#add').removeClass('layui-btn layui-btn-small add-disable').addClass('layui-btn layui-btn-small');
+            }else{
+                $('#add').removeClass('layui-btn layui-btn-small').addClass('layui-btn layui-btn-small add-disable');
+                layer.alert(result.msg);
+            }
+        });
+    });
+
 
     layui.use(['form'],function(){
         var form = layui.form;
@@ -37,7 +43,7 @@ $(function(){
                 return false;
             }else{
                 //到服务器中获取数据
-                //根据pid获取部门信息
+                //根据companyId获取部门信息
                 $.get('/employeeInfo/getDept?companyId='+data.value,function(result){
                     //拼接!!
                     //清空 部门select标签中的内容
@@ -58,7 +64,22 @@ $(function(){
                 layer.msg('请选择部门!');
                 $("#deptId").css('border-color','red');
                 return false;
-            }
+            }/*else{
+                //到服务器中获取数据
+                //根据deptId获取角色信息
+                $.get('/employeeInfo/getRole?deptId='+data.value,function(result){
+                    //拼接!!
+                    //清空 部门select标签中的内容
+                    var $roleName = $("#roleName");
+                    $roleName.children().remove();
+                    var option = null;
+                    $.each(result,function(item){
+                        option = $('<option value="'+result[item].roleName+'">'+result[item].roleName+'</option>');
+                        $roleName.append(option);
+                    });
+                    form.render();
+                });
+            }*/
         });
 
     });
@@ -66,22 +87,14 @@ $(function(){
         var form = layui.form, layer = layui.layer;
         //自定义验证规则
         form.verify({
-            tel: function (value) {
-                var isMob = /1[2345678]\d{10}$/;
+            name: function(value) {
                 if (value == '') {
-                    return '请输入电话号码!'
-                } else if (isMob.test(value)) {
-                    return '电话号码格式不正确!'
+                    return '请输入用户名称!';
                 }
             },
-            companyId: function (value) {
+            email: function(value) {
                 if (value == '') {
-                    return '请选择公司!';
-                }
-            },
-            deptId:function(value){
-                if(value==''){
-                    return '请选择部门!';
+                    return '请输入企业邮箱!';
                 }
             }
 
@@ -91,7 +104,6 @@ $(function(){
             //loading层
             var index2 = layer.load(1, {time:15*1000},{shade: [0.1, '#fff'] //0.1透明度的白色背景
             });
-            //校验表单
             //提交表单
             $.ajax({
                 type: 'post',

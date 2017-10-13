@@ -37,7 +37,7 @@ public class EmailUtil {
             // 收件人邮箱
             mailInfo.setToAddress(to);
             // 邮件标题
-            mailInfo.setSubject("合众艾特咨询系统邮件");
+            mailInfo.setSubject("合众艾特员工管理系统邮件");
             // 邮件内容
             StringBuffer buffer = new StringBuffer();
             //buffer.append("合众艾特咨询系统登录密码，建议登录后立即修改面密码!<br>");

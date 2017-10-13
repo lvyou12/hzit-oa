@@ -5,10 +5,12 @@ import com.hzitoa.email.EmailUtil;
 import com.hzitoa.entity.DepartmentInfo;
 import com.hzitoa.entity.EmployeeInfo;
 import com.hzitoa.entity.TbDict;
+import com.hzitoa.entity.TbRole;
 import com.hzitoa.mapper.EmployeeInfoMapper;
 import com.hzitoa.service.IDepartmentInfoService;
 import com.hzitoa.service.IEmployeeInfoService;
 import com.hzitoa.service.ITbDictService;
+import com.hzitoa.service.ITbRoleService;
 import com.hzitoa.utils.Md5Util;
 import com.hzitoa.vo.StatusVO;
 import org.apache.shiro.SecurityUtils;
@@ -49,6 +51,9 @@ public class EmployeeInfoController {
     @Autowired
     private IDepartmentInfoService iDepartmentInfoService;
 
+    @Autowired
+    private ITbRoleService iTbRoleService;
+
     @RequestMapping("/employeeInfo/employeeList")
     public String toEmployeeList(){
         return "/employeeInfo/employeeList";
@@ -60,14 +65,14 @@ public class EmployeeInfoController {
     public StatusVO login(EmployeeInfo employeeInfo, HttpServletRequest request){
         StatusVO statusVO = new StatusVO();
         try{
-//            Subject subject = SecurityUtils.getSubject();//从SecurityUtils中获取主体对象
-//            UsernamePasswordToken token = new UsernamePasswordToken(employeeInfo.getName(), employeeInfo.getPassword());
-//            subject.login(token);
+            /*Subject subject = SecurityUtils.getSubject();//从SecurityUtils中获取主体对象
+            UsernamePasswordToken token = new UsernamePasswordToken(employeeInfo.getName(), employeeInfo.getPassword());
+            subject.login(token);*/
             Map<String,Object> paramMap = new HashMap<>();
             paramMap.put("name",employeeInfo.getName());
             paramMap.put("email",employeeInfo.getEmail());
-            paramMap.put("password",employeeInfo.getPassword());
-            paramMap.put("isLocked","0");
+//            paramMap.put("password",employeeInfo.getPassword());
+//            paramMap.put("isLocked","0");
 
             List<EmployeeInfo> employeeInfoList = iEmployeeInfoService.loginSelect(paramMap);
 
@@ -75,11 +80,10 @@ public class EmployeeInfoController {
             if(employeeInfoList!=null && employeeInfoList.size() >0){
                 employeeInfo = employeeInfoList.get(0);
                 employeeInfo.setPassword("");
-
-                httpSession.setAttribute("employeeInfo",employeeInfo);
-                statusVO.setCode(200);
-                statusVO.setMsg("登录成功");
             }
+            httpSession.setAttribute("employeeInfo",employeeInfo);
+            statusVO.setCode(200);
+            statusVO.setMsg("登录成功");
         }catch (
                 Exception e){
 //                AuthenticationException e){
@@ -109,14 +113,29 @@ public class EmployeeInfoController {
     @ResponseBody
     protected StatusVO checkEmployeInfo(EmployeeInfo employeeInfo){
         StatusVO statusVO = new StatusVO();
-        employeeInfo = iEmployeeInfoService.selectOne(new EntityWrapper<EmployeeInfo>()
-                .where("name='"+employeeInfo.getName()+"'"));
-        if(employeeInfo == null){
-            statusVO.setCode(200);
-            statusVO.setMsg("该用户可以录入");
-        }else{
-            statusVO.setCode(300);
-            statusVO.setMsg("该用户已经存在了");
+        //检查用户名
+        if(employeeInfo.getName() != null){
+            EmployeeInfo info  = iEmployeeInfoService.selectOne(new EntityWrapper<EmployeeInfo>()
+                    .where("name='"+employeeInfo.getName()+"'"));
+            if(info == null){
+                statusVO.setCode(200);
+                statusVO.setMsg("该用户可以录入");
+            }else{
+                statusVO.setCode(300);
+                statusVO.setMsg("该用户已经存在");
+            }
+        }
+        //检查邮箱
+        if(employeeInfo.getEmail() != null){
+            EmployeeInfo info  = iEmployeeInfoService.selectOne(new EntityWrapper<EmployeeInfo>()
+                    .where("email='"+employeeInfo.getEmail()+"'"));
+            if(info == null){
+                statusVO.setCode(200);
+                statusVO.setMsg("该企业邮箱可以录入");
+            }else{
+                statusVO.setCode(300);
+                statusVO.setMsg("该企业邮箱已经存在");
+            }
         }
         return statusVO;
     }
@@ -128,8 +147,13 @@ public class EmployeeInfoController {
     @RequestMapping(value = "/employeeInfo/add",method = RequestMethod.GET)
     public String add(Model model){
         List<TbDict> companyList = iTbDictService.selectList(new EntityWrapper<TbDict>().where("pid=1"));
+        List<DepartmentInfo> departmentInfoList = iDepartmentInfoService.selectList(new EntityWrapper<DepartmentInfo>()
+                .where("company_id=2"));
+        List<TbRole> tbRoleList = iTbRoleService.selectList(new EntityWrapper<TbRole>());
         model.addAttribute("companyList",companyList);
-        return "/employeeInfo/add";
+        model.addAttribute("departmentInfoList",departmentInfoList);
+        model.addAttribute("tbRoleList",tbRoleList);
+        return "employeeInfo/add";
     }
 
     /**
@@ -146,21 +170,21 @@ public class EmployeeInfoController {
         EmployeeInfo employeeInfo1 = (EmployeeInfo) httpSession.getAttribute("employeeInfo");
         Random random = new Random();
         int randomValue = random.nextInt(1000000);
-        String sendEmilMsg ="";
+        String sendEmailMsg ="";
         try {
             employeeInfo.setPassword(Md5Util.getMD5(Md5Util.getMD5("hzit#" + randomValue)));
             //发送邮件!!
-            sendEmilMsg = EmailUtil.sendEmail("", "", employeeInfo.getEmail(),
-                    "合众艾特咨询系统登录用户名:" + employeeInfo.getName() + " 密码:" + randomValue);//发送随机密码
+            sendEmailMsg = EmailUtil.sendEmail("", "", employeeInfo.getEmail(),
+                    "合众艾特员工管理系统 登录用户名:" + employeeInfo.getName() + " 密码:" + randomValue);//发送随机密码
             employeeInfo.setCreateBy(employeeInfo1.getName());//录入人
             employeeInfo.setCreateTime(new Date());
-            if("成功".equals(sendEmilMsg)){
+            if("成功".equals(sendEmailMsg)){
                 employeeInfo.setIsEmailActive(1);
             }
             boolean result = iEmployeeInfoService.insert(employeeInfo);
             if(result){
                 statusVO.setCode(200);
-                statusVO.setMsg("用户创建成功+发送邮件:"+sendEmilMsg);
+                statusVO.setMsg("用户创建成功+发送邮件:"+sendEmailMsg);
             }else {
                 statusVO.setCode(300);
                 statusVO.setMsg("用户创建失败");
@@ -169,12 +193,17 @@ public class EmployeeInfoController {
         } catch (Exception e) {
             e.printStackTrace();
             statusVO.setCode(300);
-            statusVO.setMsg("邮件发送失败:"+sendEmilMsg);
+            statusVO.setMsg("邮件发送:"+sendEmailMsg);
         }
         return statusVO;
 
     }
 
+    /**
+     * 根据公司id获取所有部门信息
+     * @param companyId
+     * @return
+     */
     @RequestMapping("/employeeInfo/getDept")
     @ResponseBody
     protected List<DepartmentInfo> getDept(int companyId){
@@ -183,12 +212,54 @@ public class EmployeeInfoController {
         return departmentInfoList;
     }
 
-    @RequestMapping("/employeeInfo/getDept")
+//    /**
+//     * 根据部门id获取所有角色信息
+//     * @param deptId
+//     * @return
+//     */
+//    @RequestMapping("/employeeInfo/getRole")
+//    @ResponseBody
+//    protected List<TbRole> getRole(int deptId){
+//        List<TbRole> tbRoleList = iTbRoleService.selectList(new EntityWrapper<TbRole>()
+//                .where("dept_id=" + deptId));
+//        return tbRoleList;
+//    }
+
+
+    /**
+     * 登录密码重置
+     * @param email
+     * @return
+     */
+    @RequestMapping("/employeeInfo/resetPwd")
     @ResponseBody
-    protected List<DepartmentInfo> getRole(int companyId){
-        List<DepartmentInfo> departmentInfoList = iDepartmentInfoService.selectList(new EntityWrapper<DepartmentInfo>()
-                .where("company_id=" + companyId));
-        return departmentInfoList;
+    protected StatusVO resetPwd(String email){
+        StatusVO statusVO = new StatusVO();
+        EmployeeInfo employeeInfo = iEmployeeInfoService.selectOne(new EntityWrapper<EmployeeInfo>()
+                .where("email='" + email + "'"));
+        if(employeeInfo != null){
+            Random random = new Random();
+            int randomValue = random.nextInt(1000000);
+            String sendEmailMsg = "";
+            try{
+                employeeInfo.setPassword(Md5Util.getMD5(Md5Util.getMD5("hzit#"+randomValue)));
+                sendEmailMsg = EmailUtil.sendEmail("","",employeeInfo.getEmail(),
+                        "合众艾特员工管理系统 密码重置成功 登录账号为:"+employeeInfo.getName()+",密码为:"+randomValue+"");
+                iEmployeeInfoService.updateById(employeeInfo);
+                if("成功".equals(sendEmailMsg)){
+                    statusVO.setCode(200);
+                    statusVO.setMsg("密码已重置，请查看邮箱");
+                }
+
+            }   catch ( Exception e){
+                statusVO.setCode(300);
+                statusVO.setMsg("密码重置失败");
+            }
+        }else{
+            statusVO.setCode(300);
+            statusVO.setMsg("该邮箱不存在");
+        }
+        return statusVO;
     }
 
 
