@@ -1,6 +1,8 @@
 package com.hzitoa.web;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.hzitoa.email.EmailUtil;
 import com.hzitoa.entity.DepartmentInfo;
 import com.hzitoa.entity.EmployeeInfo;
@@ -12,6 +14,9 @@ import com.hzitoa.service.IEmployeeInfoService;
 import com.hzitoa.service.ITbDictService;
 import com.hzitoa.service.ITbRoleService;
 import com.hzitoa.utils.Md5Util;
+import com.hzitoa.vo.BootstrapEntity;
+import com.hzitoa.vo.BootstrapTable;
+import com.hzitoa.vo.EmployeeInfoVo;
 import com.hzitoa.vo.StatusVO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -262,6 +267,23 @@ public class EmployeeInfoController {
         return statusVO;
     }
 
-
+    @RequestMapping("/employeeInfo/listData")
+    @ResponseBody
+    public BootstrapTable<EmployeeInfoVo> listData(BootstrapEntity bt,HttpSession session){
+        if (bt.getOffset() == null || bt.getLimit() == null) {
+            bt.setOffset(1);
+            bt.setLimit(20);
+        } else {
+            bt.setOffset(bt.getOffset() / bt.getLimit());
+        }
+        Page<EmployeeInfo> page = new Page<>(bt.getOffset(),bt.getLimit());
+        if("-1".equals(bt.getCondition()) ){
+            bt.setCondition("");
+        }
+        Wrapper<EmployeeInfo> wrapper = null;
+        wrapper = new EntityWrapper<EmployeeInfo>().where("isLocked=0");
+        BootstrapTable<EmployeeInfoVo> bootstrapTable = iEmployeeInfoService.ajaxData(page, wrapper);
+        return bootstrapTable;
+    }
 	
 }

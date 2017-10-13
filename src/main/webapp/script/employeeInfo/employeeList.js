@@ -53,93 +53,102 @@ $(function(){
 
     //*******************************操作结束*************************************
 
-    var searchParams;
-    var url = "/institutionInfo/listData";
+    //var searchParams;
+    //var url = "/institutionInfo/listData";
+    //
+    //var json ={
+    //    url: url,
+    //    toolbar: '#toolbar',                //工具按钮用哪个容器
+    //    pagination: true,                   //是否显示分页（*）
+    //    striped: true,                      //是否显示行间隔色
+    //    sidePagination: "server",           //分页方式：client学员端分页，server服务端分页（*）
+    //    idField: 'instId',
+    //    pageNumber: 1,                       //初始化加载第一页，默认第一页
+    //    pageSize: 10,                       //每页的记录行数（*）
+    //    pageList: [10, 15, 20, 25],        //可供选择的每页的行数（*）
+    //    //clickToSelect: true,                //是否启用点击选中行
+    //    smartDisplay: false, // 智能显示 pagination 和 cardview 等
+    //    //exportDataType: "basic",              //basic', 'all', 'selected'.
+    //    showRefresh: true,
+    //    showColumns: true,
+    //    //detailView: true,
+    //
+    //    columns: [{
+    //        filed: 'instId',
+    //        title: '编号',
+    //        checkbox: true,
+    //        visible: false
+    //    }, {
+    //        field: 'name',
+    //        title: '制度名称',
+    //        align : 'center',
+    //        width: 450,
+    //        events : operateEvents,
+    //        formatter: function (value, row, index) {
+    //            return ['<a class="show_institution_click" href="javascript:void(0)">'+row.name+'</a>'].join('');
+    //        }
+    //    },{
+    //        field: 'createBy',
+    //        title: '上传者',
+    //        align : 'center',
+    //        width: 160
+    //    }, {
+    //        field: 'createTime',
+    //        title: '上传时间',
+    //        align : 'center',
+    //        width: 220,
+    //        formatter: function (value, row, index) {
+    //            return new Date(parseInt(row.createTime)).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ")
+    //        }
+    //    },{
+    //        field:'operate',
+    //        title : '操作',
+    //        align : 'center',
+    //        with: 10,
+    //        events : operateEvents,
+    //        formatter : function(value, row, index) {
+    //                return [
+    //                    '<a class="download_coupon_click" href="javascript:void(0)" title="Download">',
+    //                     '<i style="color: green;" class="glyphicon glyphicon-circle-arrow-down"></i>下载',
+    //                     '</a>',
+    //                      '&nbsp;<a class="remove_coupon_click"  data-id="'
+    //                     + row
+    //                     + '" href="javascript:void(0)" title="Remove">',
+    //                     '<i style="color: red;" class="glyphicon glyphicon-remove-sign" style="min-width: 45px;"></i>删除',
+    //                     '</a>'
+    //                ].join('');
+    //
+    //        }
+    //    }],queryParams: function getParams(params){
+    //        var  tmp = {
+    //            offset:(this.pageNumber)*this.pageSize,
+    //            limit:this.pageSize,
+    //            condition:$('#searchParam option:selected').val(),
+    //            value:$("#searchValue").val()
+    //            /*sort:this.sortName,
+    //             order:this.sortOrder*/
+    //        };
+    //        searchParams =tmp;
+    //        return tmp;
+    //    }
+    //}
+    //
+    //showInsitutionInfo();
+    //function showInsitutionInfo() {
+    //    //getUrl();
+    //    $("#table").bootstrapTable('destroy');//先要将table销毁，否则会保留上次加载的内容
+    //    $table = $('#table').bootstrapTable(json);
+    //    //$("#table").bootstrapTable('hideColumn','operate');
+    //}
 
-    var json ={
-        url: url,
-        toolbar: '#toolbar',                //工具按钮用哪个容器
-        pagination: true,                   //是否显示分页（*）
-        striped: true,                      //是否显示行间隔色
-        sidePagination: "server",           //分页方式：client学员端分页，server服务端分页（*）
-        idField: 'instId',
-        pageNumber: 1,                       //初始化加载第一页，默认第一页
-        pageSize: 10,                       //每页的记录行数（*）
-        pageList: [10, 15, 20, 25],        //可供选择的每页的行数（*）
-        //clickToSelect: true,                //是否启用点击选中行
-        smartDisplay: false, // 智能显示 pagination 和 cardview 等
-        //exportDataType: "basic",              //basic', 'all', 'selected'.
-        showRefresh: true,
-        showColumns: true,
-        //detailView: true,
+    //**********************************表格数据开始*****************************************
 
-        columns: [{
-            filed: 'instId',
-            title: '编号',
-            checkbox: true,
-            visible: false
-        }, {
-            field: 'name',
-            title: '制度名称',
-            align : 'center',
-            width: 450,
-            events : operateEvents,
-            formatter: function (value, row, index) {
-                return ['<a class="show_institution_click" href="javascript:void(0)">'+row.name+'</a>'].join('');
-            }
-        },{
-            field: 'createBy',
-            title: '上传者',
-            align : 'center',
-            width: 160
-        }, {
-            field: 'createTime',
-            title: '上传时间',
-            align : 'center',
-            width: 220,
-            formatter: function (value, row, index) {
-                return new Date(parseInt(row.createTime)).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ")
-            }
-        },{
-            field:'operate',
-            title : '操作',
-            align : 'center',
-            with: 10,
-            events : operateEvents,
-            formatter : function(value, row, index) {
-                    return [
-                        '<a class="download_coupon_click" href="javascript:void(0)" title="Download">',
-                         '<i style="color: green;" class="glyphicon glyphicon-circle-arrow-down"></i>下载',
-                         '</a>',
-                          '&nbsp;<a class="remove_coupon_click"  data-id="'
-                         + row
-                         + '" href="javascript:void(0)" title="Remove">',
-                         '<i style="color: red;" class="glyphicon glyphicon-remove-sign" style="min-width: 45px;"></i>删除',
-                         '</a>'
-                    ].join('');
 
-            }
-        }],queryParams: function getParams(params){
-            var  tmp = {
-                offset:(this.pageNumber)*this.pageSize,
-                limit:this.pageSize,
-                condition:$('#searchParam option:selected').val(),
-                value:$("#searchValue").val()
-                /*sort:this.sortName,
-                 order:this.sortOrder*/
-            };
-            searchParams =tmp;
-            return tmp;
-        }
-    }
+    table.render({
+        url: '/api/data/'
+    })
 
-    showInsitutionInfo();
-    function showInsitutionInfo() {
-        //getUrl();
-        $("#table").bootstrapTable('destroy');//先要将table销毁，否则会保留上次加载的内容
-        $table = $('#table').bootstrapTable(json);
-        //$("#table").bootstrapTable('hideColumn','operate');
-    }
+    //**********************************表格数据结束*****************************************
 
     /**
      * 搜索
