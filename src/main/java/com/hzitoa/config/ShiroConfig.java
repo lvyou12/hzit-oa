@@ -112,14 +112,14 @@ public class ShiroConfig {
 		map.put("/assets**/*//**", "anon");
 		map.put("/style**/*//**", "anon");
 		map.put("/script**/*//**", "anon");
-		map.put("/**", "authc");
+		map.put("/**", "authc,perms");
 
 		// 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-		bean.setLoginUrl("/login");
+//		bean.setLoginUrl("/login");
 		// 登录成功后要跳转的链接
 //		bean.setSuccessUrl("/index");
 		// 未授权界面;
-		bean.setUnauthorizedUrl("/unauthorized");
+//		bean.setUnauthorizedUrl("/unauthorized");
 
 		bean.setFilterChainDefinitionMap(map);
 
@@ -155,7 +155,7 @@ public class ShiroConfig {
 		//  该值缺省为false,表示生命周期由SpringApplicationContext管理,设置为true则表示由ServletContainer管理
 		filterRegistration.addInitParameter("targetFilterLifecycle", "true");
 		filterRegistration.setEnabled(true);
-		filterRegistration.addUrlPatterns("/kaljfd");// 可以自己灵活的定义很多，避免一些根本不需要被Shiro处理的请求被包含进来
+//		filterRegistration.addUrlPatterns("/*");// 可以自己灵活的定义很多，避免一些根本不需要被Shiro处理的请求被包含进来
 		return filterRegistration;
 	}
 

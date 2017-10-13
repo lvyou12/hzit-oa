@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css"/>
+    <!--<link rel="stylesheet" href="../assets/bootstrap-table-master/dist/bootstrap-table.css">-->
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/assets/layui/css/layui.css">
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="../assets/css/font-awesome-ie7.min.css"/>
+    <![endif]-->
+    <link href="../assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+</head>
+<script src="../assets/js/jquery-2.0.3.min.js" type="text/javascript"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/bootstrap-table-master/dist/bootstrap-table.js"></script>
+<script src="/assets/bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.js"></script>
+
+<script src="../assets/layui/layui.js"></script>
+<script src="/script/employeeInfo/employeeList.js" type="text/javascript"></script>
+<body >
+    <div class="breadcrumbs" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <span>首页</span>
+            </li>
+            <li class="active">用户列表</li>
+        </ul>
+    </div>
+    <div id="toolbar" style="margin-left: 10px;font-size: 17px;">
+        <form class="layui-form" style="display: inline-block;">
+
+            <!--<div class="layui-inline" style="display: inline-block;">
+                <div id="searchParamDiv" class="layui-input-inline" style="display: inline-block;width:180px;">
+                    <select id="searchParam"  lay-verify="required">
+                        <option value="" >请选择搜索条件</option>
+                        <option value="name">制度名称</option>
+                        <option value="create_time">上传日期</option>
+                    </select>
+                </div>
+            </div>-->
+           <!-- <div class="layui-inline" style="display: inline-block;">
+                <div class="layui-input-inline">
+                    <input style="width:180px;" class="layui-input" type="text"  id="searchValue" placeholder="请输入搜索值">
+                </div>
+            </div>-->
+
+           <!-- <div class="layui-inline" style="display: inline-block;">
+                <div class="layui-input-inline">
+                    <input style="width:180px;" class="layui-input" type="hidden" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" >
+                </div>
+            </div>-->
+
+        </form>
+    <!--<span ><button id="searchInst" class="layui-btn"><i
+            class="layui-icon">&#xe615;</i>搜索</button></span>-->
+     <span ><button id="add" class="layui-btn layui-btn-normal">
+         <i class="layui-icon">&#xe61f;</i>添加用户</button>
+        </span>
+
+    </div>
+
+    <!--<div class="page-content" style="margin: 10px;">
+
+        <table class="table table-striped" id="table"></table>
+
+    </div>-->
+
+
+</body>
+
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function() {
+        var form = layui.form
+                , layer = layui.layer
+                , layedit = layui.layedit
+                , laydate = layui.laydate;
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+
+        });
+
+        form.on('select', function(data){
+//            console.log(data.elem); //得到select原始DOM对象
+//            console.log(data.value); //得到被选中的值
+//            console.log(data.othis); //得到美化后的DOM对象
+            if(data.value == 'name'){
+                $('#searchValue').attr("type","text");
+                $("#date").attr("type","hidden");
+            }else if(data.value == 'create_time'){
+                $('#searchValue').attr("type","hidden");
+                $("#date").attr("type","text");
+            }
+
+        });
+
+    });
+
+
+
+</script>
+</html>
