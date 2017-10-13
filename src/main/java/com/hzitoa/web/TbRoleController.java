@@ -1,9 +1,11 @@
 package com.hzitoa.web;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.hzitoa.entity.TbRole;
 import com.hzitoa.service.ITbRoleService;
 import com.hzitoa.service.impl.TbRoleServiceImpl;
+import com.hzitoa.vo.LayuiVo;
 import com.hzitoa.vo.StatusVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,6 +42,11 @@ public class TbRoleController {
         return "role/addRole";
     }
 
+    /**
+     * 角色名异步验证
+     * @param roleName
+     * @return
+     */
     @RequestMapping(value = "/checkRole",method = RequestMethod.POST)
     @ResponseBody
     public StatusVO checkRole(String roleName){
@@ -59,6 +66,11 @@ public class TbRoleController {
         return  statusVO;
     }
 
+    /**
+     * 角色信息添加
+     * @param role
+     * @return
+     */
     @RequestMapping(value = "/addRole",method = RequestMethod.POST)
     @ResponseBody
     public StatusVO toAddRole(TbRole role){
@@ -73,5 +85,19 @@ public class TbRoleController {
             statusVO.setMsg("角色添加失败,请稍后再试!");
         }
         return statusVO;
+    }
+
+    @RequestMapping(value = "/roleAjaxData")
+    @ResponseBody
+    public LayuiVo<TbRole> roleList(int page,int limit){
+        LayuiVo<TbRole> layuiVo = new LayuiVo<>();
+        Page<TbRole> pageRole = new Page<>(page,limit,"createBy");
+        pageRole.setAsc(false);
+        pageRole = iTbRoleService.selectPage(pageRole);
+        layuiVo.setData(pageRole.getRecords());
+        layuiVo.setCode(0);
+        layuiVo.setMsg("");
+        layuiVo.setCount(iTbRoleService.selectCount(new EntityWrapper<TbRole>()));
+        return layuiVo;
     }
 }
