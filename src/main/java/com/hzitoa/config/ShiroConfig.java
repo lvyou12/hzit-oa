@@ -67,7 +67,7 @@ public class ShiroConfig {
 		DelegatingFilterProxyRegistrationBean
 				dfr = new DelegatingFilterProxyRegistrationBean("shiroFilter");
 		Set<String> url = new HashSet<>();
-		url.add("/ajkshfd");
+		url.add("/*");
 		dfr.setUrlPatterns(url);
 		dfr.setEnabled(true);
 		dfr.setDispatcherTypes(DispatcherType.REQUEST);
@@ -155,7 +155,7 @@ public class ShiroConfig {
 		//  该值缺省为false,表示生命周期由SpringApplicationContext管理,设置为true则表示由ServletContainer管理
 		filterRegistration.addInitParameter("targetFilterLifecycle", "true");
 		filterRegistration.setEnabled(true);
-//		filterRegistration.addUrlPatterns("/*");// 可以自己灵活的定义很多，避免一些根本不需要被Shiro处理的请求被包含进来
+		filterRegistration.addUrlPatterns("/*");// 可以自己灵活的定义很多，避免一些根本不需要被Shiro处理的请求被包含进来
 		return filterRegistration;
 	}
 

@@ -12,7 +12,7 @@ $(function(){
             id:'roleTable',
             width:'auto',
             limits: [10,20,30,35],
-            limit: 10, //默认采用60
+            limit: 1, //默认采用60
             cols: [
                 [{
                     checkbox: true,

@@ -27,9 +27,15 @@ public class EmployeeInfoVo {
     private Integer isPermission;
     private Integer isDimission;
     private String createBy;
-    private Date createTime;
+    /**
+     * 创建时间
+     */
+    private String createTime;
     private String updateBy;
-    private Date updateTime;
+    /**
+     * 更新时间
+     */
+    private String updateTime;
 
     public Integer getUserId() {
         return userId;
@@ -143,11 +149,11 @@ public class EmployeeInfoVo {
         this.createBy = createBy;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
@@ -159,11 +165,11 @@ public class EmployeeInfoVo {
         this.updateBy = updateBy;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 

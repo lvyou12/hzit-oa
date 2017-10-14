@@ -37,42 +37,32 @@
     </div>
     <div id="toolbar" style="margin-left: 10px;font-size: 17px;">
         <form class="layui-form" style="display: inline-block;">
-
-            <!--<div class="layui-inline" style="display: inline-block;">
+            <div class="layui-inline" style="display: inline-block;">
                 <div id="searchParamDiv" class="layui-input-inline" style="display: inline-block;width:180px;">
                     <select id="searchParam"  lay-verify="required">
                         <option value="" >请选择搜索条件</option>
-                        <option value="name">制度名称</option>
-                        <option value="create_time">上传日期</option>
+                        <option value="user_name">员工姓名</option>
+                        <!--<option value="create_time">上传日期</option>-->
                     </select>
                 </div>
-            </div>-->
-           <!-- <div class="layui-inline" style="display: inline-block;">
-                <div class="layui-input-inline">
-                    <input style="width:180px;" class="layui-input" type="text"  id="searchValue" placeholder="请输入搜索值">
-                </div>
-            </div>-->
-
-           <!-- <div class="layui-inline" style="display: inline-block;">
-                <div class="layui-input-inline">
-                    <input style="width:180px;" class="layui-input" type="hidden" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" >
-                </div>
-            </div>-->
-
+            </div>
         </form>
-    <!--<span ><button id="searchInst" class="layui-btn"><i
-            class="layui-icon">&#xe615;</i>搜索</button></span>-->
-     <span ><button id="add" class="layui-btn layui-btn-normal">
-         <i class="layui-icon">&#xe61f;</i>添加用户</button>
-        </span>
-
+        <div class="demoTable" style="display: inline-block;">
+            <div class="layui-inline">
+                <input class="layui-input" id="searchValue" placeholder="请输入搜索值" autocomplete="off">
+            </div>
+            <span></span><button class="layui-btn" data-type="reload">
+                <i class="layui-icon">&#xe615;</i>搜索</button>
+            </span>
+            <span ><button id="add" class="layui-btn layui-btn-normal">
+                <i class="layui-icon">&#xe61f;</i>添加用户</button>
+            </span>
+        </div>
     </div>
 
-    <!--<div class="page-content" style="margin: 10px;">
-
-        <table class="table table-striped" id="table"></table>
-
-    </div>-->
+    <div class="page-content" style="margin: 10px;">
+        <table id="table"></table>
+    </div>
 
 
 </body>
@@ -108,7 +98,21 @@
 
     });
 
-
-
 </script>
+
+<script type="text/html" id="isEmailActive">
+    {{#  if(d.isEmailActive == 0){ }}
+    <i style="font-size: 20px;color:red;" class="layui-icon">ဇ</i>
+    {{#  } else { }}
+    <i style="font-size: 20px;color:green;" class="layui-icon"></i>
+    {{#  } }}
+</script>
+<script type="text/html" id="isDimission">
+    {{#  if(d.isDimission == 1){ }}
+    <i style="font-size: 20px;color:red;" class="layui-icon">ဇ</i>
+    {{#  } else { }}
+    <i style="font-size: 20px;color:green;" class="layui-icon"></i>
+    {{#  } }}
+</script>
+
 </html>

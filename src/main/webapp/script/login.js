@@ -43,9 +43,9 @@ $(function() {
             $("#loginname_text").html("&nbsp;");
             /*$("#logincheck_text").html("&nbsp;");*/
 //				<%-- var randCheckCode = '<%=Session["randCheckCode"] %>'; --%>
-//				var pswd = MD5("hzit#" + psd);
+				var pswd = MD5("hzit#" + psd);
 //				var	data = {password:pswd,name:name,email:name,rememberMe:$("#rememberMe").is(':checked')};
-            var	data = {password:psd,userName:name,email:name};
+            var	data = {password:pswd,userName:name,email:name};
             var load = layer.load();
             $.post("/employeeInfo/login",data ,function(result) {
                 layer.close(load);

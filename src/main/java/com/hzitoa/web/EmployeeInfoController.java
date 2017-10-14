@@ -14,10 +14,7 @@ import com.hzitoa.service.IEmployeeInfoService;
 import com.hzitoa.service.ITbDictService;
 import com.hzitoa.service.ITbRoleService;
 import com.hzitoa.utils.Md5Util;
-import com.hzitoa.vo.BootstrapEntity;
-import com.hzitoa.vo.BootstrapTable;
-import com.hzitoa.vo.EmployeeInfoVo;
-import com.hzitoa.vo.StatusVO;
+import com.hzitoa.vo.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -70,9 +67,9 @@ public class EmployeeInfoController {
     public StatusVO login(EmployeeInfo employeeInfo, HttpServletRequest request){
         StatusVO statusVO = new StatusVO();
         try{
-//            Subject subject = SecurityUtils.getSubject();//从SecurityUtils中获取主体对象
-//            UsernamePasswordToken token = new UsernamePasswordToken(employeeInfo.getUserName(), employeeInfo.getPassword());
-//            subject.login(token);
+            Subject subject = SecurityUtils.getSubject();//从SecurityUtils中获取主体对象
+            UsernamePasswordToken token = new UsernamePasswordToken(employeeInfo.getUserName(), employeeInfo.getPassword());
+            subject.login(token);
             Map<String,Object> paramMap = new HashMap<>();
             paramMap.put("userName",employeeInfo.getUserName());
             paramMap.put("email",employeeInfo.getEmail());
@@ -90,8 +87,8 @@ public class EmployeeInfoController {
             statusVO.setCode(200);
             statusVO.setMsg("登录成功");
         }catch (
-                Exception e){
-//                AuthenticationException e){
+//                Exception e){
+                AuthenticationException e){
             logger.error("------------用户登录出错----------------"+e.getMessage());
             statusVO.setCode(300);
             statusVO.setMsg("登录失败");
@@ -269,20 +266,19 @@ public class EmployeeInfoController {
 
     @RequestMapping("/employeeInfo/listData")
     @ResponseBody
-    public BootstrapTable<EmployeeInfoVo> listData(BootstrapEntity bt,HttpSession session){
-        if (bt.getOffset() == null || bt.getLimit() == null) {
-            bt.setOffset(1);
-            bt.setLimit(20);
+    public LayuiVo<EmployeeInfoVo> listData(LayuiEntity lay,HttpSession session){
+        if (lay.getPage() == null || lay.getLimit() == null) {
+            lay.setPage(1);
+            lay.setLimit(20);
         } else {
-            bt.setOffset(bt.getOffset() / bt.getLimit());
+            lay.setPage(lay.getPage() / lay.getLimit());
         }
-        Page<EmployeeInfo> page = new Page<>(bt.getOffset(),bt.getLimit());
-        if("-1".equals(bt.getCondition()) ){
-            bt.setCondition("");
-        }
-        Wrapper<EmployeeInfo> wrapper = null;
-        wrapper = new EntityWrapper<EmployeeInfo>().where("isLocked=0");
-        BootstrapTable<EmployeeInfoVo> bootstrapTable = iEmployeeInfoService.ajaxData(page, wrapper);
+        Page<EmployeeInfo> page = new Page<>(lay.getPage(),lay.getLimit());
+
+        Wrapper<EmployeeInfo> wrapper = new EntityWrapper<EmployeeInfo>()
+                .where("isLocked=0")
+                .like("user_name",lay.getValue());
+        LayuiVo<EmployeeInfoVo> bootstrapTable = iEmployeeInfoService.ajaxData(page, wrapper);
         return bootstrapTable;
     }
 	
