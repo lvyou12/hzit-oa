@@ -1,5 +1,5 @@
 /**
- * Created by lvyou on 2017/10/12.
+ * Created by lvyou on 2017/10/13.
  */
 $(function(){
     var index = parent.layer.getFrameIndex(window.name); //获取当前窗体索引
@@ -22,21 +22,11 @@ $(function(){
         });
 
         //监听提交
-        form.on('submit(add)', function(data){
-            $.post("/role/addRole",data.field,function(resp){
-                if(resp.code === 300){
-                    layer.msg(resp.msg,{icon:2,time:1000});
-                }
-                if(resp.code === 200){
-                    layer.msg(resp.msg,{icon:1,time:1000});
-                }
-                if(resp.code === 500){
-                    layer.msg(resp.msg,{icon:5,time:1000});
-                }
-
-                //console.log(resp)
+        form.on('submit(edit)', function(data){
+            $.post("/role/editRole",data.field,function(resp){
+                console.log(resp);
             },"JSON");
-            setTimeout(function(){parent.layer.close(index)},2000);
+            //setTimeout(function(){parent.layer.close(index)},2000);
         });
     });
 });

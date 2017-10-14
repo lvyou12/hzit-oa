@@ -9,6 +9,7 @@ import com.hzitoa.vo.LayuiVo;
 import com.hzitoa.vo.StatusVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,30 +44,6 @@ public class TbRoleController {
     }
 
     /**
-     * 角色名异步验证
-     * @param roleName
-     * @return
-     */
-    @RequestMapping(value = "/checkRole",method = RequestMethod.POST)
-    @ResponseBody
-    public StatusVO checkRole(String roleName){
-        System.out.println(roleName);
-        StatusVO statusVO = new StatusVO();
-        Map<String,Object> map = new HashMap<>();
-        map.put("role_name",roleName);
-        List<TbRole> list = iTbRoleService.selectByMap(map);
-        System.out.println(list);
-        if(list.size() != 0){
-            statusVO.setCode(300);
-            statusVO.setMsg("角色已存在!");
-            return  statusVO;
-        }
-        statusVO.setCode(200);
-        statusVO.setMsg("角色可以录入!");
-        return  statusVO;
-    }
-
-    /**
      * 角色信息添加
      * @param role
      * @return
@@ -76,17 +53,29 @@ public class TbRoleController {
     public StatusVO toAddRole(TbRole role){
         StatusVO statusVO = new StatusVO();
         role.setCreateTime(new Date());
-        boolean result = iTbRoleService.insert(role);
+        boolean result = iTbRoleService.insertOne(role);
         if(result){
-            statusVO.setCode(200);
-            statusVO.setMsg("角色添加成功!");
+            result = iTbRoleService.insert(role);
+            if(result){
+                statusVO.setCode(200);
+                statusVO.setMsg("角色添加成功!");
+            }else {
+                statusVO.setCode(300);
+                statusVO.setMsg("角色添加失败,请稍后再试!");
+            }
         }else {
-            statusVO.setCode(300);
-            statusVO.setMsg("角色添加失败,请稍后再试!");
+            statusVO.setCode(500);
+            statusVO.setMsg("角色已存在!");
         }
         return statusVO;
     }
 
+    /**
+     * 页面请求分页数据
+     * @param page
+     * @param limit
+     * @return
+     */
     @RequestMapping(value = "/roleAjaxData")
     @ResponseBody
     public LayuiVo<TbRole> roleList(int page,int limit){
@@ -99,5 +88,25 @@ public class TbRoleController {
         layuiVo.setMsg("");
         layuiVo.setCount(iTbRoleService.selectCount(new EntityWrapper<TbRole>()));
         return layuiVo;
+    }
+
+    @RequestMapping(value = "/editRole",method = RequestMethod.GET)
+    public String roleEdit(TbRole role,Model model){
+        role = iTbRoleService.selectById(role.getRoleId());
+        model.addAttribute("role",role);
+        return "/role/editRole";
+    }
+
+    @RequestMapping(value = "/editRole",method = RequestMethod.POST)
+    @ResponseBody
+    public StatusVO editRole(TbRole role){
+        System.out.println(role);
+        iTbRoleService.editRole();
+        TbRole tbRole = iTbRoleService.selectById(role.getRoleId());
+        TbRole role1 = iTbRoleService.selectOne(new EntityWrapper<TbRole>().where("role_name="+role.getRoleName()));
+        if(role1 == null){
+
+        }
+        return null;
     }
 }

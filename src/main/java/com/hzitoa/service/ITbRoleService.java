@@ -2,6 +2,7 @@ package com.hzitoa.service;
 
 import com.hzitoa.entity.TbRole;
 import com.baomidou.mybatisplus.service.IService;
+import com.hzitoa.vo.StatusVO;
 
 /**
  * <p>
@@ -12,5 +13,8 @@ import com.baomidou.mybatisplus.service.IService;
  * @since 2017-09-22
  */
 public interface ITbRoleService extends IService<TbRole> {
-	
+
+    boolean insertOne(TbRole role);
+
+    void editRole();
 }

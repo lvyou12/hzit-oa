@@ -5,12 +5,14 @@ $(function(){
     layui.use(["table","layer","jquery"],function(){
         var table = layui.table,
             layer = layui.layer,
-            $ = layui.$;
+            $ = layui.$
+            ; //获取选中数据
 
         var roleTable = table.render({
             elem: '#roleTable',
             id:'roleTable',
             width:'auto',
+            loading:true,
             limits: [10,20,30,35],
             limit: 10, //默认采用60
             cols: [
@@ -63,6 +65,11 @@ $(function(){
             even: true
         });
 
+        table.on('tool(roleTables)',function(obj){
+            var event = obj.event;
+            if(event){}
+        });
+
         $("#addRole").click(function(){
             layer.open({
                 type:2,
@@ -78,6 +85,33 @@ $(function(){
                 }
             });
         })
+
+        $("#editRole").click(function(){
+            var checkStatus =table.checkStatus("roleTable")
+            var roleList = checkStatus.data;
+            if(roleList.length === 0 ){
+                layer.msg("请选择要修改的数据!");
+                return ;
+            }else if(roleList.length > 1 ){
+                layer.msg("选择的数据大于一条!");
+                return ;
+            }else{
+                console.log(roleList[0]);
+                layer.open({
+                    type:2,
+                    title:'修改角色',
+                    shadeClose:true,
+                    shade:0,
+                    maxmin:true,
+                    area:["500px","350px"],
+                    offset:['100px'],
+                    content:'/role/editRole?roleId='+roleList[0].roleId,
+                    end:function(layer,index){
+                        table.reload('roleTable');
+                    }
+                });
+            }
+        });
     });
 });
 

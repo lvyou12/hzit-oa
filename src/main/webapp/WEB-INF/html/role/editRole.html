@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap-table-master/dist/bootstrap-table.css">
+    <link rel="stylesheet" type="text/css" href="/assets/layui/css/layui.css">
+</head>
+<body>
+<div style="margin:20px auto;width:80%;">
+    <form id="editRoleForm" class="layui-form " method="post">
+        <input type="hidden" th:value="${role.roleId}" name="roleId">
+        <input type="hidden" th:value="${session.employeeInfo.userName}" name="updateBy">
+        <div class="layui-form-item" style="text-align: left;width: 370px;">
+            <label class="layui-form-label label-font" style="width: 110px;">角色名称<i style="color:orange;" class="layui-icon"></i></label>
+            <div class="layui-input-block">
+                <input name="roleName" id="role" th:value="${role.roleName}" lay-verify="required|roleName" autocomplete="off" placeholder="请输入角色名称!" class="layui-input required" type="text">
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: left;width: 370px;">
+            <label class="layui-form-label label-font" style="width: 110px;">状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="available" value="0" title="禁用" th:checked="${role.available == 0}">
+                <input type="radio" name="available" value="1" title="启用" th:checked="${role.available == 1}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label label-font" style="width: 110px;"></label>
+            <input id="edit" type="button" class="layui-btn layui-btn-small" lay-submit lay-filter="edit" value="保存">
+            <input type="reset" class="layui-btn layui-btn-danger layui-btn-small" value="重置">
+            <input type="button" id="cancel" class="layui-btn layui-btn-warm layui-btn-small" value="关闭"/>
+        </div>
+    </form>
+</div>
+</body>
+<script src="/assets/js/jquery-2.0.3.min.js"></script>
+<script src="/assets/layui/layui.all.js"></script>
+<script src="/script/role/editRole.js"></script>
+</html>

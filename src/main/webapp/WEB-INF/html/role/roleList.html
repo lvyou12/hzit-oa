@@ -30,7 +30,7 @@
             <li class="active">角色管理</li>
         </ul>
     </div>
-    <div id="toolbar" style="margin-left: 10px;font-size: 17px;">
+    <div id="toolbar" style="margin-left: 26px;font-size: 17px;">
         <span>
             <button id="addRole" class="layui-btn layui-btn-small"><i class="layui-icon">&#xe61f;</i>添加角色</button>
         </span>
@@ -41,16 +41,16 @@
             <button id="grantRole" class="layui-btn layui-btn-warm layui-btn-small"><i class="layui-icon">&#xe631;</i>角色授权</button>
         </span>
         <span>
-            <button id="disableRole" class="layui-btn layui-btn-small" style="background-color: #696969"><i class="layui-icon">&#x1007;</i>禁用角色</button>
+            <button id="disableRole" class="layui-btn layui-btn-small" style="background-color: #696969"><i class="layui-icon">&#x1007;</i>(批量)禁用</button>
         </span>
         <span>
-            <button id="deleteRole" class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>删除角色</button>
+            <button id="deleteRole" class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>(批量)删除</button>
         </span>
     </div>
 
     <div class="page-content" style="margin: 25px;">
 
-        <table id="roleTable" ></table>
+        <table id="roleTable" lay-filter="roleTables"></table>
 
     </div>
     <script type="text/html" id="roleBar">
