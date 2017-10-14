@@ -1,12 +1,14 @@
 package com.hzitoa.web;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.hzitoa.entity.TbRole;
 import com.hzitoa.service.ITbRoleService;
-import com.hzitoa.service.impl.TbRoleServiceImpl;
+import com.hzitoa.vo.LayuiEntity;
 import com.hzitoa.vo.LayuiVo;
 import com.hzitoa.vo.StatusVO;
+import com.hzitoa.vo.TbRoleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -71,22 +72,18 @@ public class TbRoleController {
     }
 
     /**
-     * 页面请求分页数据
-     * @param page
-     * @param limit
+     * 数据分页展示
+     * @param layuiEntity
      * @return
      */
     @RequestMapping(value = "/roleAjaxData")
     @ResponseBody
-    public LayuiVo<TbRole> roleList(int page,int limit){
-        LayuiVo<TbRole> layuiVo = new LayuiVo<>();
-        Page<TbRole> pageRole = new Page<>(page,limit,"createBy");
+    public LayuiVo<TbRoleVo> roleList(LayuiEntity layuiEntity){
+        LayuiVo<TbRoleVo> layuiVo = new LayuiVo<>();
+        Page<TbRole> pageRole = new Page<>(layuiEntity.getPage(),layuiEntity.getLimit(),"createBy");
         pageRole.setAsc(false);
-        pageRole = iTbRoleService.selectPage(pageRole);
-        layuiVo.setData(pageRole.getRecords());
-        layuiVo.setCode(0);
-        layuiVo.setMsg("");
-        layuiVo.setCount(iTbRoleService.selectCount(new EntityWrapper<TbRole>()));
+        Wrapper<TbRole> wrapper = new EntityWrapper<>();
+        layuiVo = iTbRoleService.ajaxData(pageRole,wrapper);
         return layuiVo;
     }
 
@@ -97,16 +94,65 @@ public class TbRoleController {
         return "/role/editRole";
     }
 
+    /**
+     * 修改角色信息
+     * @param role
+     * @return
+     */
     @RequestMapping(value = "/editRole",method = RequestMethod.POST)
     @ResponseBody
     public StatusVO editRole(TbRole role){
-        System.out.println(role);
-        iTbRoleService.editRole();
+        StatusVO statusVO = new StatusVO();
         TbRole tbRole = iTbRoleService.selectById(role.getRoleId());
-        TbRole role1 = iTbRoleService.selectOne(new EntityWrapper<TbRole>().where("role_name="+role.getRoleName()));
-        if(role1 == null){
-
+        tbRole.setRoleName(role.getRoleName());
+        tbRole.setAvailable(role.getAvailable());
+        tbRole.setUpdateBy(role.getUpdateBy());
+        tbRole.setUpdateTime(new Date());
+        boolean result = iTbRoleService.updateById(tbRole);
+        if(result){
+            statusVO.setCode(200);
+            statusVO.setMsg("修改成功!");
+        }else {
+            statusVO.setCode(300);
+            statusVO.setMsg("修改失败!");
         }
-        return null;
+        return statusVO;
+    }
+
+    /**
+     * 禁用角色
+     * @param roleIds
+     * @return
+     */
+    @RequestMapping(value = "/disableRole",method = RequestMethod.GET)
+    @ResponseBody
+    public StatusVO disableRole(Integer type,HttpSession session,Integer ... roleIds){
+        boolean result = false;
+        StatusVO statusVO = new StatusVO();
+        result = iTbRoleService.updateRoles(type,session,roleIds);
+        if(result){
+            statusVO.setCode(200);
+            statusVO.setMsg("操作成功!");
+        }else {
+            statusVO.setCode(300);
+            statusVO.setMsg("操作失败,请稍后再试!");
+        }
+        return statusVO;
+    }
+
+    @RequestMapping(value = "/deleteRole",method = RequestMethod.GET)
+    @ResponseBody
+    public StatusVO deleteRole(Integer ... roleIds){
+        boolean result = false;
+        StatusVO statusVO = new StatusVO();
+        result = iTbRoleService.deleteRoles(roleIds);
+        if(result){
+            statusVO.setCode(200);
+            statusVO.setMsg("删除成功!");
+        }else {
+            statusVO.setCode(300);
+            statusVO.setMsg("删除失败,请稍后再试!");
+        }
+        return statusVO;
     }
 }

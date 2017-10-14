@@ -24,7 +24,13 @@ $(function(){
         //监听提交
         form.on('submit(edit)', function(data){
             $.post("/role/editRole",data.field,function(resp){
-                console.log(resp);
+                if(resp.code === 300){
+                    layer.msg(resp.msg,{icon:2,time:800});
+                }
+                if(resp.code === 200){
+                    layer.msg(resp.msg,{icon:1,time:800});
+                    setTimeout(function(){parent.layer.close(index)},1200);
+                }
             },"JSON");
             //setTimeout(function(){parent.layer.close(index)},2000);
         });

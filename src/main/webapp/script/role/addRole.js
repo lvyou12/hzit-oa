@@ -25,10 +25,11 @@ $(function(){
         form.on('submit(add)', function(data){
             $.post("/role/addRole",data.field,function(resp){
                 if(resp.code === 300){
-                    layer.msg(resp.msg,{icon:2,time:1000});
+                    layer.msg(resp.msg,{icon:2,time:800});
                 }
                 if(resp.code === 200){
-                    layer.msg(resp.msg,{icon:1,time:1000});
+                    layer.msg(resp.msg,{icon:1,time:800});
+                    setTimeout(function(){parent.layer.close(index)},1500);
                 }
                 if(resp.code === 500){
                     layer.msg(resp.msg,{icon:5,time:1000});
@@ -36,7 +37,6 @@ $(function(){
 
                 //console.log(resp)
             },"JSON");
-            setTimeout(function(){parent.layer.close(index)},2000);
         });
     });
 });

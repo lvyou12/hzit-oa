@@ -14,7 +14,7 @@ $(function(){
             width:'auto',
             loading:true,
             limits: [10,20,30,35],
-            limit: 1, //默认采用60
+            limit: 10, //默认采用60
             cols: [
                 [{
                     checkbox: true,
@@ -66,10 +66,72 @@ $(function(){
         });
 
         table.on('tool(roleTables)',function(obj){
+            var data = obj.data;
             var event = obj.event;
-            if(event){}
+            if(event == "edit"){
+                layer.open({
+                    type:2,
+                    title:'修改角色',
+                    shadeClose:true,
+                    shade:0,
+                    maxmin:true,
+                    area:["500px","350px"],
+                    offset:['100px'],
+                    content:'/role/editRole?roleId='+data.roleId,
+                    end:function(layer,index){
+                        table.reload('roleTable');
+                    }
+                });
+            }else if(event == 'grant'){
+                layer.msg("待会写!");
+            }else if(event == 'disable'){
+                // layer.alert('禁用行：<br>' + JSON.stringify(data))
+                var isLock;
+                if(data.available == 0){
+                    //启用
+                    isLock =1;
+                    setTimeout(function(){
+                        table.reload();
+                    },1500);
+                }else{
+                    //禁用
+                    isLock =0;
+                    setTimeout(function(){
+                        table.reload();
+                    },1500);
+                }
+                var reqData = 'roleId='+data.roleId +"&isLock="+isLock;
+                //异步修改数据
+                $.getJSON("/role/disableRole?roleIds="+data.roleId+"&type="+isLock,function(resp){
+                    if(resp.code === 300){
+                        layer.msg(resp.msg,{icon:2,time:1000});
+                    }
+                    if(resp.code === 200){
+                        layer.msg(resp.msg,{icon:1,time:1000});
+                        setTimeout(table.reload('roleTable'),2000);
+                    }
+                });
+            }else if(event == 'del'){
+                layer.confirm("是否确定要删除所选角色",{
+                    btn : ['确定','反悔了'],
+                    offset:['100px']
+                },function(){
+                    $.getJSON("/role/deleteRole?roleIds="+data.roleId,function(resp){
+                        if(resp.code === 300){
+                            layer.msg(resp.msg,{icon:2,time:1000});
+                        }
+                        if(resp.code === 200){
+                            layer.msg(resp.msg,{icon:1,time:1000});
+                            setTimeout(table.reload('roleTable'),2000);
+                        }
+                    });
+                });
+            }
         });
 
+        /**
+         * 添加角色
+         */
         $("#addRole").click(function(){
             layer.open({
                 type:2,
@@ -86,6 +148,9 @@ $(function(){
             });
         })
 
+        /**
+         * 修改角色
+         */
         $("#editRole").click(function(){
             var checkStatus =table.checkStatus("roleTable")
             var roleList = checkStatus.data;
@@ -96,7 +161,6 @@ $(function(){
                 layer.msg("选择的数据大于一条!");
                 return ;
             }else{
-                console.log(roleList[0]);
                 layer.open({
                     type:2,
                     title:'修改角色',
@@ -111,6 +175,61 @@ $(function(){
                     }
                 });
             }
+        });
+
+        /**
+         * 禁用角色
+         */
+        $("#disableRole").click(function(){
+            var checkStatus =table.checkStatus("roleTable")
+            var roleList = checkStatus.data;
+            var ids = new Array();
+            if(roleList.length === 0){
+                layer.msg("请选择要禁用的角色!");
+                return ;
+            }
+            for(var i = 0;i < roleList.length; i++){
+                ids[i] = roleList[i].roleId;
+            }
+            $.getJSON("/role/disableRole?roleIds="+ids+"&type="+0,function(resp){
+                if(resp.code === 300){
+                    layer.msg(resp.msg,{icon:2,time:1000});
+                }
+                if(resp.code === 200){
+                    layer.msg(resp.msg,{icon:1,time:1000});
+                    setTimeout(table.reload('roleTable'),2000);
+                }
+            });
+        });
+
+        /**
+         * 删除角色
+         */
+        $("#deleteRole").click(function(){
+            var checkStatus =table.checkStatus("roleTable")
+            var roleList = checkStatus.data;
+            var ids = new Array();
+            if(roleList.length === 0){
+                layer.msg("请选择要删除的角色!");
+                return ;
+            }
+            for(var i = 0;i < roleList.length; i++){
+                ids[i] = roleList[i].roleId;
+            }
+            layer.confirm("是否确定要删除所选角色",{
+                btn : ['确定','反悔了'],
+                offset:['100px']
+            },function(){
+                $.getJSON("/role/deleteRole?roleIds="+ids,function(resp){
+                    if(resp.code === 300){
+                        layer.msg(resp.msg,{icon:2,time:1000});
+                    }
+                    if(resp.code === 200){
+                        layer.msg(resp.msg,{icon:1,time:1000});
+                        setTimeout(table.reload('roleTable'),2000);
+                    }
+                });
+            });
         });
     });
 });
