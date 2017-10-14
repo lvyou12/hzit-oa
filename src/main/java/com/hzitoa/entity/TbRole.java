@@ -134,6 +134,19 @@ public class TbRole extends Model<TbRole> {
 	}
 
 	@Override
+	public int hashCode() {
+		int result = roleId.hashCode();
+		result = 31 * result + roleName.hashCode();
+		result = 31 * result + resourceIds.hashCode();
+		result = 31 * result + available.hashCode();
+		result = 31 * result + createBy.hashCode();
+		result = 31 * result + createTime.hashCode();
+		result = 31 * result + updateBy.hashCode();
+		result = 31 * result + updateTime.hashCode();
+		return result;
+	}
+
+	@Override
 	public String toString() {
 		return "TbRole{" +
 				"roleId=" + roleId +
