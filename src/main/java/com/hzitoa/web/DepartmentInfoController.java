@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 2017-09-22
  */
 @Controller
-@RequestMapping("/departmentInfo")
+//@RequestMapping("/departmentInfo")
 public class DepartmentInfoController {
-	
+    @RequestMapping("/test")
+    public String test(){
+        return "test2";
+    }
+
 }

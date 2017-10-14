@@ -45,11 +45,11 @@
         </dependency>
 
         <!-- 模板引擎 -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>1.7</version>
-        </dependency>
+        </dependency>-->
         <!-- MP 核心库 -->
         <dependency>
             <groupId>com.baomidou</groupId>

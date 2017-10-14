@@ -23,10 +23,6 @@
 		<result column="update_time" property="updateTime" />
 	</resultMap>
 
-	<select id="selectAll" resultMap="BaseResultMap">
-		SELECT * FROM employee_info;
-	</select>
-
 	<select id="loginSelect" parameterType="map" resultMap="BaseResultMap">
 		SELECT * FROM
 		employee_info ei WHERE ( ei.user_name = #{map.userName} OR ei.email = #{map.email} ) AND ei.isLocked = 0;

@@ -18,8 +18,11 @@ import java.util.Map;
  */
 public interface EmployeeInfoMapper extends BaseMapper<EmployeeInfo> {
 
-    List<EmployeeInfo> selectAll();
-
+    /**
+     * 登录查询
+     * @param map
+     * @return
+     */
     List<EmployeeInfo> loginSelect(@Param("map") Map<String,Object> map);
 
 }

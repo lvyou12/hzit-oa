@@ -67,7 +67,7 @@ public class ShiroConfig {
 		DelegatingFilterProxyRegistrationBean
 				dfr = new DelegatingFilterProxyRegistrationBean("shiroFilter");
 		Set<String> url = new HashSet<>();
-		url.add("/ajkshfd");
+		url.add("/*");
 		dfr.setUrlPatterns(url);
 		dfr.setEnabled(true);
 		dfr.setDispatcherTypes(DispatcherType.REQUEST);

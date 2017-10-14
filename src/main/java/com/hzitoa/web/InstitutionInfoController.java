@@ -7,7 +7,6 @@ import com.hzitoa.entity.DepartmentInfo;
 import com.hzitoa.entity.EmployeeInfo;
 import com.hzitoa.entity.InstitutionInfo;
 import com.hzitoa.service.IDepartmentInfoService;
-import com.hzitoa.service.IEmployeeInfoService;
 import com.hzitoa.service.IInstitutionInfoService;
 import com.hzitoa.utils.FileUtils;
 import com.hzitoa.vo.BootstrapEntity;
@@ -31,8 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * <p>
@@ -45,6 +42,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/institutionInfo")
 public class InstitutionInfoController {
+
     private Logger logger = LoggerFactory.getLogger(InstitutionInfoController.class);
 
     @Autowired
@@ -53,9 +51,9 @@ public class InstitutionInfoController {
     @Autowired
     private IDepartmentInfoService iDepartmentInfoService;
 
-    @RequestMapping("/institutionList")
-    public String toInstitutionList(){
-        return "institutionInfo/institutionList";
+    @RequestMapping(value="/institutionList")
+    public String hello(){
+        return "/institutionInfo/institutionList";
     }
 
     @RequestMapping("/importPage")
@@ -96,35 +94,35 @@ public class InstitutionInfoController {
         String filePath = request.getSession().getServletContext().getRealPath(path);
         File pdfFile = new File(filePath+fileName);
 //        boolean b = pdfFile.exists();
-       if(!pdfFile.exists()){
-           try {
-               //上传文件
-               FileUtils.uploadFile(file.getBytes(), filePath, fileName);
-               //插入institutionInfo数据
-               InstitutionInfo institutionInfo = new InstitutionInfo();
-               institutionInfo.setDeptId(em.getDeptId());
-               institutionInfo.setCompanyId(departmentInfo.getCompanyId());
-               institutionInfo.setPath(path);
-               institutionInfo.setInstName(fileName);
-               institutionInfo.setCreateBy(em.getUserName());
-               institutionInfo.setCreateTime(new Date());
-               boolean result = iInstitutionInfoService.insertOrUpdate(institutionInfo);
-               if(result){
-                   statusVO.setCode(200);
-                   statusVO.setMsg("文件上传成功");
-               }else{
-                   statusVO.setCode(300);
-                   statusVO.setMsg("数据插入失败");
-               }
-           } catch (Exception e) {
-               logger.error("---文件上传失败---");
-               statusVO.setCode(300);
-               statusVO.setMsg("文件上传失败");
-           }
-       }else {
-           statusVO.setCode(400);
-           statusVO.setMsg("该文件已存在");
-       }
+        if(!pdfFile.exists()){
+            try {
+                //上传文件
+                FileUtils.uploadFile(file.getBytes(), filePath, fileName);
+                //插入institutionInfo数据
+                InstitutionInfo institutionInfo = new InstitutionInfo();
+                institutionInfo.setDeptId(em.getDeptId());
+                institutionInfo.setCompanyId(departmentInfo.getCompanyId());
+                institutionInfo.setPath(path);
+                institutionInfo.setInstName(fileName);
+                institutionInfo.setCreateBy(em.getUserName());
+                institutionInfo.setCreateTime(new Date());
+                boolean result = iInstitutionInfoService.insertOrUpdate(institutionInfo);
+                if(result){
+                    statusVO.setCode(200);
+                    statusVO.setMsg("文件上传成功");
+                }else{
+                    statusVO.setCode(300);
+                    statusVO.setMsg("数据插入失败");
+                }
+            } catch (Exception e) {
+                logger.error("---文件上传失败---");
+                statusVO.setCode(300);
+                statusVO.setMsg("文件上传失败");
+            }
+        }else {
+            statusVO.setCode(400);
+            statusVO.setMsg("该文件已存在");
+        }
         return statusVO;
     }
 
@@ -203,7 +201,7 @@ public class InstitutionInfoController {
      * @return
      */
     @RequestMapping("/deleteData")
-    @Transactional
+    //@Transactional
     @ResponseBody
     public StatusVO deleteData(InstitutionInfo institutionInfo,HttpServletRequest request){
         StatusVO statusVO = new StatusVO();
@@ -239,5 +237,6 @@ public class InstitutionInfoController {
         }
         return statusVO;
     }
+
 
 }

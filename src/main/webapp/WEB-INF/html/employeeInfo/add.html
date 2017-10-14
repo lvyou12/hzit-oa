@@ -17,7 +17,7 @@
         <div class="layui-form-item" style="text-align: left;">
             <label class="layui-form-label label-font">用户名称<i style="color:orange;" class="layui-icon"></i></label>
             <div class="layui-input-block">
-                <input name="name" lay-verify="name" id="name" autocomplete="off"
+                <input name="userName" lay-verify="userName" id="userName" autocomplete="off"
                        placeholder="请输入用户名称" class="layui-input required" type="text">
             </div>
         </div>
@@ -34,7 +34,7 @@
         <div class="layui-form-item" style="text-align: left;">
             <label class="layui-form-label label-font">企业邮箱<i style="color:orange;" class="layui-icon"></i></label>
             <div class="layui-input-block">
-                <input name="email"  lay-verify="email" placeholder="请输入企业邮箱" autocomplete="off"
+                <input name="email" id="email"  lay-verify="email" placeholder="请输入企业邮箱" autocomplete="off"
                        class="layui-input" type="email">
             </div>
         </div>
@@ -57,7 +57,7 @@
                     <!--<option value="">请选择所在公司</option>-->
                     <option th:each="company,companyStat:${companyList}"
                             th:selected="${company.dictId == session.employeeInfo.companyId}"
-                            th:text="${company.name}" th:value="${company.dictId}"></option>
+                            th:text="${company.dictName}" th:value="${company.dictId}"></option>
                 </select>
             </div>
         </div>

@@ -8,29 +8,35 @@ $(function(){
    });
 
     //检查用户名是否存在
-   $('input[name="name"]').blur(function(){
-      $.get('/employeeInfo/checkEmployeeInfo?name='+$(this).val(),function(result){
-          if(result.code ==200){
-             layer.msg(result.msg);
-             $('#add').removeClass('layui-btn layui-btn-small add-disable').addClass('layui-btn layui-btn-small');
-          }else{
-              $('#add').removeClass('layui-btn layui-btn-small').addClass('layui-btn layui-btn-small add-disable');
-             layer.alert(result.msg);
-          }
-      });
+   $('input[name="userName"]').blur(function(){
+       if($("#userName").val() != ''){
+           $.get('/employeeInfo/checkEmployeeInfo?userName='+$(this).val(),function(result){
+               if(result.code ==200){
+                   layer.msg(result.msg);
+                   $('#add').removeClass('layui-btn layui-btn-small add-disable').addClass('layui-btn layui-btn-small');
+               }else{
+                   $('#add').removeClass('layui-btn layui-btn-small').addClass('layui-btn layui-btn-small add-disable');
+                   layer.alert(result.msg);
+               }
+           });
+       }
+
    });
 
     //检查企业邮箱是否存在
     $('input[name="email"]').blur(function(){
-        $.get('/employeeInfo/checkEmployeeInfo?email='+$(this).val(),function(result){
-            if(result.code ==200){
-                layer.msg(result.msg);
-                $('#add').removeClass('layui-btn layui-btn-small add-disable').addClass('layui-btn layui-btn-small');
-            }else{
-                $('#add').removeClass('layui-btn layui-btn-small').addClass('layui-btn layui-btn-small add-disable');
-                layer.alert(result.msg);
-            }
-        });
+        if($("#email").val() != ''){
+            $.get('/employeeInfo/checkEmployeeInfo?email='+$(this).val(),function(result){
+                if(result.code ==200){
+                    layer.msg(result.msg);
+                    $('#add').removeClass('layui-btn layui-btn-small add-disable').addClass('layui-btn layui-btn-small');
+                }else{
+                    $('#add').removeClass('layui-btn layui-btn-small').addClass('layui-btn layui-btn-small add-disable');
+                    layer.alert(result.msg);
+                }
+            });
+        }
+
     });
 
 
@@ -87,16 +93,16 @@ $(function(){
         var form = layui.form, layer = layui.layer;
         //自定义验证规则
         form.verify({
-            name: function(value) {
+            userName: function(value) {
                 if (value == '') {
                     return '请输入用户名称!';
                 }
-            },
-            email: function(value) {
-                if (value == '') {
-                    return '请输入企业邮箱!';
-                }
-            }
+            }/*,*/
+            //email: function(value) {
+            //    if (value == '') {
+            //        return '请输入企业邮箱!';
+            //    }
+            //}
 
         });
         //监听提交
