@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <meta charset="utf-8"/>
     <title>合众艾特用户管理系统</title>
@@ -364,29 +364,43 @@
             </div>
              #sidebar-shortcuts
              -->
-
-            <ul id="sideList" class="nav nav-list">
-                <li>
-                    <a id="home">
-                        <i class="icon-text-width"></i>
-                        <span class="menu-text"> 首页 </span>
+            <!-- ===================菜单动态遍历开始================ -->
+            <ul id="sideList" class="nav nav-list" >
+                <li  th:each="menu : ${menuList}">
+                    <a th:if="${menu.url != '#'}" th:data-url="${menu.url}">
+                        <i th:class="${menu.icon}"></i>
+                        <span class="menu-text" th:text="${menu.authName}"> </span>
                     </a>
+                    <a th:if="${menu.url == '#'}"  class="dropdown-toggle"  th:href ="${menu.url}">
+                        <i th:class="${menu.icon}"></i>
+                        <span class="menu-text" th:text="${menu.authName}"> </span>
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+                    <ul class="submenu" >
+                        <li th:each="submenu : ${menu.subAuthorityList}">
+                            <a  th:data-url="${submenu.url}">
+                                <i th:class="${submenu.icon}"></i>
+                                <span th:text="${submenu.authName}"></span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+                <!-- ===================菜单动态遍历结束=================== -->
 
-                <li>
+                <!--<li>
                     <a id="institutionList">
                         <i class="icon-list"></i>
                         <span class="menu-text"> 制度列表 </span>
                     </a>
                 </li>
-                <li id="employeeList">
-                    <a>
+                <li>
+                    <a id="employeeList">
                         <i class="icon-user"></i>
                         <span class="menu-text"> 用户列表 </span>
                     </a>
-                </li>
+                </li>-->
 
-               <li>
+              <!-- <li>
                     <a href="#" class="dropdown-toggle">
                         <i class="icon-desktop"></i>
                         <span class="menu-text"> 系统设置 </span>
@@ -406,9 +420,9 @@
                                 <i class="icon-double-angle-right"></i>
                                 权限管理
                             </a>
-                        </li>
+                        </li>-->
                         <!--&lt;!&ndash; 内部多级列表嵌套 &ndash;&gt;-->
-                        <li>
+                        <!--<li>
                             <a href="#" class="dropdown-toggle">
                                 <i class="icon-double-angle-right"></i>
 
@@ -449,9 +463,9 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </li>
-                    </ul>
-                </li>
+                        </li>-->
+                   <!-- </ul>
+                </li>-->
 
                 <!--<li>
                     <a href="#" class="dropdown-toggle">

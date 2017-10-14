@@ -4,15 +4,9 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.hzitoa.email.EmailUtil;
-import com.hzitoa.entity.DepartmentInfo;
-import com.hzitoa.entity.EmployeeInfo;
-import com.hzitoa.entity.TbDict;
-import com.hzitoa.entity.TbRole;
+import com.hzitoa.entity.*;
 import com.hzitoa.mapper.EmployeeInfoMapper;
-import com.hzitoa.service.IDepartmentInfoService;
-import com.hzitoa.service.IEmployeeInfoService;
-import com.hzitoa.service.ITbDictService;
-import com.hzitoa.service.ITbRoleService;
+import com.hzitoa.service.*;
 import com.hzitoa.utils.Md5Util;
 import com.hzitoa.vo.*;
 import org.apache.shiro.SecurityUtils;
@@ -22,6 +16,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,6 +50,9 @@ public class EmployeeInfoController {
 
     @Autowired
     private ITbRoleService iTbRoleService;
+
+    @Autowired
+    private ITbAuthorityService iTbAuthorityService;
 
     @RequestMapping("/employeeInfo/employeeList")
     public String toEmployeeList(){
@@ -171,7 +169,8 @@ public class EmployeeInfoController {
         HttpSession httpSession = request.getSession();
         EmployeeInfo employeeInfo1 = (EmployeeInfo) httpSession.getAttribute("employeeInfo");
         Random random = new Random();
-        int randomValue = random.nextInt(1000000);
+//        int randomValue = random.nextInt(1000000);
+        int randomValue = 123;
         String sendEmailMsg ="";
         try {
             employeeInfo.setPassword(Md5Util.getMD5(Md5Util.getMD5("hzit#" + randomValue)));
@@ -264,22 +263,72 @@ public class EmployeeInfoController {
         return statusVO;
     }
 
+    /**
+     * 分页查询用户列表
+     * @param lay
+     * @param session
+     * @return
+     */
     @RequestMapping("/employeeInfo/listData")
     @ResponseBody
     public LayuiVo<EmployeeInfoVo> listData(LayuiEntity lay,HttpSession session){
-        if (lay.getPage() == null || lay.getLimit() == null) {
-            lay.setPage(1);
-            lay.setLimit(20);
-        } else {
-            lay.setPage(lay.getPage() / lay.getLimit());
-        }
         Page<EmployeeInfo> page = new Page<>(lay.getPage(),lay.getLimit());
 
         Wrapper<EmployeeInfo> wrapper = new EntityWrapper<EmployeeInfo>()
                 .where("isLocked=0")
-                .like("user_name",lay.getValue());
+                .like(lay.getCondition(),lay.getValue());
         LayuiVo<EmployeeInfoVo> bootstrapTable = iEmployeeInfoService.ajaxData(page, wrapper);
         return bootstrapTable;
+    }
+
+    /**
+     * 主页菜单遍历
+     * @param session
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/employeeInfo/menusPermission")
+    @ResponseBody
+    public List<MenusVo> menusPermission(HttpSession session,Model model){
+//        EmployeeInfo employeeInfo = (EmployeeInfo) session.getAttribute("employeeInfo");
+        EmployeeInfo employeeInfo = iEmployeeInfoService.selectById(2);
+        List<MenusVo> menusVoList = new ArrayList<>();
+        String[] role_names = employeeInfo.getRoleName().split(",");
+        List<String> roleNamesList = Arrays.asList(role_names);
+        List<String> finalAutnIds = new ArrayList<>();//去重后最终的authid
+        for(String roleName : roleNamesList){
+            TbRole role = iTbRoleService.selectOne(new EntityWrapper<TbRole>()
+                    .where("role_name='" + roleName + "'"));
+            String[] auth_ids = role.getResourceIds().split(",");
+            List<String> authIdsList = Arrays.asList(auth_ids);//当前角色的所有权限authid
+            for(String id : authIdsList){
+                if(finalAutnIds.size() != 0){
+                    //authid去重
+                    for(String str : finalAutnIds){
+                        if(!str.equals(id)){
+                            finalAutnIds.add(id);
+                            break;
+                        }
+                    }
+                }else{
+                    finalAutnIds.add(id);
+                }
+            }
+        }
+        for(String finalId : finalAutnIds){
+            TbAuthority authority = new TbAuthority();
+            MenusVo menusVo = new MenusVo();
+            authority = iTbAuthorityService.selectOne(new EntityWrapper<TbAuthority>()
+                    .where("auth_id=" + Integer.valueOf(finalId)));
+            if(authority.getPid() == null){
+                BeanUtils.copyProperties(authority, menusVo);
+                List<TbAuthority> subAuthorityList = iTbAuthorityService.selectList(new EntityWrapper<TbAuthority>()
+                        .where("pid=" + authority.getAuthId()));
+                menusVo.setSubAuthorityList(subAuthorityList);
+                menusVoList.add(menusVo);
+            }
+        }
+        return  menusVoList;
     }
 	
 }

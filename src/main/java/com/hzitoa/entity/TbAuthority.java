@@ -34,6 +34,10 @@ public class TbAuthority extends Model<TbAuthority> {
      * 模块地址
      */
 	private String url;
+	/**
+	 * 权限菜单对应图标
+	 */
+	private String icon;
     /**
      * 父模块id
      */
@@ -43,6 +47,10 @@ public class TbAuthority extends Model<TbAuthority> {
      */
 	private Integer available;
 	private String permission;
+	/**
+	 * 是否为菜单权限(0:不是菜单权限，1:是菜单权限)
+	 */
+	private Integer isMenu;
 	/**
 	 * 创建人
 	 */
@@ -92,6 +100,14 @@ public class TbAuthority extends Model<TbAuthority> {
 		this.url = url;
 	}
 
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
 	public Integer getPid() {
 		return pid;
 	}
@@ -114,6 +130,14 @@ public class TbAuthority extends Model<TbAuthority> {
 
 	public void setPermission(String permission) {
 		this.permission = permission;
+	}
+
+	public Integer getIsMenu() {
+		return isMenu;
+	}
+
+	public void setIsMenu(Integer isMenu) {
+		this.isMenu = isMenu;
 	}
 
 	public String getCreateBy() {
@@ -159,9 +183,11 @@ public class TbAuthority extends Model<TbAuthority> {
 				"authId=" + authId +
 				", authName='" + authName + '\'' +
 				", url='" + url + '\'' +
+				", icon='" + icon + '\'' +
 				", pid=" + pid +
 				", available=" + available +
 				", permission='" + permission + '\'' +
+				", isMenu=" + isMenu +
 				", createBy='" + createBy + '\'' +
 				", createTime=" + createTime +
 				", updateBy='" + updateBy + '\'' +

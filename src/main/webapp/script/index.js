@@ -2,18 +2,28 @@
  * Created by lvyou on 2017/9/26.
  */
 $(function(){
-    $("#institutionList").click(function() {
-        $("#myFrame").attr("src","/institutionInfo/institutionList");
+    $("#sideList > li > a").on("click",function(){
+        var obj = this;
+        $("#myFrame").attr("src",$(obj).data("url"));
     });
-    $("#employeeList").click(function() {
-        $("#myFrame").attr("src","/employeeInfo/employeeList");
+    $("#sideList > li > ul > li >a").on("click",function(){
+        var obj = this;
+        $("#myFrame").attr("src",$(obj).data("url"));
     });
-    $("#home").click(function(){
-        $("#myFrame").attr("src","/home");
-    });
-    $("#roleList").click(function(){
-        $("#myFrame").attr("src","/role/roleList");
-    });
+
+    //$("#institutionList").click(function() {
+    //    $("#myFrame").attr("src","/institutionInfo/institutionList");
+    //});
+    //$("#employeeList").click(function() {
+    //    $("#myFrame").attr("src","/employeeInfo/employeeList");
+    //});
+    //$("#home").click(function(){
+    //    $("#myFrame").attr("src","/home");
+    //});
+    //$("#roleList").click(function(){
+    //    $("#myFrame").attr("src","/role/roleList");
+    //});
+
 
     function setIframeHeight(iframe) {
         if (iframe) {

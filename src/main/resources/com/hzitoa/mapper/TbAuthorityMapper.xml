@@ -7,9 +7,11 @@
 		<id column="auth_id" property="authId" />
 		<result column="auth_name" property="authName" />
 		<result column="url" property="url" />
+		<result column="icon" property="icon" />
 		<result column="pid" property="pid" />
 		<result column="available" property="available" />
 		<result column="permission" property="permission" />
+		<result column="isMenu" property="isMenu" />
 		<result column="create_by" property="createBy" />
 		<result column="create_time" property="createTime" />
 		<result column="update_by" property="updateBy" />
