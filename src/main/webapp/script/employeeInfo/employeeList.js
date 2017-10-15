@@ -1,58 +1,5 @@
 $(function(){
 
-    //*********************************操作开始***************************************
-    window.operateEvents = {
-        'click .remove_coupon_click' : function(e, value, row, index) {
-            var index2 = layer.load(1, {
-                shade: [0.1, '#fff'] //0.1透明度的白色背景
-            });
-            layer.confirm('确认删除该制度吗？', {
-                btn: ['确定','取消'], //按钮
-                cancel: function(index){
-                    layer.close(index);
-                    layer.close(index2);
-                }
-            }, function(){
-                removeData(row);
-            }, function(){
-                layer.close(index2); //关闭当前弹层
-                layer.msg('已经取消了!');
-
-            });
-            function  removeData(row) {
-                $.ajax({
-                    type: 'post',
-                    url: '/institutionInfo/deleteData',
-                    data: {instId:row.instId},
-                    success: function (result) {
-                        layer.close(index2); //关闭当前弹层
-                        if (result.code == 200) {
-                            layer.msg(result.msg);
-                            $("#table").bootstrapTable("refresh"); //刷新
-                        } else {
-                            layer.msg(result.msg);
-                        }
-                    }
-                });
-            }
-        },
-        'click .download_coupon_click' : function(e, value, row, index) {
-            window.location.href="/institutionInfo/downLoadPdf?instId="+row.instId;
-        },
-        'click .show_institution_click' : function(e, value, row, index){
-            var path = row.path+row.name;
-            layer.open({
-                type: 2,
-                title: "制度预览",
-                content: "/institutionInfo/showInstitution?path="+path,
-                area:['860px','670px'],
-                offset:['20px']
-            })
-        }
-    };
-
-    //*******************************操作结束*************************************
-
     //**********************************Layui表格数据开始*****************************************
     layui.use(["table","layer","jquery"],function() {
         var url = "/employeeInfo/listData";
@@ -135,6 +82,12 @@ $(function(){
                     title: '创建时间',
                     align : 'center',
                     width: 190
+                } ,{
+                    title: '常用操作',
+                    fixed: 'right',
+                    width:180,
+                    align:'center',
+                    toolbar: '#employeeBar'
                 }]
             ]
         });
@@ -154,6 +107,33 @@ $(function(){
                    table.reload('employeeTable',{url:url}); //刷新
                 }
             });
+        });
+
+        /**
+         * 监听工具条
+         */
+        table.on('tool(employeeTables)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+            if(layEvent === 'detail'){ //查看
+                //do somehing
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('真的删除行么', function(index){
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    layer.close(index);
+                    //向服务端发送删除指令
+                });
+            } else if(layEvent === 'edit'){ //编辑
+                //do something
+
+                //同步更新缓存对应的值
+                obj.update({
+                    username: '123'
+                    ,title: 'xxx'
+                });
+            }
         });
 
     });
