@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/assets/css/ace.min.css" />
+    <link rel="stylesheet" href="/assets/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="/assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="/assets/layui/css/layui.css"/>
+</head>
+<!--"-->
+<body style="background-color: white;">
+    <input type="hidden" th:value="${roleId}" id="roleId"/>
+    <div style="margin: 20px 20px;">
+        <span>
+            <button id="grant" class="layui-btn layui-btn-small"><i class="layui-icon">&#xe61f;</i>确定</button>
+        </span>
+        <span>
+            <button id="cancel" class="layui-btn layui-btn-small layui-btn-danger"><i class="layui-icon">&#x1007;</i>取消</button>
+        </span>
+    </div>
+    <div style="margin: 0px 20px;border: 1px solid #5090C1;">
+        <div class="widget-header header-color-blue2">
+            <h4 class="lighter smaller">选择权限</h4>
+        </div>
+        <div id="tree1" class="tree" style="margin: 10px;"></div>
+    </div>
+
+</body>
+<script src="/assets/js/jquery-2.0.0.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/typeahead-bs2.min.js"></script>
+
+<!-- page specific plugin scripts -->
+
+<script src="/assets/js/fuelux/fuelux.tree.min.js"></script>
+
+<!-- ace scripts -->
+
+<script src="/assets/js/ace-elements.min.js"></script>
+<script src="/assets/js/ace.min.js"></script>
+<script src="/assets/layui/layui.all.js"></script>
+<script src="/script/role/grantRole.js"></script>
+<!--<script>-->
+    <!--var index = parent.layer.getFrameIndex(window.name); //获取当前窗体索引-->
+    <!--$("#cancel").click(function(){-->
+        <!--parent.layer.close(index);-->
+    <!--});-->
+
+    <!--var DataSourceTree = function(options) {-->
+        <!--this._data 	= options.data;-->
+        <!--this._delay = options.delay;-->
+    <!--}-->
+
+    <!--DataSourceTree.prototype.data = function(options, callback) {-->
+        <!--var self = this;-->
+        <!--var $data = null;-->
+
+        <!--if(!("name" in options) && !("type" in options)){-->
+            <!--$data = this._data;//the root tree-->
+            <!--callback({ data: $data });-->
+            <!--return;-->
+        <!--}-->
+        <!--else if("type" in options && options.type == "folder") {-->
+            <!--if("additionalParameters" in options && "children" in options.additionalParameters)-->
+                <!--$data = options.additionalParameters.children;-->
+            <!--else $data = {}//no data-->
+        <!--}-->
+
+        <!--if($data != null)//this setTimeout is only for mimicking some random delay-->
+            <!--setTimeout(function(){callback({ data: $data });} , parseInt(Math.random() * 500) + 200);-->
+
+        <!--//we have used static data here-->
+        <!--//but you can retrieve your data dynamically from a server using ajax call-->
+        <!--//checkout examples/treeview.html and examples/treeview.js for more info-->
+    <!--};-->
+
+    <!--function getTreeData(){-->
+        <!--var resultData = {};-->
+        <!--$.ajax({-->
+            <!--url: "/auth/getAuth?roleId="+ $("#roleId").val(),-->
+            <!--type: 'GET' ,-->
+            <!--async : false,-->
+            <!--dataType: 'json' ,-->
+            <!--success : function (data) {-->
+                <!--resultData = data;-->
+            <!--},-->
+            <!--error: function (response) {-->
+                <!--//console.log(response);-->
+            <!--}-->
+        <!--});-->
+        <!--return resultData;-->
+    <!--}-->
+
+<!--//    $.getJSON("/auth/getAuth",function(resp){-->
+<!--//        tree_data = resp;-->
+<!--//        console.log(resp);-->
+<!--//    })-->
+
+    <!--var treeDataSource = new DataSourceTree({data: getTreeData()});-->
+
+    <!--$('#tree1').ace_tree({-->
+        <!--dataSource: treeDataSource ,-->
+        <!--multiSelect:true,-->
+        <!--loadingHTML:'<div class="tree-loading"><i class="icon-refresh icon-spin blue"></i></div>',-->
+        <!--'open-icon' : 'icon-minus',-->
+        <!--'close-icon' : 'icon-plus',-->
+        <!--'selectable' : true,-->
+        <!--'selected-icon' : 'icon-ok',-->
+        <!--'unselected-icon' : 'icon-remove'-->
+    <!--});-->
+
+    <!--function xuanzhong() {-->
+        <!--var output = "";-->
+        <!--var ids = "";-->
+        <!--var items = $('#tree1').tree('selectedItems');-->
+        <!--for (var i in items) {-->
+            <!--if (items.hasOwnProperty(i)) {-->
+                <!--var item = items[i];-->
+                <!--ids += item.additionalParameters['id'] + ",";-->
+            <!--}-->
+        <!--}-->
+
+        <!--ids = ids.substring(0, ids.lastIndexOf(","));-->
+        <!--return ids;-->
+    <!--}-->
+
+    <!--$("#grant").click(function(){-->
+        <!--$.post("/role/grantRole",{ids:xuanzhong(),roleId:$("#roleId").val()},function(resp){-->
+            <!--if(resp.code === 300){-->
+                <!--layer.msg(resp.msg,{icon:2,time:800});-->
+            <!--}-->
+            <!--if(resp.code === 200){-->
+                <!--layer.msg(resp.msg,{icon:1,time:800});-->
+                <!--setTimeout(function(){parent.layer.close(index)},1200);-->
+            <!--}-->
+        <!--},"JSON")-->
+    <!--});-->
+<!--</script>-->
+</html>

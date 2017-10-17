@@ -27,4 +27,6 @@ public interface ITbRoleService extends IService<TbRole> {
     boolean deleteRoles(Integer[] roleIds);
 
     LayuiVo<TbRoleVo> ajaxData(Page<TbRole> pageRole, Wrapper<TbRole> wrapper);
+
+    boolean grantRole(String ids, Integer roleId);
 }

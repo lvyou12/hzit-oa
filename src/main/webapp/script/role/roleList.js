@@ -83,7 +83,19 @@ $(function(){
                     }
                 });
             }else if(event == 'grant'){
-                layer.msg("待会写!");
+                layer.open({
+                    type:2,
+                    title:'角色授权',
+                    shadeClose:true,
+                    shade:0,
+                    maxmin:true,
+                    area:["500px","560px"],
+                    offset:['20px'],
+                    content:'/role/grantRole?roleId='+data.roleId,
+                    end:function(layer,index){
+                        table.reload('roleTable');
+                    }
+                });
             }else if(event == 'disable'){
                 // layer.alert('禁用行：<br>' + JSON.stringify(data))
                 var isLock;
