@@ -104,7 +104,7 @@ $(function(){
                 content: '/employeeInfo/add', //iframe的url
                 success:function(layer,index){
                 },end:function() {
-                   table.reload('employeeTable',{url:url}); //刷新
+                   table.reload('employeeTable'); //刷新
                 }
             });
         });
@@ -117,8 +117,20 @@ $(function(){
             var layEvent = obj.event; //获得 lay-event 对应的值
             var tr = obj.tr; //获得当前行 tr 的DOM对象
 
-            if(layEvent === 'detail'){ //查看
-                //do somehing
+            if(layEvent === 'grant'){ //角色授予
+                layer.open({
+                    type: 2,
+                    title: '角色授予',
+                    shadeClose: true,
+                    shade: 0,
+                    maxmin: true,
+                    area: ['100%', '100%'],
+                    content: '/employeeInfo/grant?userId='+data.userId, //iframe的url
+                    success:function(layer,index){
+                    },end:function() {
+                        table.reload('employeeTable'); //刷新
+                    }
+                });
             } else if(layEvent === 'del'){ //删除
                 layer.confirm('真的删除行么', function(index){
                     obj.del(); //删除对应行（tr）的DOM结构，并更新缓存

@@ -3,6 +3,7 @@ package com.hzitoa.web;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.toolkit.StringUtils;
 import com.hzitoa.email.EmailUtil;
 import com.hzitoa.entity.*;
 import com.hzitoa.mapper.EmployeeInfoMapper;
@@ -149,7 +150,7 @@ public class EmployeeInfoController {
         List<TbDict> companyList = iTbDictService.selectList(new EntityWrapper<TbDict>().where("pid=1"));
         List<DepartmentInfo> departmentInfoList = iDepartmentInfoService.selectList(new EntityWrapper<DepartmentInfo>()
                 .where("company_id=2"));
-        List<TbRole> tbRoleList = iTbRoleService.selectList(new EntityWrapper<TbRole>());
+        List<TbRole> tbRoleList = iTbRoleService.selectList(new EntityWrapper<TbRole>().where("available=1"));
         model.addAttribute("companyList",companyList);
         model.addAttribute("departmentInfoList",departmentInfoList);
         model.addAttribute("tbRoleList",tbRoleList);
@@ -276,59 +277,208 @@ public class EmployeeInfoController {
 
         Wrapper<EmployeeInfo> wrapper = new EntityWrapper<EmployeeInfo>()
                 .where("isLocked=0")
-                .like(lay.getCondition(),lay.getValue());
+                .like(lay.getCondition(), lay.getValue());
         LayuiVo<EmployeeInfoVo> bootstrapTable = iEmployeeInfoService.ajaxData(page, wrapper);
         return bootstrapTable;
     }
 
     /**
-     * 主页菜单遍历
-     * @param session
-     * @param model
+     * 跳转到角色授予页面
      * @return
      */
-    @RequestMapping(value = "/employeeInfo/menusPermission")
-    @ResponseBody
-    public List<MenusVo> menusPermission(HttpSession session,Model model){
-//        EmployeeInfo employeeInfo = (EmployeeInfo) session.getAttribute("employeeInfo");
-        EmployeeInfo employeeInfo = iEmployeeInfoService.selectById(2);
-        List<MenusVo> menusVoList = new ArrayList<>();
-        String[] role_names = employeeInfo.getRoleName().split(",");
-        List<String> roleNamesList = Arrays.asList(role_names);
-        List<String> finalAutnIds = new ArrayList<>();//去重后最终的authid
-        for(String roleName : roleNamesList){
-            TbRole role = iTbRoleService.selectOne(new EntityWrapper<TbRole>()
-                    .where("role_name='" + roleName + "'"));
-            String[] auth_ids = role.getResourceIds().split(",");
-            List<String> authIdsList = Arrays.asList(auth_ids);//当前角色的所有权限authid
-            for(String id : authIdsList){
-                if(finalAutnIds.size() != 0){
-                    //authid去重
-                    for(String str : finalAutnIds){
-                        if(!str.equals(id)){
-                            finalAutnIds.add(id);
-                            break;
-                        }
-                    }
+    @RequestMapping("/employeeInfo/grant")
+    public String toEmployeeGrant(EmployeeInfo employeeInfo,Model model){
+        employeeInfo = iEmployeeInfoService.selectById(employeeInfo.getUserId());
+        String roleNames = employeeInfo.getRoleName();
+        List<String> myRoles = new ArrayList<>();
+        if(roleNames.contains(",")){
+            String[] myRolesArry = employeeInfo.getRoleName().split(",");
+            myRoles = Arrays.asList(myRolesArry);
+        }else{
+            myRoles.add(roleNames);
+        }
+        List<String> allRoles = new ArrayList<>();
+        List<TbRole> roleList =  iTbRoleService.selectList(new EntityWrapper<TbRole>());
+        for(TbRole role : roleList){
+            allRoles.add(role.getRoleName());
+        }
+        List<EmployeeRolesVo> employeeRolesVoList = new ArrayList<>();
+        for(String s : allRoles){
+            EmployeeRolesVo employeeRolesVo = new EmployeeRolesVo();
+            employeeRolesVo.setRoleName(s);
+            for(String s1 : myRoles){
+                if(s.equals(s1)){
+                    employeeRolesVo.setIsChecked(1);
+                    break;
                 }else{
-                    finalAutnIds.add(id);
+                    employeeRolesVo.setIsChecked(0);
                 }
             }
+            employeeRolesVoList.add(employeeRolesVo);
         }
-        for(String finalId : finalAutnIds){
-            TbAuthority authority = new TbAuthority();
-            MenusVo menusVo = new MenusVo();
-            authority = iTbAuthorityService.selectOne(new EntityWrapper<TbAuthority>()
-                    .where("auth_id=" + Integer.valueOf(finalId)));
-            if(authority.getPid() == null){
-                BeanUtils.copyProperties(authority, menusVo);
-                List<TbAuthority> subAuthorityList = iTbAuthorityService.selectList(new EntityWrapper<TbAuthority>()
-                        .where("pid=" + authority.getAuthId()));
-                menusVo.setSubAuthorityList(subAuthorityList);
-                menusVoList.add(menusVo);
+        model.addAttribute("employeeRolesVoList",employeeRolesVoList);
+        model.addAttribute("currEmployeeInfo",employeeInfo);
+        return "/employeeInfo/grant";
+    }
+
+    /**
+     * 返回用户角色
+     * @return
+     */
+//    @RequestMapping("/employeeInfo/employeeRolesList")
+//    @ResponseBody
+//    public List<EmployeeRolesVo> employeeRolesList(){
+//        EmployeeInfo employeeInfo = iEmployeeInfoService.selectById(2);
+//        String roleNames = employeeInfo.getRoleName();
+//        List<String> myRoles = new ArrayList<>();
+//        if(roleNames.contains(",")){
+//            String[] myRolesArry = employeeInfo.getRoleName().split(",");
+//            myRoles = Arrays.asList(myRolesArry);
+//        }else{
+//            myRoles.add(roleNames);
+//        }
+//        List<String> allRoles = new ArrayList<>();
+//        List<TbRole> roleList =  iTbRoleService.selectList(new EntityWrapper<TbRole>());
+//        for(TbRole role : roleList){
+//            allRoles.add(role.getRoleName());
+//        }
+//        List<EmployeeRolesVo> employeeRolesVoList = new ArrayList<>();
+//        for(String s : allRoles){
+//            EmployeeRolesVo employeeRolesVo = new EmployeeRolesVo();
+//            employeeRolesVo.setRoleName(s);
+//            for(String s1 : myRoles){
+//                if(s.equals(s1)){
+//                    employeeRolesVo.setIsChecked(1);
+//                    break;
+//                }else{
+//                    employeeRolesVo.setIsChecked(0);
+//                }
+//            }
+//            employeeRolesVoList.add(employeeRolesVo);
+//        }
+//        return employeeRolesVoList;
+//    }
+
+    /**
+     *编辑用户信息
+     * @param employeeInfo
+     * @param request
+     * @return
+     */
+    @RequestMapping("/employeeInfo/editEmployee")
+    @ResponseBody
+    public StatusVO editEmployee(EmployeeInfo employeeInfo,HttpServletRequest request){
+        StatusVO statusVO = new StatusVO();
+        HttpSession httpSession = request.getSession();
+        EmployeeInfo employeeInfo1 = (EmployeeInfo)httpSession.getAttribute("employeeInfo");
+        employeeInfo.setUpdateBy(employeeInfo1.getCreateBy());
+        employeeInfo.setUpdateTime(new Date());
+        if(StringUtils.isNotEmpty(employeeInfo.getPassword())){
+            try {
+                employeeInfo.setPassword(Md5Util.getMD5(Md5Util.getMD5("hzit#"+employeeInfo.getPassword())));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        return  menusVoList;
+        boolean result = iEmployeeInfoService.update(employeeInfo,new EntityWrapper<EmployeeInfo>()
+                .where("user_id=" + employeeInfo.getUserId()));
+        if(result){
+            statusVO.setCode(200);
+            statusVO.setMsg("修改成功");
+        }else{
+            statusVO.setCode(300);
+            statusVO.setMsg("修改失败");
+        }
+        return statusVO;
+    }
+
+//    /**
+//     * 主页菜单遍历
+//     * @param session
+//     * @param model
+//     * @return
+//     */
+//    @RequestMapping(value = "/employeeInfo/menusPermission")
+//    @ResponseBody
+//    public List<MenusVo> menusPermission(HttpSession session,Model model){
+////        EmployeeInfo employeeInfo = (EmployeeInfo) session.getAttribute("employeeInfo");
+//        EmployeeInfo employeeInfo = iEmployeeInfoService.selectById(2);
+//        List<MenusVo> menusVoList = new ArrayList<>();
+//        String names = employeeInfo.getRoleName();
+//        List<String> roleNamesList = new ArrayList<>();
+//        if(names.contains(",")){
+//            String[] role_names = names.split(",");
+//            roleNamesList = Arrays.asList(role_names);
+//        }else {
+//            roleNamesList.add(names);
+//        }
+//        List<String> finalAutnIds = new ArrayList<>();//去重后最终的authid
+//        for(String roleName : roleNamesList){
+//            TbRole role = iTbRoleService.selectOne(new EntityWrapper<TbRole>()
+//                    .where("role_name='" + roleName + "'"));
+//            String ids = role.getResourceIds();
+//            List<String> authIdsList = new ArrayList<>();//当前角色的所有权限authid
+//            if(ids != null){
+//                if(ids.contains(",")){
+//                    String[] auth_ids = role.getResourceIds().split(",");
+//                    authIdsList = Arrays.asList(auth_ids);
+//                }else{
+//                    authIdsList.add(ids);
+//                }
+//            }else{
+//                continue;
+//            }
+//            for(String id : authIdsList){
+//                if(finalAutnIds.size() != 0){
+//                    //authid去重
+//                    for(String str : finalAutnIds){
+//                        if(!str.equals(id)){
+//                            finalAutnIds.add(id);
+//                            break;
+//                        }
+//                    }
+//                }else{
+//                    finalAutnIds.add(id);
+//                }
+//            }
+//        }
+//        for(String finalId : finalAutnIds){
+//            TbAuthority authority = new TbAuthority();
+//            MenusVo menusVo = new MenusVo();
+//            authority = iTbAuthorityService.selectOne(new EntityWrapper<TbAuthority>()
+//                    .where("auth_id=" + Integer.valueOf(finalId)));
+//            if(authority.getPid() == null){
+//                BeanUtils.copyProperties(authority, menusVo);
+////                String s = finalAutnIds.toString();
+////                s = s.substring(1,s.length()-1);
+////                String[] ids = (String[])finalAutnIds.toArray(new String[finalAutnIds.size()]);
+//
+//                List<TbAuthority> subAuthorityList = new ArrayList<>();
+//                for(String id : finalAutnIds){
+//                    TbAuthority tbAuthority = iTbAuthorityService.selectOne(new EntityWrapper<TbAuthority>()
+//                            .where("pid=" + authority.getAuthId())
+//                            .and("auth_id=" + id));
+//                    if(tbAuthority != null){
+//                        subAuthorityList.add(tbAuthority);
+//                    }
+//                }
+//                menusVo.setSubAuthorityList(subAuthorityList);
+//                menusVoList.add(menusVo);
+//            }
+//        }
+//        return  menusVoList;
+//    }
+
+    /**
+     * 获取当前用户的按钮权限
+     * @return
+     */
+    @RequestMapping("/employeeInfo/showButtons")
+    @ResponseBody
+    public List<String> showButtons(HttpSession session){
+        EmployeeInfo employeeInfo = (EmployeeInfo) session.getAttribute("employeeInfo");
+        List<String> list = iEmployeeInfoService.getButtonsResource(employeeInfo);
+        return list;
     }
 	
 }

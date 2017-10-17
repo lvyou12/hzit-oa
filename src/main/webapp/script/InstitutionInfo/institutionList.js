@@ -1,5 +1,21 @@
 $(function(){
 
+    //*************当前页按钮过滤************
+    $.get('/employeeInfo/showButtons',function(result){
+        var $span ="";
+        $.each(result,function(item){
+            var buttonResource =   result[item];
+            if(buttonResource.indexOf("institutionInfo")!=-1){
+                //显示隐藏的按钮
+                //截取字符串
+                var permission  = buttonResource.substr(buttonResource.indexOf(":")+1,buttonResource.length);
+                //layer.msg(button);
+                $("#span-"+permission).removeClass('span-hidden');
+                $("#table").bootstrapTable('showColumn','inst_'+permission);
+            }
+        });
+    });
+    $(".remove_coupon_click").removeAttr("style");
     //*********************************操作开始***************************************
     window.operateEvents = {
         'click .remove_coupon_click' : function(e, value, row, index) {
@@ -101,7 +117,7 @@ $(function(){
                 return new Date(parseInt(row.createTime)).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ")
             }
         },{
-            field:'operate',
+            field:'inst_operate',
             title : '操作',
             align : 'center',
             with: 10,
@@ -113,7 +129,7 @@ $(function(){
                          '</a>',
                           '&nbsp;<a class="remove_coupon_click"  data-id="'
                          + row
-                         + '" href="javascript:void(0)" title="Remove">',
+                         + '" href="javascript:void(0)" title="Remove" style="display:none;">',
                          '<i style="color: red;" class="glyphicon glyphicon-remove-sign" style="min-width: 45px;"></i>删除',
                          '</a>'
                     ].join('');
@@ -138,7 +154,7 @@ $(function(){
         //getUrl();
         $("#table").bootstrapTable('destroy');//先要将table销毁，否则会保留上次加载的内容
         $table = $('#table').bootstrapTable(json);
-        //$("#table").bootstrapTable('hideColumn','operate');
+        $("#table").bootstrapTable('hideColumn','inst_operate');
     }
 
     /**

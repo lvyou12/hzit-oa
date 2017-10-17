@@ -41,40 +41,24 @@ public class JumpController {
     @RequestMapping("/index")
     public String toIndex(HttpSession session,Model model){
         EmployeeInfo employeeInfo = (EmployeeInfo) session.getAttribute("employeeInfo");
-//        EmployeeInfo employeeInfo = iEmployeeInfoService.selectById(2);
         List<MenusVo> menusVoList = new ArrayList<>();
-        String[] role_names = employeeInfo.getRoleName().split(",");
-        List<String> roleNamesList = Arrays.asList(role_names);
-        List<String> finalAutnIds = new ArrayList<>();//去重后最终的authid
-        for(String roleName : roleNamesList){
-            TbRole role = iTbRoleService.selectOne(new EntityWrapper<TbRole>()
-                    .where("role_name='" + roleName + "'"));
-            String[] auth_ids = role.getResourceIds().split(",");
-            List<String> authIdsList = Arrays.asList(auth_ids);//当前角色的所有权限authid
-            for(String id : authIdsList){
-                if(finalAutnIds.size() != 0){
-                    //authid去重
-                    for(String str : finalAutnIds){
-                        if(!str.equals(id)){
-                            finalAutnIds.add(id);
-                            break;
-                        }
-                    }
-                }else{
-                    finalAutnIds.add(id);
-                }
-            }
-        }
+        List<String> finalAutnIds = iEmployeeInfoService.getMenusResource(employeeInfo);//去重后最终的菜单authid
         for(String finalId : finalAutnIds){
             TbAuthority authority = new TbAuthority();
             MenusVo menusVo = new MenusVo();
             authority = iTbAuthorityService.selectOne(new EntityWrapper<TbAuthority>()
-                    .where("auth_id=" + Integer.valueOf(finalId))
-                    .and("isMenu = 1"));
+                    .where("auth_id=" + Integer.valueOf(finalId)));
             if(authority.getPid() == null){
                 BeanUtils.copyProperties(authority, menusVo);
-                List<TbAuthority> subAuthorityList = iTbAuthorityService.selectList(new EntityWrapper<TbAuthority>()
-                        .where("pid=" + authority.getAuthId()));
+                List<TbAuthority> subAuthorityList = new ArrayList<>();
+                for(String id : finalAutnIds){
+                    TbAuthority tbAuthority = iTbAuthorityService.selectOne(new EntityWrapper<TbAuthority>()
+                            .where("pid=" + authority.getAuthId())
+                            .and("auth_id=" + id));
+                    if(tbAuthority != null){
+                        subAuthorityList.add(tbAuthority);
+                    }
+                }
                 menusVo.setSubAuthorityList(subAuthorityList);
                 menusVoList.add(menusVo);
             }
@@ -93,5 +77,7 @@ public class JumpController {
 
     @RequestMapping("/employeeInfo/login")
     public String toLogin2(){ return "login"; }
+
+
 
 }

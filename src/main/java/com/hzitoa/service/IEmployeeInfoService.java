@@ -30,5 +30,19 @@ public interface IEmployeeInfoService extends IService<EmployeeInfo> {
 
     LayuiVo<EmployeeInfoVo> ajaxData(Page<EmployeeInfo> page, Wrapper<EmployeeInfo> wrapper);
 
+    /**
+     * 当前用户拥有角色的所有菜单权限资源
+     * @param employeeInfo
+     * @return
+     */
+    List<String> getMenusResource(EmployeeInfo employeeInfo);
+
+    /**
+     * 当前用户拥有角色的所有按钮权限资源
+     * @param employeeInfo
+     * @return
+     */
+    List<String> getButtonsResource(EmployeeInfo employeeInfo);
+
 	
 }
