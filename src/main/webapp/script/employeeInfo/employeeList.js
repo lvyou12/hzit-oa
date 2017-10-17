@@ -132,12 +132,21 @@ $(function(){
                     }
                 });
             } else if(layEvent === 'del'){ //删除
-                layer.confirm('真的删除行么', function(index){
+                layer.confirm('确定删除该用户么？', function(index){
                     obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                    layer.close(index);
                     //向服务端发送删除指令
+                    $.post("/employeeInfo/editEmployee",{userId:data.userId,isLocked:1},function(result){
+                        if(result.code == 200){
+                            layer.msg("操作成功");
+                            setTimeout(function () {
+                                layer.close(index);
+                            }, 1000);
+                        }else{
+                            layer.msg("操作失败");
+                        }
+                    });
                 });
-            } else if(layEvent === 'edit'){ //编辑
+            } /*else if(layEvent === 'edit'){ //编辑
                 //do something
 
                 //同步更新缓存对应的值
@@ -145,7 +154,7 @@ $(function(){
                     username: '123'
                     ,title: 'xxx'
                 });
-            }
+            }*/
         });
 
     });

@@ -15,7 +15,6 @@ $(function(){
             }
         });
     });
-    $(".remove_coupon_click").removeAttr("style");
     //*********************************操作开始***************************************
     window.operateEvents = {
         'click .remove_coupon_click' : function(e, value, row, index) {
