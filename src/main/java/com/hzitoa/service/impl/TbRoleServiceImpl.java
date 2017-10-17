@@ -4,11 +4,14 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.hzitoa.entity.EmployeeInfo;
+import com.hzitoa.entity.TbAuthority;
 import com.hzitoa.entity.TbRole;
+import com.hzitoa.mapper.TbAuthorityMapper;
 import com.hzitoa.mapper.TbRoleMapper;
 import com.hzitoa.service.ITbRoleService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.hzitoa.utils.DateUtils;
+import com.hzitoa.vo.AceTreeVo;
 import com.hzitoa.vo.LayuiVo;
 import com.hzitoa.vo.TbRoleVo;
 import org.apache.ibatis.session.RowBounds;
@@ -35,6 +38,9 @@ public class TbRoleServiceImpl extends ServiceImpl<TbRoleMapper, TbRole> impleme
     @Autowired
     private TbRoleMapper tbRoleMapper;
 
+    @Autowired
+    private TbAuthorityMapper tbAuthorityMapper;
+
     @Override
     public LayuiVo<TbRoleVo> ajaxData(Page<TbRole> pageRole, Wrapper<TbRole> wrapper) {
         LayuiVo<TbRoleVo> layuiVo = new LayuiVo<>();
@@ -50,6 +56,76 @@ public class TbRoleServiceImpl extends ServiceImpl<TbRoleMapper, TbRole> impleme
         return layuiVo;
     }
 
+    @Override
+    public boolean grantRole(String ids, Integer roleId) {
+        boolean result = false;
+        int resp = 0;
+        String resource_ids = "";
+        TbRole role = new TbRole();
+        if(ids != null && !"".equals(ids)) {
+            if (ids.contains(",")) {
+                String[] authIds = ids.split(",");
+                for (String str : authIds) {
+                    resource_ids += get(Integer.parseInt(str)) + ',';
+                }
+                resource_ids = resource_ids.substring(0, resource_ids.lastIndexOf(','));
+            } else {
+                resource_ids += get(Integer.parseInt(ids));
+            }
+            resource_ids = deleteRepeat(resource_ids);
+            role.setResourceIds(resource_ids);
+            resp = tbRoleMapper.update(role,new EntityWrapper<TbRole>().where("role_id = "+roleId));
+        }else{
+            return true;
+        }
+        if(resp == 1){
+            result = true;
+        }else {
+            result = false;
+        }
+        return result;
+    }
+
+    /**
+     * 权限去重
+     * @param ids
+     * @return
+     */
+    public String deleteRepeat(String ids){
+        String result = "";
+        String str[] = ids.split(",");
+        Set<String> set = new TreeSet<>();
+        for(String s : str){
+            set.add(s);
+        }
+        for(String x : set){
+            result += x+",";
+        }
+        return result.substring(0,result.lastIndexOf(","));
+    }
+
+    /**
+     * 遍历权限id
+     * @param authId
+     * @return
+     */
+    private String get(Integer authId){
+        String ids = "";
+        TbAuthority authority = tbAuthorityMapper.selectById(authId);
+
+        if(authority.getPid() != null){
+            ids = ids + get(authority.getPid())+",";
+        }
+        ids += authority.getAuthId();
+        return ids;
+    }
+
+
+    /**
+     * 转换vo类
+     * @param roleList
+     * @return
+     */
     private List<TbRoleVo> modifyTbRole(List<TbRole> roleList){
         List<TbRoleVo> voList = new ArrayList<>();
         for(TbRole role : roleList){
@@ -66,6 +142,11 @@ public class TbRoleServiceImpl extends ServiceImpl<TbRoleMapper, TbRole> impleme
         return voList;
     }
 
+    /**
+     * 添加角色
+     * @param role
+     * @return
+     */
     @Override
     public boolean insertOne(TbRole role) {
         Map<String,Object> map = new HashMap<>();

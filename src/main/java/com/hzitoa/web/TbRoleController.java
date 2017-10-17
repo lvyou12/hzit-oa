@@ -3,12 +3,15 @@ package com.hzitoa.web;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.hzitoa.entity.TbAuthority;
 import com.hzitoa.entity.TbRole;
+import com.hzitoa.service.ITbAuthorityService;
 import com.hzitoa.service.ITbRoleService;
 import com.hzitoa.vo.LayuiEntity;
 import com.hzitoa.vo.LayuiVo;
 import com.hzitoa.vo.StatusVO;
 import com.hzitoa.vo.TbRoleVo;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -140,6 +143,11 @@ public class TbRoleController {
         return statusVO;
     }
 
+    /**
+     * 删除角色
+     * @param roleIds
+     * @return
+     */
     @RequestMapping(value = "/deleteRole",method = RequestMethod.GET)
     @ResponseBody
     public StatusVO deleteRole(Integer ... roleIds){
@@ -155,4 +163,27 @@ public class TbRoleController {
         }
         return statusVO;
     }
+
+    @RequestMapping(value = "/grantRole",method = RequestMethod.GET)
+    public String toGrantRole(Integer roleId,Model model){
+        model.addAttribute("roleId",roleId);
+        return "role/grantRole";
+    }
+
+    @RequestMapping(value = "/grantRole",method = RequestMethod.POST)
+    @ResponseBody
+    public StatusVO toGrantRole(String ids,Integer roleId){
+        StatusVO statusVO = new StatusVO();
+        boolean result = false;
+        result = iTbRoleService.grantRole(ids,roleId);
+        if(result){
+            statusVO.setCode(200);
+            statusVO.setMsg("保存成功!");
+        }else {
+            statusVO.setCode(300);
+            statusVO.setMsg("保存失败,请稍后再试!");
+        }
+        return statusVO;
+    }
+
 }
